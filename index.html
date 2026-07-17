@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学术英语 &amp; 法律写作终极笔记本 (容器版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap"
+        rel="stylesheet">
     <script>
         MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
     </script>
@@ -28,70 +32,250 @@
            ═══════════════════════════════════════════════════════════ */
 
         /* ── Page & Surface Backgrounds ─────────────────────────── */
-        body, .bg-slate-900  { background-color: #f4f2ec !important; }
-        .bg-slate-950        { background-color: #ffffff !important; }
-        .bg-slate-800        { background-color: #ece9e1 !important; }
-        .bg-slate-800\/60    { background-color: rgba(236,233,225,0.7) !important; }
-        .bg-slate-800\/70    { background-color: rgba(236,233,225,0.8) !important; }
-        .bg-slate-950\/60    { background-color: rgba(255,255,255,0.88) !important; }
+        body,
+        .bg-slate-900 {
+            background-color: #f4f2ec !important;
+        }
+
+        .bg-slate-950 {
+            background-color: #ffffff !important;
+        }
+
+        .bg-slate-800 {
+            background-color: #ece9e1 !important;
+        }
+
+        .bg-slate-800\/60 {
+            background-color: rgba(236, 233, 225, 0.7) !important;
+        }
+
+        .bg-slate-800\/70 {
+            background-color: rgba(236, 233, 225, 0.8) !important;
+        }
+
+        .bg-slate-950\/60 {
+            background-color: rgba(255, 255, 255, 0.88) !important;
+        }
+
         /* Keep modal backdrop visibly dark */
-        .bg-slate-950\/80    { background-color: rgba(15,23,42,0.6) !important; }
+        .bg-slate-950\/80 {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+        }
 
         /* ── Text Colors ───────────────────────────────────────── */
-        .text-white            { color: #1c1814 !important; }
-        .hover\:text-white:hover { color: #0f0d0a !important; }
-        .text-slate-100        { color: #1c1814 !important; }
-        .text-slate-200        { color: #2e2b27 !important; }
-        .text-slate-300        { color: #47433e !important; }
-        .text-slate-400        { color: #6e6a63 !important; }
-        .text-slate-500        { color: #a09992 !important; }
-        .text-slate-600        { color: #c2bcb5 !important; }
+        .text-white {
+            color: #1c1814 !important;
+        }
+
+        .hover\:text-white:hover {
+            color: #0f0d0a !important;
+        }
+
+        .text-slate-100 {
+            color: #1c1814 !important;
+        }
+
+        .text-slate-200 {
+            color: #2e2b27 !important;
+        }
+
+        .text-slate-300 {
+            color: #47433e !important;
+        }
+
+        .text-slate-400 {
+            color: #6e6a63 !important;
+        }
+
+        .text-slate-500 {
+            color: #a09992 !important;
+        }
+
+        .text-slate-600 {
+            color: #c2bcb5 !important;
+        }
 
         /* Colored action buttons keep white text — placed AFTER .text-white override */
-        .bg-blue-600    { color: #ffffff !important; }
-        .bg-emerald-600 { color: #ffffff !important; }
-        .bg-indigo-600  { color: #ffffff !important; }
+        .bg-blue-600 {
+            color: #ffffff !important;
+        }
+
+        .bg-emerald-600 {
+            color: #ffffff !important;
+        }
+
+        .bg-indigo-600 {
+            color: #ffffff !important;
+        }
 
         /* ── Accent Text (saturated for light backgrounds) ────────── */
-        .text-blue-400    { color: #1d4ed8 !important; }
-        .text-emerald-400 { color: #059669 !important; }
-        .text-emerald-500 { color: #0d9488 !important; }
-        .text-indigo-400  { color: #4338ca !important; }
-        .text-yellow-400  { color: #b45309 !important; }  /* amber — readable on cream */
-        .text-red-400     { color: #dc2626 !important; }
-        .text-amber-500   { color: #d97706 !important; }
+        .text-blue-400 {
+            color: #1d4ed8 !important;
+        }
+
+        .text-emerald-400 {
+            color: #059669 !important;
+        }
+
+        .text-emerald-500 {
+            color: #0d9488 !important;
+        }
+
+        .text-indigo-400 {
+            color: #4338ca !important;
+        }
+
+        .text-yellow-400 {
+            color: #b45309 !important;
+        }
+
+        /* amber — readable on cream */
+        .text-red-400 {
+            color: #dc2626 !important;
+        }
+
+        .text-amber-500 {
+            color: #d97706 !important;
+        }
 
         /* ── Borders ───────────────────────────────────────────── */
-        .border-slate-800      { border-color: #d9d3cb !important; }
-        .border-slate-800\/50  { border-color: rgba(217,211,203,0.5) !important; }
-        .border-slate-700      { border-color: #c8c2ba !important; }
-        .border-blue-900\/30   { border-color: rgba(29,78,216,0.15) !important; }
-        .border-blue-500\/20   { border-color: rgba(29,78,216,0.2) !important; }
-        .border-emerald-500\/20 { border-color: rgba(5,150,105,0.2) !important; }
-        .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25) !important; }
+        .border-slate-800 {
+            border-color: #d9d3cb !important;
+        }
+
+        .border-slate-800\/50 {
+            border-color: rgba(217, 211, 203, 0.5) !important;
+        }
+
+        .border-slate-700 {
+            border-color: #c8c2ba !important;
+        }
+
+        .border-blue-900\/30 {
+            border-color: rgba(29, 78, 216, 0.15) !important;
+        }
+
+        .border-blue-500\/20 {
+            border-color: rgba(29, 78, 216, 0.2) !important;
+        }
+
+        .border-emerald-500\/20 {
+            border-color: rgba(5, 150, 105, 0.2) !important;
+        }
+
+        .border-emerald-500\/30 {
+            border-color: rgba(5, 150, 105, 0.25) !important;
+        }
 
         /* ── Accent Backgrounds ──────────────────────────────────── */
-        .bg-blue-500\/10                 { background-color: rgba(29,78,216,0.07) !important; }
-        .bg-emerald-600\/10              { background-color: rgba(5,150,105,0.07) !important; }
-        .bg-emerald-500\/10              { background-color: rgba(16,185,129,0.07) !important; }
-        .hover\:bg-emerald-600\/20:hover { background-color: rgba(5,150,105,0.12) !important; }
-        .hover\:bg-emerald-500\/10:hover { background-color: rgba(16,185,129,0.06) !important; }
+        .bg-blue-500\/10 {
+            background-color: rgba(29, 78, 216, 0.07) !important;
+        }
+
+        .bg-emerald-600\/10 {
+            background-color: rgba(5, 150, 105, 0.07) !important;
+        }
+
+        .bg-emerald-500\/10 {
+            background-color: rgba(16, 185, 129, 0.07) !important;
+        }
+
+        .hover\:bg-emerald-600\/20:hover {
+            background-color: rgba(5, 150, 105, 0.12) !important;
+        }
+
+        .hover\:bg-emerald-500\/10:hover {
+            background-color: rgba(16, 185, 129, 0.06) !important;
+        }
 
         /* ── Interactive Hover States ───────────────────────────── */
-        .hover\:bg-slate-700:hover    { background-color: #e4e0d8 !important; }
-        .hover\:bg-slate-800:hover    { background-color: #ece9e1 !important; }
-        .hover\:bg-slate-900\/70:hover { background-color: rgba(236,233,225,0.8) !important; }
-        .divide-slate-800\/70 > * + * { border-color: rgba(217,211,203,0.7) !important; }
+        .hover\:bg-slate-700:hover {
+            background-color: #e4e0d8 !important;
+        }
+
+        .hover\:bg-slate-800:hover {
+            background-color: #ece9e1 !important;
+        }
+
+        .hover\:bg-slate-900\/70:hover {
+            background-color: rgba(236, 233, 225, 0.8) !important;
+        }
+
+        .divide-slate-800\/70>*+* {
+            border-color: rgba(217, 211, 203, 0.7) !important;
+        }
+
+        /* ── Gradient color stops (bg-gradient-to-* from/to classes) ── */
+        .from-slate-950 {
+            --tw-gradient-from: #ffffff !important;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0)) !important;
+        }
+
+        .to-slate-900 {
+            --tw-gradient-to: #f4f2ec !important;
+        }
+
+        /* ── Special Feature Box (黄金句式模仿 etc.) ──────────────────
+           Scoped override: any user-injected HTML inside this white card
+           must be readable — force dark text as baseline fallback.      */
+        #vocab-special-box {
+            color: #1c1814;
+        }
+
+        #vocab-special-box * {
+            color: inherit;
+        }
+
+        #vocab-special-box .text-white,
+        #vocab-special-box [class*="text-slate-1"],
+        #vocab-special-box [class*="text-slate-2"] {
+            color: #1c1814 !important;
+        }
+
+        #vocab-special-box [class*="text-blue"] {
+            color: #1d4ed8 !important;
+        }
+
+        #vocab-special-box [class*="text-emerald"] {
+            color: #059669 !important;
+        }
+
+        #vocab-special-box [class*="text-indigo"] {
+            color: #4338ca !important;
+        }
+
+        #vocab-special-box [class*="text-amber"],
+        #vocab-special-box [class*="text-yellow"] {
+            color: #b45309 !important;
+        }
+
+        #vocab-special-box [class*="bg-slate-9"],
+        #vocab-special-box [class*="bg-slate-8"] {
+            background-color: #f4f2ec !important;
+        }
 
         /* ═══════════════════════════════════════════════════════════
            Component Styles
            ═══════════════════════════════════════════════════════════ */
 
         /* ── Scrollbar ────────────────────────────────────────────── */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #c8c2ba; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a09992; }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c8c2ba;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a09992;
+        }
 
         /* ── Sidebar Item ─────────────────────────────────────────── */
         .article-item {
@@ -158,7 +342,9 @@
             font-size: 12px;
         }
 
-        .article-item:hover .delete-btn { opacity: 1; }
+        .article-item:hover .delete-btn {
+            opacity: 1;
+        }
 
         .delete-btn:hover {
             color: #dc2626;
@@ -170,14 +356,16 @@
             background: #ffffff;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 6px 20px rgba(0, 0, 0, 0.04);
         }
 
         /* Rainbow bookmark line — signals "this is important content to read" */
         .source-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, #4f46e5 0%, #2563eb 30%, #0891b2 60%, #059669 100%);
         }
@@ -189,7 +377,7 @@
 
         .editable-card:hover {
             border-color: rgba(79, 70, 229, 0.28) !important;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
 
         /* ── Tab Indicator ─────────────────────────────────────────── */
@@ -281,7 +469,9 @@
             transition: border-color 0.15s;
         }
 
-        .edit-textarea:focus { border-color: #6366f1; }
+        .edit-textarea:focus {
+            border-color: #6366f1;
+        }
 
         .edit-input {
             background: #ffffff;
@@ -295,7 +485,9 @@
             transition: border-color 0.15s;
         }
 
-        .edit-input:focus { border-color: #6366f1; }
+        .edit-input:focus {
+            border-color: #6366f1;
+        }
 
         /* ── Insights Edit Row ────────────────────────────────────── */
         .insight-edit-row {
@@ -304,7 +496,9 @@
             align-items: flex-start;
         }
 
-        .insight-edit-row textarea { flex: 1; }
+        .insight-edit-row textarea {
+            flex: 1;
+        }
 
         /* ── Grammar Edit Block ───────────────────────────────────── */
         .grammar-edit-block {
@@ -339,7 +533,9 @@
             transition: background 0.15s;
         }
 
-        .remove-btn:hover { background: rgba(220, 38, 38, 0.16); }
+        .remove-btn:hover {
+            background: rgba(220, 38, 38, 0.16);
+        }
 
         /* ── JSON Accordion ────────────────────────────────────────── */
         .accordion-body {
@@ -348,22 +544,35 @@
             transition: max-height 0.32s ease;
         }
 
-        .accordion-body.open { max-height: 600px; }
+        .accordion-body.open {
+            max-height: 600px;
+        }
 
         .accordion-icon {
             transition: transform 0.25s;
             display: inline-block;
         }
 
-        .accordion-icon.open { transform: rotate(90deg); }
+        .accordion-icon.open {
+            transform: rotate(90deg);
+        }
 
         /* ── Fade-in Animation ─────────────────────────────────────── */
         @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .fade-in { animation: fadeSlideIn 0.22s ease-out forwards; }
+        .fade-in {
+            animation: fadeSlideIn 0.22s ease-out forwards;
+        }
 
         /* ── Grammar View Card ────────────────────────────────────── */
         .grammar-view-card {
@@ -497,8 +706,13 @@
             flex: 1;
         }
 
-        .tpl-search-input::placeholder { color: #a09992; }
-        .tpl-search-input:focus { border-color: #6366f1; }
+        .tpl-search-input::placeholder {
+            color: #a09992;
+        }
+
+        .tpl-search-input:focus {
+            border-color: #6366f1;
+        }
 
         .tpl-select {
             background: #ffffff;
@@ -513,7 +727,9 @@
             white-space: nowrap;
         }
 
-        .tpl-select:focus { border-color: #6366f1; }
+        .tpl-select:focus {
+            border-color: #6366f1;
+        }
 
         /* ── Template Add / Edit Form ──────────────────────────────── */
         .tpl-add-form {
@@ -523,415 +739,1950 @@
             padding: 1.125rem 1.25rem;
         }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.right-4{right:1rem}.top-4{top:1rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.ml-1{margin-left:0.25rem}.mt-0\.5{margin-top:0.125rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mb-1\.5{margin-bottom:0.375rem}.mr-1\.5{margin-right:0.375rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.h-8{height:2rem}.max-h-\[500px\]{max-height:500px}.max-h-\[80px\]{max-height:80px}.max-h-\[88vh\]{max-height:88vh}.max-h-\[92vh\]{max-height:92vh}.min-h-0{min-height:0px}.min-h-screen{min-height:100vh}.w-2{width:0.5rem}.w-2\.5{width:0.625rem}.w-8{width:2rem}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-7xl{max-width:80rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.border-collapse{border-collapse:collapse}.list-none{list-style-type:none}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-slate-800\/50 > :not([hidden]) ~ :not([hidden]){border-color:rgb(30 41 59 / 0.5)}.divide-slate-800\/70 > :not([hidden]) ~ :not([hidden]){border-color:rgb(30 41 59 / 0.7)}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-blue-500\/20{border-color:rgb(59 130 246 / 0.2)}.border-blue-900\/30{border-color:rgb(30 58 138 / 0.3)}.border-emerald-500\/20{border-color:rgb(16 185 129 / 0.2)}.border-emerald-500\/30{border-color:rgb(16 185 129 / 0.3)}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-slate-800\/50{border-color:rgb(30 41 59 / 0.5)}.bg-blue-500\/10{background-color:rgb(59 130 246 / 0.1)}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-emerald-600\/10{background-color:rgb(5 150 105 / 0.1)}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-800\/60{background-color:rgb(30 41 59 / 0.6)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-950\/60{background-color:rgb(2 6 23 / 0.6)}.bg-slate-950\/80{background-color:rgb(2 6 23 / 0.8)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.from-slate-950{--tw-gradient-from:#020617 var(--tw-gradient-from-position);--tw-gradient-to:rgb(2 6 23 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-slate-900{--tw-gradient-to:#0f172a var(--tw-gradient-to-position)}.p-2\.5{padding:0.625rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-0{padding-bottom:0px}.pr-3{padding-right:0.75rem}.pr-4{padding-right:1rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-center{text-align:center}.align-top{vertical-align:top}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.normal-case{text-transform:none}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.tracking-normal{letter-spacing:0em}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-indigo-400{--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-blue-900\/20{--tw-shadow-color:rgb(30 58 138 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.shadow-emerald-900\/20{--tw-shadow-color:rgb(6 78 59 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-500\/10:hover{background-color:rgb(16 185 129 / 0.1)}.hover\:bg-emerald-600\/20:hover{background-color:rgb(5 150 105 / 0.2)}.hover\:bg-indigo-500:hover{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-900\/70:hover{background-color:rgb(15 23 42 / 0.7)}.hover\:text-slate-200:hover{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.hover\:text-slate-300:hover{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:border-blue-500:focus{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.focus\:border-emerald-500:focus{--tw-border-opacity:1;border-color:rgb(16 185 129 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 768px){.md\:w-64{width:16rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:text-lg{font-size:1.125rem;line-height:1.75rem}}</style><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
-.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
-.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
-.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
-</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
-.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
-.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
-.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
-.CtxtMenu_MenuClose:hover:focus {  outline:none}
-</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
-.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
-.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
-.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
-.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
-.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
-.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
-.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
-.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
-.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
-.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
-.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
-.CtxtMenu_MenuSlider {  left: .1em;}
-.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
-.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
-.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
-.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
-.CtxtMenu_MenuDisabled {  color:GrayText}
-.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
-.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
-.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
-.CtxtMenu_ContextMenu:focus {  outline:none}
-.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
-.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
-.CtxtMenu_SelectionItem {  padding-right: 1em;}
-.CtxtMenu_Selection {  right: 40%; width:50%; }
-.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
-.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
-.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
-</style><style id="MJX-CHTML-styles">
-mjx-container[jax="CHTML"] {
-  line-height: 0;
-}
-
-mjx-container [space="1"] {
-  margin-left: .111em;
-}
-
-mjx-container [space="2"] {
-  margin-left: .167em;
-}
-
-mjx-container [space="3"] {
-  margin-left: .222em;
-}
-
-mjx-container [space="4"] {
-  margin-left: .278em;
-}
-
-mjx-container [space="5"] {
-  margin-left: .333em;
-}
-
-mjx-container [rspace="1"] {
-  margin-right: .111em;
-}
-
-mjx-container [rspace="2"] {
-  margin-right: .167em;
-}
-
-mjx-container [rspace="3"] {
-  margin-right: .222em;
-}
-
-mjx-container [rspace="4"] {
-  margin-right: .278em;
-}
-
-mjx-container [rspace="5"] {
-  margin-right: .333em;
-}
-
-mjx-container [size="s"] {
-  font-size: 70.7%;
-}
-
-mjx-container [size="ss"] {
-  font-size: 50%;
-}
-
-mjx-container [size="Tn"] {
-  font-size: 60%;
-}
-
-mjx-container [size="sm"] {
-  font-size: 85%;
-}
-
-mjx-container [size="lg"] {
-  font-size: 120%;
-}
-
-mjx-container [size="Lg"] {
-  font-size: 144%;
-}
-
-mjx-container [size="LG"] {
-  font-size: 173%;
-}
-
-mjx-container [size="hg"] {
-  font-size: 207%;
-}
-
-mjx-container [size="HG"] {
-  font-size: 249%;
-}
-
-mjx-container [width="full"] {
-  width: 100%;
-}
-
-mjx-box {
-  display: inline-block;
-}
-
-mjx-block {
-  display: block;
-}
-
-mjx-itable {
-  display: inline-table;
-}
-
-mjx-row {
-  display: table-row;
-}
-
-mjx-row > * {
-  display: table-cell;
-}
-
-mjx-mtext {
-  display: inline-block;
-}
-
-mjx-mstyle {
-  display: inline-block;
-}
-
-mjx-merror {
-  display: inline-block;
-  color: red;
-  background-color: yellow;
-}
-
-mjx-mphantom {
-  visibility: hidden;
-}
-
-_::-webkit-full-page-media, _:future, :root mjx-container {
-  will-change: opacity;
-}
-
-mjx-assistive-mml {
-  position: absolute !important;
-  top: 0px;
-  left: 0px;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0px 0px 0px !important;
-  border: 0px !important;
-  display: block !important;
-  width: auto !important;
-  overflow: hidden !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-mjx-assistive-mml[display="block"] {
-  width: 100% !important;
-}
-
-mjx-c::before {
-  display: block;
-  width: 0;
-}
-
-.MJX-TEX {
-  font-family: MJXZERO, MJXTEX;
-}
-
-.TEX-B {
-  font-family: MJXZERO, MJXTEX-B;
-}
-
-.TEX-I {
-  font-family: MJXZERO, MJXTEX-I;
-}
-
-.TEX-MI {
-  font-family: MJXZERO, MJXTEX-MI;
-}
-
-.TEX-BI {
-  font-family: MJXZERO, MJXTEX-BI;
-}
-
-.TEX-S1 {
-  font-family: MJXZERO, MJXTEX-S1;
-}
-
-.TEX-S2 {
-  font-family: MJXZERO, MJXTEX-S2;
-}
-
-.TEX-S3 {
-  font-family: MJXZERO, MJXTEX-S3;
-}
-
-.TEX-S4 {
-  font-family: MJXZERO, MJXTEX-S4;
-}
-
-.TEX-A {
-  font-family: MJXZERO, MJXTEX-A;
-}
-
-.TEX-C {
-  font-family: MJXZERO, MJXTEX-C;
-}
-
-.TEX-CB {
-  font-family: MJXZERO, MJXTEX-CB;
-}
-
-.TEX-FR {
-  font-family: MJXZERO, MJXTEX-FR;
-}
-
-.TEX-FRB {
-  font-family: MJXZERO, MJXTEX-FRB;
-}
-
-.TEX-SS {
-  font-family: MJXZERO, MJXTEX-SS;
-}
-
-.TEX-SSB {
-  font-family: MJXZERO, MJXTEX-SSB;
-}
-
-.TEX-SSI {
-  font-family: MJXZERO, MJXTEX-SSI;
-}
-
-.TEX-SC {
-  font-family: MJXZERO, MJXTEX-SC;
-}
-
-.TEX-T {
-  font-family: MJXZERO, MJXTEX-T;
-}
-
-.TEX-V {
-  font-family: MJXZERO, MJXTEX-V;
-}
-
-.TEX-VB {
-  font-family: MJXZERO, MJXTEX-VB;
-}
-
-mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
-  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
-}
-
-@font-face /* 0 */ {
-  font-family: MJXZERO;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
-}
-
-@font-face /* 1 */ {
-  font-family: MJXTEX;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
-}
-
-@font-face /* 2 */ {
-  font-family: MJXTEX-B;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
-}
-
-@font-face /* 3 */ {
-  font-family: MJXTEX-I;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
-}
-
-@font-face /* 4 */ {
-  font-family: MJXTEX-MI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
-}
-
-@font-face /* 5 */ {
-  font-family: MJXTEX-BI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
-}
-
-@font-face /* 6 */ {
-  font-family: MJXTEX-S1;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
-}
-
-@font-face /* 7 */ {
-  font-family: MJXTEX-S2;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
-}
-
-@font-face /* 8 */ {
-  font-family: MJXTEX-S3;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
-}
-
-@font-face /* 9 */ {
-  font-family: MJXTEX-S4;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
-}
-
-@font-face /* 10 */ {
-  font-family: MJXTEX-A;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
-}
-
-@font-face /* 11 */ {
-  font-family: MJXTEX-C;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
-}
-
-@font-face /* 12 */ {
-  font-family: MJXTEX-CB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
-}
-
-@font-face /* 13 */ {
-  font-family: MJXTEX-FR;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
-}
-
-@font-face /* 14 */ {
-  font-family: MJXTEX-FRB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
-}
-
-@font-face /* 15 */ {
-  font-family: MJXTEX-SS;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
-}
-
-@font-face /* 16 */ {
-  font-family: MJXTEX-SSB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
-}
-
-@font-face /* 17 */ {
-  font-family: MJXTEX-SSI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
-}
-
-@font-face /* 18 */ {
-  font-family: MJXTEX-SC;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
-}
-
-@font-face /* 19 */ {
-  font-family: MJXTEX-T;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
-}
-
-@font-face /* 20 */ {
-  font-family: MJXTEX-V;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
-}
-
-@font-face /* 21 */ {
-  font-family: MJXTEX-VB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
-}
-</style></head>
+    <style>
+        *,
+        ::before,
+        ::after {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        ::backdrop {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb
+        }
+
+        ::after,
+        ::before {
+            --tw-content: ''
+        }
+
+        :host,
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit
+        }
+
+        b,
+        strong {
+            font-weight: bolder
+        }
+
+        code,
+        kbd,
+        pre,
+        samp {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            font-size: 1em
+        }
+
+        small {
+            font-size: 80%
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline
+        }
+
+        sub {
+            bottom: -.25em
+        }
+
+        sup {
+            top: -.5em
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0
+        }
+
+        button,
+        select {
+            text-transform: none
+        }
+
+        button,
+        input:where([type=button]),
+        input:where([type=reset]),
+        input:where([type=submit]) {
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none
+        }
+
+        :-moz-focusring {
+            outline: auto
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none
+        }
+
+        progress {
+            vertical-align: baseline
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto
+        }
+
+        [type=search] {
+            -webkit-appearance: textfield;
+            outline-offset: -2px
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit
+        }
+
+        summary {
+            display: list-item
+        }
+
+        blockquote,
+        dd,
+        dl,
+        figure,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        p,
+        pre {
+            margin: 0
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0
+        }
+
+        legend {
+            padding: 0
+        }
+
+        menu,
+        ol,
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        dialog {
+            padding: 0
+        }
+
+        textarea {
+            resize: vertical
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af
+        }
+
+        [role=button],
+        button {
+            cursor: pointer
+        }
+
+        :disabled {
+            cursor: default
+        }
+
+        audio,
+        canvas,
+        embed,
+        iframe,
+        img,
+        object,
+        svg,
+        video {
+            display: block;
+            vertical-align: middle
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto
+        }
+
+        [hidden]:where(:not([hidden=until-found])) {
+            display: none
+        }
+
+        .fixed {
+            position: fixed
+        }
+
+        .absolute {
+            position: absolute
+        }
+
+        .relative {
+            position: relative
+        }
+
+        .inset-0 {
+            inset: 0px
+        }
+
+        .right-4 {
+            right: 1rem
+        }
+
+        .top-4 {
+            top: 1rem
+        }
+
+        .z-50 {
+            z-index: 50
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem
+        }
+
+        .ml-1 {
+            margin-left: 0.25rem
+        }
+
+        .mt-0\.5 {
+            margin-top: 0.125rem
+        }
+
+        .mt-3 {
+            margin-top: 0.75rem
+        }
+
+        .mt-4 {
+            margin-top: 1rem
+        }
+
+        .mt-6 {
+            margin-top: 1.5rem
+        }
+
+        .mb-1\.5 {
+            margin-bottom: 0.375rem
+        }
+
+        .mr-1\.5 {
+            margin-right: 0.375rem
+        }
+
+        .block {
+            display: block
+        }
+
+        .flex {
+            display: flex
+        }
+
+        .grid {
+            display: grid
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .h-2 {
+            height: 0.5rem
+        }
+
+        .h-2\.5 {
+            height: 0.625rem
+        }
+
+        .h-8 {
+            height: 2rem
+        }
+
+        .max-h-\[500px\] {
+            max-height: 500px
+        }
+
+        .max-h-\[80px\] {
+            max-height: 80px
+        }
+
+        .max-h-\[88vh\] {
+            max-height: 88vh
+        }
+
+        .max-h-\[92vh\] {
+            max-height: 92vh
+        }
+
+        .min-h-0 {
+            min-height: 0px
+        }
+
+        .min-h-screen {
+            min-height: 100vh
+        }
+
+        .w-2 {
+            width: 0.5rem
+        }
+
+        .w-2\.5 {
+            width: 0.625rem
+        }
+
+        .w-8 {
+            width: 2rem
+        }
+
+        .w-full {
+            width: 100%
+        }
+
+        .min-w-0 {
+            min-width: 0px
+        }
+
+        .max-w-2xl {
+            max-width: 42rem
+        }
+
+        .max-w-4xl {
+            max-width: 56rem
+        }
+
+        .max-w-7xl {
+            max-width: 80rem
+        }
+
+        .max-w-md {
+            max-width: 28rem
+        }
+
+        .flex-1 {
+            flex: 1 1 0%
+        }
+
+        .shrink-0 {
+            flex-shrink: 0
+        }
+
+        .border-collapse {
+            border-collapse: collapse
+        }
+
+        .list-none {
+            list-style-type: none
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr))
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr))
+        }
+
+        .flex-col {
+            flex-direction: column
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap
+        }
+
+        .items-start {
+            align-items: flex-start
+        }
+
+        .items-center {
+            align-items: center
+        }
+
+        .justify-end {
+            justify-content: flex-end
+        }
+
+        .justify-center {
+            justify-content: center
+        }
+
+        .justify-between {
+            justify-content: space-between
+        }
+
+        .gap-1 {
+            gap: 0.25rem
+        }
+
+        .gap-1\.5 {
+            gap: 0.375rem
+        }
+
+        .gap-2 {
+            gap: 0.5rem
+        }
+
+        .gap-3 {
+            gap: 0.75rem
+        }
+
+        .gap-4 {
+            gap: 1rem
+        }
+
+        .gap-5 {
+            gap: 1.25rem
+        }
+
+        .gap-6 {
+            gap: 1.5rem
+        }
+
+        .space-y-2\.5> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(0.625rem * var(--tw-space-y-reverse))
+        }
+
+        .space-y-3> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(0.75rem * var(--tw-space-y-reverse))
+        }
+
+        .divide-y> :not([hidden])~ :not([hidden]) {
+            --tw-divide-y-reverse: 0;
+            border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+            border-bottom-width: calc(1px * var(--tw-divide-y-reverse))
+        }
+
+        .divide-slate-800\/50> :not([hidden])~ :not([hidden]) {
+            border-color: rgb(30 41 59 / 0.5)
+        }
+
+        .divide-slate-800\/70> :not([hidden])~ :not([hidden]) {
+            border-color: rgb(30 41 59 / 0.7)
+        }
+
+        .overflow-hidden {
+            overflow: hidden
+        }
+
+        .overflow-x-auto {
+            overflow-x: auto
+        }
+
+        .overflow-y-auto {
+            overflow-y: auto
+        }
+
+        .rounded {
+            border-radius: 0.25rem
+        }
+
+        .rounded-2xl {
+            border-radius: 1rem
+        }
+
+        .rounded-full {
+            border-radius: 9999px
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem
+        }
+
+        .rounded-xl {
+            border-radius: 0.75rem
+        }
+
+        .border {
+            border-width: 1px
+        }
+
+        .border-2 {
+            border-width: 2px
+        }
+
+        .border-b {
+            border-bottom-width: 1px
+        }
+
+        .border-t {
+            border-top-width: 1px
+        }
+
+        .border-dashed {
+            border-style: dashed
+        }
+
+        .border-blue-500\/20 {
+            border-color: rgb(59 130 246 / 0.2)
+        }
+
+        .border-blue-900\/30 {
+            border-color: rgb(30 58 138 / 0.3)
+        }
+
+        .border-emerald-500\/20 {
+            border-color: rgb(16 185 129 / 0.2)
+        }
+
+        .border-emerald-500\/30 {
+            border-color: rgb(16 185 129 / 0.3)
+        }
+
+        .border-slate-700 {
+            --tw-border-opacity: 1;
+            border-color: rgb(51 65 85 / var(--tw-border-opacity, 1))
+        }
+
+        .border-slate-800 {
+            --tw-border-opacity: 1;
+            border-color: rgb(30 41 59 / var(--tw-border-opacity, 1))
+        }
+
+        .border-slate-800\/50 {
+            border-color: rgb(30 41 59 / 0.5)
+        }
+
+        .bg-blue-500\/10 {
+            background-color: rgb(59 130 246 / 0.1)
+        }
+
+        .bg-blue-600 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-emerald-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-emerald-600 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(5 150 105 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-emerald-600\/10 {
+            background-color: rgb(5 150 105 / 0.1)
+        }
+
+        .bg-indigo-600 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(79 70 229 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-800 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-800\/60 {
+            background-color: rgb(30 41 59 / 0.6)
+        }
+
+        .bg-slate-900 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-950 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-950\/60 {
+            background-color: rgb(2 6 23 / 0.6)
+        }
+
+        .bg-slate-950\/80 {
+            background-color: rgb(2 6 23 / 0.8)
+        }
+
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))
+        }
+
+        .from-slate-950 {
+            --tw-gradient-from: #020617 var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(2 6 23 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .to-slate-900 {
+            --tw-gradient-to: #0f172a var(--tw-gradient-to-position)
+        }
+
+        .p-2\.5 {
+            padding: 0.625rem
+        }
+
+        .p-4 {
+            padding: 1rem
+        }
+
+        .p-6 {
+            padding: 1.5rem
+        }
+
+        .p-8 {
+            padding: 2rem
+        }
+
+        .px-1 {
+            padding-left: 0.25rem;
+            padding-right: 0.25rem
+        }
+
+        .px-2 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem
+        }
+
+        .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem
+        }
+
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem
+        }
+
+        .px-5 {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem
+        }
+
+        .py-0\.5 {
+            padding-top: 0.125rem;
+            padding-bottom: 0.125rem
+        }
+
+        .py-1 {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem
+        }
+
+        .py-1\.5 {
+            padding-top: 0.375rem;
+            padding-bottom: 0.375rem
+        }
+
+        .py-16 {
+            padding-top: 4rem;
+            padding-bottom: 4rem
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem
+        }
+
+        .py-2\.5 {
+            padding-top: 0.625rem;
+            padding-bottom: 0.625rem
+        }
+
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem
+        }
+
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem
+        }
+
+        .py-5 {
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem
+        }
+
+        .pb-0 {
+            padding-bottom: 0px
+        }
+
+        .pr-3 {
+            padding-right: 0.75rem
+        }
+
+        .pr-4 {
+            padding-right: 1rem
+        }
+
+        .pt-4 {
+            padding-top: 1rem
+        }
+
+        .text-left {
+            text-align: left
+        }
+
+        .text-center {
+            text-align: center
+        }
+
+        .align-top {
+            vertical-align: top
+        }
+
+        .font-mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+            line-height: 2rem
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+            line-height: 2.5rem
+        }
+
+        .text-\[10px\] {
+            font-size: 10px
+        }
+
+        .text-\[11px\] {
+            font-size: 11px
+        }
+
+        .text-base {
+            font-size: 1rem;
+            line-height: 1.5rem
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.75rem
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+            line-height: 1rem
+        }
+
+        .font-bold {
+            font-weight: 700
+        }
+
+        .font-medium {
+            font-weight: 500
+        }
+
+        .font-normal {
+            font-weight: 400
+        }
+
+        .font-semibold {
+            font-weight: 600
+        }
+
+        .uppercase {
+            text-transform: uppercase
+        }
+
+        .normal-case {
+            text-transform: none
+        }
+
+        .italic {
+            font-style: italic
+        }
+
+        .leading-relaxed {
+            line-height: 1.625
+        }
+
+        .tracking-normal {
+            letter-spacing: 0em
+        }
+
+        .tracking-tight {
+            letter-spacing: -0.025em
+        }
+
+        .tracking-wide {
+            letter-spacing: 0.025em
+        }
+
+        .tracking-wider {
+            letter-spacing: 0.05em
+        }
+
+        .tracking-widest {
+            letter-spacing: 0.1em
+        }
+
+        .text-blue-400 {
+            --tw-text-opacity: 1;
+            color: rgb(96 165 250 / var(--tw-text-opacity, 1))
+        }
+
+        .text-emerald-400 {
+            --tw-text-opacity: 1;
+            color: rgb(52 211 153 / var(--tw-text-opacity, 1))
+        }
+
+        .text-indigo-400 {
+            --tw-text-opacity: 1;
+            color: rgb(129 140 248 / var(--tw-text-opacity, 1))
+        }
+
+        .text-red-400 {
+            --tw-text-opacity: 1;
+            color: rgb(248 113 113 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-100 {
+            --tw-text-opacity: 1;
+            color: rgb(241 245 249 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-200 {
+            --tw-text-opacity: 1;
+            color: rgb(226 232 240 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-300 {
+            --tw-text-opacity: 1;
+            color: rgb(203 213 225 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-400 {
+            --tw-text-opacity: 1;
+            color: rgb(148 163 184 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-500 {
+            --tw-text-opacity: 1;
+            color: rgb(100 116 139 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-600 {
+            --tw-text-opacity: 1;
+            color: rgb(71 85 105 / var(--tw-text-opacity, 1))
+        }
+
+        .text-white {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+        }
+
+        .text-emerald-500 {
+            --tw-text-opacity: 1;
+            color: rgb(16 185 129 / var(--tw-text-opacity, 1))
+        }
+
+        .text-yellow-400 {
+            --tw-text-opacity: 1;
+            color: rgb(250 204 21 / var(--tw-text-opacity, 1))
+        }
+
+        .antialiased {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        .shadow-2xl {
+            --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-lg {
+            --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-blue-900\/20 {
+            --tw-shadow-color: rgb(30 58 138 / 0.2);
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .shadow-emerald-900\/20 {
+            --tw-shadow-color: rgb(6 78 59 / 0.2);
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .backdrop-blur-sm {
+            --tw-backdrop-blur: blur(4px);
+            -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .hover\:bg-blue-500:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-emerald-500:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-emerald-500\/10:hover {
+            background-color: rgb(16 185 129 / 0.1)
+        }
+
+        .hover\:bg-emerald-600\/20:hover {
+            background-color: rgb(5 150 105 / 0.2)
+        }
+
+        .hover\:bg-indigo-500:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(99 102 241 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-slate-700:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-slate-800:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-slate-900\/70:hover {
+            background-color: rgb(15 23 42 / 0.7)
+        }
+
+        .hover\:text-slate-200:hover {
+            --tw-text-opacity: 1;
+            color: rgb(226 232 240 / var(--tw-text-opacity, 1))
+        }
+
+        .hover\:text-slate-300:hover {
+            --tw-text-opacity: 1;
+            color: rgb(203 213 225 / var(--tw-text-opacity, 1))
+        }
+
+        .hover\:text-white:hover {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+        }
+
+        .focus\:border-blue-500:focus {
+            --tw-border-opacity: 1;
+            border-color: rgb(59 130 246 / var(--tw-border-opacity, 1))
+        }
+
+        .focus\:border-emerald-500:focus {
+            --tw-border-opacity: 1;
+            border-color: rgb(16 185 129 / var(--tw-border-opacity, 1))
+        }
+
+        .focus\:outline-none:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px
+        }
+
+        @media (min-width: 768px) {
+            .md\:w-64 {
+                width: 16rem
+            }
+
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .md\:flex-row {
+                flex-direction: row
+            }
+
+            .md\:items-center {
+                align-items: center
+            }
+
+            .md\:px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem
+            }
+
+            .md\:text-lg {
+                font-size: 1.125rem;
+                line-height: 1.75rem
+            }
+        }
+    </style>
+    <style type="text/css">
+        .CtxtMenu_InfoClose {
+            top: .2em;
+            right: .2em;
+        }
+
+        .CtxtMenu_InfoContent {
+            overflow: auto;
+            text-align: left;
+            font-size: 80%;
+            padding: .4em .6em;
+            border: 1px inset;
+            margin: 1em 0px;
+            max-height: 20em;
+            max-width: 30em;
+            background-color: #EEEEEE;
+            white-space: normal;
+        }
+
+        .CtxtMenu_Info.CtxtMenu_MousePost {
+            outline: none;
+        }
+
+        .CtxtMenu_Info {
+            position: fixed;
+            left: 50%;
+            width: auto;
+            text-align: center;
+            border: 3px outset;
+            padding: 1em 2em;
+            background-color: #DDDDDD;
+            color: black;
+            cursor: default;
+            font-family: message-box;
+            font-size: 120%;
+            font-style: normal;
+            text-indent: 0;
+            text-transform: none;
+            line-height: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            float: none;
+            z-index: 201;
+            border-radius: 15px;
+            /* Opera 10.5 and IE9 */
+            -webkit-border-radius: 15px;
+            /* Safari and Chrome */
+            -moz-border-radius: 15px;
+            /* Firefox */
+            -khtml-border-radius: 15px;
+            /* Konqueror */
+            box-shadow: 0px 10px 20px #808080;
+            /* Opera 10.5 and IE9 */
+            -webkit-box-shadow: 0px 10px 20px #808080;
+            /* Safari 3 & Chrome */
+            -moz-box-shadow: 0px 10px 20px #808080;
+            /* Forefox 3.5 */
+            -khtml-box-shadow: 0px 10px 20px #808080;
+            /* Konqueror */
+            filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true");
+            /* IE */
+        }
+    </style>
+    <style type="text/css">
+        .CtxtMenu_MenuClose {
+            position: absolute;
+            cursor: pointer;
+            display: inline-block;
+            border: 2px solid #AAA;
+            border-radius: 18px;
+            -webkit-border-radius: 18px;
+            /* Safari and Chrome */
+            -moz-border-radius: 18px;
+            /* Firefox */
+            -khtml-border-radius: 18px;
+            /* Konqueror */
+            font-family: "Courier New", Courier;
+            font-size: 24px;
+            color: #F0F0F0
+        }
+
+        .CtxtMenu_MenuClose span {
+            display: block;
+            background-color: #AAA;
+            border: 1.5px solid;
+            border-radius: 18px;
+            -webkit-border-radius: 18px;
+            /* Safari and Chrome */
+            -moz-border-radius: 18px;
+            /* Firefox */
+            -khtml-border-radius: 18px;
+            /* Konqueror */
+            line-height: 0;
+            padding: 8px 0 6px
+                /* may need to be browser-specific */
+        }
+
+        .CtxtMenu_MenuClose:hover {
+            color: white !important;
+            border: 2px solid #CCC !important
+        }
+
+        .CtxtMenu_MenuClose:hover span {
+            background-color: #CCC !important
+        }
+
+        .CtxtMenu_MenuClose:hover:focus {
+            outline: none
+        }
+    </style>
+    <style type="text/css">
+        .CtxtMenu_Menu {
+            position: absolute;
+            background-color: white;
+            color: black;
+            width: auto;
+            padding: 5px 0px;
+            border: 1px solid #CCCCCC;
+            margin: 0;
+            cursor: default;
+            font: menu;
+            text-align: left;
+            text-indent: 0;
+            text-transform: none;
+            line-height: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            float: none;
+            z-index: 201;
+            border-radius: 5px;
+            /* Opera 10.5 and IE9 */
+            -webkit-border-radius: 5px;
+            /* Safari and Chrome */
+            -moz-border-radius: 5px;
+            /* Firefox */
+            -khtml-border-radius: 5px;
+            /* Konqueror */
+            box-shadow: 0px 10px 20px #808080;
+            /* Opera 10.5 and IE9 */
+            -webkit-box-shadow: 0px 10px 20px #808080;
+            /* Safari 3 & Chrome */
+            -moz-box-shadow: 0px 10px 20px #808080;
+            /* Forefox 3.5 */
+            -khtml-box-shadow: 0px 10px 20px #808080;
+            /* Konqueror */
+        }
+
+        .CtxtMenu_MenuItem {
+            padding: 1px 2em;
+            background: transparent;
+        }
+
+        .CtxtMenu_MenuArrow {
+            position: absolute;
+            right: .5em;
+            padding-top: .25em;
+            color: #666666;
+            font-family: null;
+            font-size: .75em
+        }
+
+        .CtxtMenu_MenuActive .CtxtMenu_MenuArrow {
+            color: white
+        }
+
+        .CtxtMenu_MenuArrow.CtxtMenu_RTL {
+            left: .5em;
+            right: auto
+        }
+
+        .CtxtMenu_MenuCheck {
+            position: absolute;
+            left: .7em;
+            font-family: null
+        }
+
+        .CtxtMenu_MenuCheck.CtxtMenu_RTL {
+            right: .7em;
+            left: auto
+        }
+
+        .CtxtMenu_MenuRadioCheck {
+            position: absolute;
+            left: .7em;
+        }
+
+        .CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {
+            right: .7em;
+            left: auto
+        }
+
+        .CtxtMenu_MenuInputBox {
+            padding-left: 1em;
+            right: .5em;
+            color: #666666;
+            font-family: null;
+        }
+
+        .CtxtMenu_MenuInputBox.CtxtMenu_RTL {
+            left: .1em;
+        }
+
+        .CtxtMenu_MenuComboBox {
+            left: .1em;
+            padding-bottom: .5em;
+        }
+
+        .CtxtMenu_MenuSlider {
+            left: .1em;
+        }
+
+        .CtxtMenu_SliderValue {
+            position: absolute;
+            right: .1em;
+            padding-top: .25em;
+            color: #333333;
+            font-size: .75em
+        }
+
+        .CtxtMenu_SliderBar {
+            outline: none;
+            background: #d3d3d3
+        }
+
+        .CtxtMenu_MenuLabel {
+            padding: 1px 2em 3px 1.33em;
+            font-style: italic
+        }
+
+        .CtxtMenu_MenuRule {
+            border-top: 1px solid #DDDDDD;
+            margin: 4px 3px;
+        }
+
+        .CtxtMenu_MenuDisabled {
+            color: GrayText
+        }
+
+        .CtxtMenu_MenuActive {
+            background-color: #606872;
+            color: white;
+        }
+
+        .CtxtMenu_MenuDisabled:focus {
+            background-color: #E8E8E8
+        }
+
+        .CtxtMenu_MenuLabel:focus {
+            background-color: #E8E8E8
+        }
+
+        .CtxtMenu_ContextMenu:focus {
+            outline: none
+        }
+
+        .CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {
+            outline: none
+        }
+
+        .CtxtMenu_SelectionMenu {
+            position: relative;
+            float: left;
+            border-bottom: none;
+            -webkit-box-shadow: none;
+            -webkit-border-radius: 0px;
+        }
+
+        .CtxtMenu_SelectionItem {
+            padding-right: 1em;
+        }
+
+        .CtxtMenu_Selection {
+            right: 40%;
+            width: 50%;
+        }
+
+        .CtxtMenu_SelectionBox {
+            padding: 0em;
+            max-height: 20em;
+            max-width: none;
+            background-color: #FFFFFF;
+        }
+
+        .CtxtMenu_SelectionDivider {
+            clear: both;
+            border-top: 2px solid #000000;
+        }
+
+        .CtxtMenu_Menu .CtxtMenu_MenuClose {
+            top: -10px;
+            left: -10px
+        }
+    </style>
+    <style id="MJX-CHTML-styles">
+        mjx-container[jax="CHTML"] {
+            line-height: 0;
+        }
+
+        mjx-container [space="1"] {
+            margin-left: .111em;
+        }
+
+        mjx-container [space="2"] {
+            margin-left: .167em;
+        }
+
+        mjx-container [space="3"] {
+            margin-left: .222em;
+        }
+
+        mjx-container [space="4"] {
+            margin-left: .278em;
+        }
+
+        mjx-container [space="5"] {
+            margin-left: .333em;
+        }
+
+        mjx-container [rspace="1"] {
+            margin-right: .111em;
+        }
+
+        mjx-container [rspace="2"] {
+            margin-right: .167em;
+        }
+
+        mjx-container [rspace="3"] {
+            margin-right: .222em;
+        }
+
+        mjx-container [rspace="4"] {
+            margin-right: .278em;
+        }
+
+        mjx-container [rspace="5"] {
+            margin-right: .333em;
+        }
+
+        mjx-container [size="s"] {
+            font-size: 70.7%;
+        }
+
+        mjx-container [size="ss"] {
+            font-size: 50%;
+        }
+
+        mjx-container [size="Tn"] {
+            font-size: 60%;
+        }
+
+        mjx-container [size="sm"] {
+            font-size: 85%;
+        }
+
+        mjx-container [size="lg"] {
+            font-size: 120%;
+        }
+
+        mjx-container [size="Lg"] {
+            font-size: 144%;
+        }
+
+        mjx-container [size="LG"] {
+            font-size: 173%;
+        }
+
+        mjx-container [size="hg"] {
+            font-size: 207%;
+        }
+
+        mjx-container [size="HG"] {
+            font-size: 249%;
+        }
+
+        mjx-container [width="full"] {
+            width: 100%;
+        }
+
+        mjx-box {
+            display: inline-block;
+        }
+
+        mjx-block {
+            display: block;
+        }
+
+        mjx-itable {
+            display: inline-table;
+        }
+
+        mjx-row {
+            display: table-row;
+        }
+
+        mjx-row>* {
+            display: table-cell;
+        }
+
+        mjx-mtext {
+            display: inline-block;
+        }
+
+        mjx-mstyle {
+            display: inline-block;
+        }
+
+        mjx-merror {
+            display: inline-block;
+            color: red;
+            background-color: yellow;
+        }
+
+        mjx-mphantom {
+            visibility: hidden;
+        }
+
+        _::-webkit-full-page-media,
+        _:future,
+        :root mjx-container {
+            will-change: opacity;
+        }
+
+        mjx-assistive-mml {
+            position: absolute !important;
+            top: 0px;
+            left: 0px;
+            clip: rect(1px, 1px, 1px, 1px);
+            padding: 1px 0px 0px 0px !important;
+            border: 0px !important;
+            display: block !important;
+            width: auto !important;
+            overflow: hidden !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        mjx-assistive-mml[display="block"] {
+            width: 100% !important;
+        }
+
+        mjx-c::before {
+            display: block;
+            width: 0;
+        }
+
+        .MJX-TEX {
+            font-family: MJXZERO, MJXTEX;
+        }
+
+        .TEX-B {
+            font-family: MJXZERO, MJXTEX-B;
+        }
+
+        .TEX-I {
+            font-family: MJXZERO, MJXTEX-I;
+        }
+
+        .TEX-MI {
+            font-family: MJXZERO, MJXTEX-MI;
+        }
+
+        .TEX-BI {
+            font-family: MJXZERO, MJXTEX-BI;
+        }
+
+        .TEX-S1 {
+            font-family: MJXZERO, MJXTEX-S1;
+        }
+
+        .TEX-S2 {
+            font-family: MJXZERO, MJXTEX-S2;
+        }
+
+        .TEX-S3 {
+            font-family: MJXZERO, MJXTEX-S3;
+        }
+
+        .TEX-S4 {
+            font-family: MJXZERO, MJXTEX-S4;
+        }
+
+        .TEX-A {
+            font-family: MJXZERO, MJXTEX-A;
+        }
+
+        .TEX-C {
+            font-family: MJXZERO, MJXTEX-C;
+        }
+
+        .TEX-CB {
+            font-family: MJXZERO, MJXTEX-CB;
+        }
+
+        .TEX-FR {
+            font-family: MJXZERO, MJXTEX-FR;
+        }
+
+        .TEX-FRB {
+            font-family: MJXZERO, MJXTEX-FRB;
+        }
+
+        .TEX-SS {
+            font-family: MJXZERO, MJXTEX-SS;
+        }
+
+        .TEX-SSB {
+            font-family: MJXZERO, MJXTEX-SSB;
+        }
+
+        .TEX-SSI {
+            font-family: MJXZERO, MJXTEX-SSI;
+        }
+
+        .TEX-SC {
+            font-family: MJXZERO, MJXTEX-SC;
+        }
+
+        .TEX-T {
+            font-family: MJXZERO, MJXTEX-T;
+        }
+
+        .TEX-V {
+            font-family: MJXZERO, MJXTEX-V;
+        }
+
+        .TEX-VB {
+            font-family: MJXZERO, MJXTEX-VB;
+        }
+
+        mjx-stretchy-v mjx-c,
+        mjx-stretchy-h mjx-c {
+            font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+        }
+
+        @font-face
+
+        /* 0 */
+            {
+            font-family: MJXZERO;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 1 */
+            {
+            font-family: MJXTEX;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 2 */
+            {
+            font-family: MJXTEX-B;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 3 */
+            {
+            font-family: MJXTEX-I;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 4 */
+            {
+            font-family: MJXTEX-MI;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 5 */
+            {
+            font-family: MJXTEX-BI;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 6 */
+            {
+            font-family: MJXTEX-S1;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 7 */
+            {
+            font-family: MJXTEX-S2;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 8 */
+            {
+            font-family: MJXTEX-S3;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 9 */
+            {
+            font-family: MJXTEX-S4;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 10 */
+            {
+            font-family: MJXTEX-A;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 11 */
+            {
+            font-family: MJXTEX-C;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 12 */
+            {
+            font-family: MJXTEX-CB;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 13 */
+            {
+            font-family: MJXTEX-FR;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 14 */
+            {
+            font-family: MJXTEX-FRB;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 15 */
+            {
+            font-family: MJXTEX-SS;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 16 */
+            {
+            font-family: MJXTEX-SSB;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 17 */
+            {
+            font-family: MJXTEX-SSI;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 18 */
+            {
+            font-family: MJXTEX-SC;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 19 */
+            {
+            font-family: MJXTEX-T;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 20 */
+            {
+            font-family: MJXTEX-V;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+        }
+
+        @font-face
+
+        /* 21 */
+            {
+            font-family: MJXTEX-VB;
+            src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+        }
+    </style>
+</head>
 
 <body class="bg-slate-900 text-slate-100 antialiased min-h-screen flex flex-col" cz-shortcut-listen="true">
 
     <!-- ══ Top Header ══════════════════════════════════════════════ -->
     <header class="bg-slate-950 border-b border-slate-800 shrink-0">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div
+            class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
                 <div class="flex items-center gap-2 mb-1">
-                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blue-500/20">个人学术资产</span>
+                    <span
+                        class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blue-500/20">个人学术资产</span>
                     <span class="text-slate-500 text-xs">V8.0 增强编辑版</span>
                 </div>
                 <h1 class="text-2xl font-bold text-white tracking-tight">学术英语 &amp; 法律写作终极笔记本</h1>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <button onclick="toggleModal('github-modal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 border border-slate-700">
+                <button onclick="toggleModal('github-modal')"
+                    class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 border border-slate-700">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500" id="github-status-dot"></span>
                     🚀 同步 GitHub 仓库
                 </button>
-                <button onclick="toggleModal('template-modal')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20">
+                <button onclick="toggleModal('template-modal')"
+                    class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20">
                     📚 全局模板库
                 </button>
             </div>
@@ -946,11 +2697,28 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
             <div class="bg-slate-950 rounded-xl border border-slate-800 p-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">已汇整语料库</h3>
-                    <button onclick="openImportModal()" class="text-[10px] bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-bold px-2 py-1 rounded border border-emerald-500/20 transition-all flex items-center gap-1">
+                    <button onclick="openImportModal()"
+                        class="text-[10px] bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-bold px-2 py-1 rounded border border-emerald-500/20 transition-all flex items-center gap-1">
                         ➕ 导入
                     </button>
                 </div>
-                <nav class="flex flex-col gap-1 max-h-[500px] overflow-y-auto" id="article-nav"><div class="article-item active" id="item-a_1784306052346"><button class="article-btn" title="1. 芝加哥学派与摩天大楼">1. 芝加哥学派与摩天大楼</button><button class="delete-btn" title="删除此语料">🗑</button></div><div class="article-item" id="item-a_1784306052347"><button class="article-btn" title="2. 住宅室内设计要素">2. 住宅室内设计要素</button><button class="delete-btn" title="删除此语料">🗑</button></div><div class="article-item" id="item-a_1784306052348"><button class="article-btn" title="3. 房屋租赁契约定义">3. 房屋租赁契约定义</button><button class="delete-btn" title="删除此语料">🗑</button></div><div class="article-item" id="item-a_1784306052349"><button class="article-btn" title="4. 都市圈与城市扩张">4. 都市圈与城市扩张</button><button class="delete-btn" title="删除此语料">🗑</button></div><div class="article-item" id="item-a_1784306052350"><button class="article-btn" title="5. 环境卫生与健康预防">5. 环境卫生与健康预防</button><button class="delete-btn" title="删除此语料">🗑</button></div></nav>
+                <nav class="flex flex-col gap-1 max-h-[500px] overflow-y-auto" id="article-nav">
+                    <div class="article-item active" id="item-a_1784306052346"><button class="article-btn"
+                            title="1. 芝加哥学派与摩天大楼">1. 芝加哥学派与摩天大楼</button><button class="delete-btn"
+                            title="删除此语料">🗑</button></div>
+                    <div class="article-item" id="item-a_1784306052347"><button class="article-btn"
+                            title="2. 住宅室内设计要素">2. 住宅室内设计要素</button><button class="delete-btn" title="删除此语料">🗑</button>
+                    </div>
+                    <div class="article-item" id="item-a_1784306052348"><button class="article-btn"
+                            title="3. 房屋租赁契约定义">3. 房屋租赁契约定义</button><button class="delete-btn" title="删除此语料">🗑</button>
+                    </div>
+                    <div class="article-item" id="item-a_1784306052349"><button class="article-btn"
+                            title="4. 都市圈与城市扩张">4. 都市圈与城市扩张</button><button class="delete-btn" title="删除此语料">🗑</button>
+                    </div>
+                    <div class="article-item" id="item-a_1784306052350"><button class="article-btn"
+                            title="5. 环境卫生与健康预防">5. 环境卫生与健康预防</button><button class="delete-btn"
+                            title="删除此语料">🗑</button></div>
+                </nav>
             </div>
         </aside>
 
@@ -963,23 +2731,34 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     <div class="flex items-center gap-2">
                         <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">分析语料 · Source
                             Text</span>
-                        <span id="text-genre" class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-700">建筑史学 / 说明文</span>
+                        <span id="text-genre"
+                            class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-700">建筑史学
+                            / 说明文</span>
                     </div>
                 </div>
-                <p id="article-title-display" class="text-[11px] text-slate-600 mb-3 font-medium tracking-wide">1. 芝加哥学派与摩天大楼</p>
-                <p id="text-body" class="text-base md:text-lg text-slate-200 leading-relaxed font-medium italic">The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel. The building's steel skeleton could be erected and the remaining components quickly attached to complete the project.</p>
+                <p id="article-title-display" class="text-[11px] text-slate-600 mb-3 font-medium tracking-wide">1.
+                    芝加哥学派与摩天大楼</p>
+                <p id="text-body" class="text-base md:text-lg text-slate-200 leading-relaxed font-medium italic">The
+                    career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of
+                    Architects, which was given the challenge to invent the high-rise building, known as a skyscraper.
+                    This was facilitated by the introduction of the electric elevator, and the abundance of steel. The
+                    building's steel skeleton could be erected and the remaining components quickly attached to complete
+                    the project.</p>
             </section>
 
             <!-- Tab Bar -->
             <div class="relative border-b border-slate-800">
                 <div class="flex" id="tab-bar" aria-label="Tabs">
-                    <button onclick="switchTab('translation')" id="tab-translation" class="tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400">
+                    <button onclick="switchTab('translation')" id="tab-translation"
+                        class="tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400">
                         译文对比 &amp; 技巧
                     </button>
-                    <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                    <button onclick="switchTab('grammar')" id="tab-grammar"
+                        class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
                         语法句式剖析
                     </button>
-                    <button onclick="switchTab('vocabulary')" id="tab-vocabulary" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                    <button onclick="switchTab('vocabulary')" id="tab-vocabulary"
+                        class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
                         重点词汇 &amp; 拓展
                     </button>
                 </div>
@@ -993,17 +2772,21 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                 <div id="content-translation" class="tab-pane flex flex-col gap-5">
 
                     <!-- Translation VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-translation-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-translation-view">
                         <div class="flex justify-between items-start mb-3">
                             <h4 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>精雕学术译文
                             </h4>
                             <button class="btn-edit" onclick="enterEditMode('translation')">✏️ 编辑</button>
                         </div>
-                        <p id="translation-body" class="text-slate-300 leading-relaxed text-sm">芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的“芝加哥建筑学派”兴起。当时，该学派肩负着一项历史使命——发明被称为“摩天大楼”的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。只要将建筑物的钢骨架搭建起来，便能迅速附上其余组件以完成项目。</p>
+                        <p id="translation-body" class="text-slate-300 leading-relaxed text-sm">
+                            芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的“芝加哥建筑学派”兴起。当时，该学派肩负着一项历史使命——发明被称为“摩天大楼”的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。只要将建筑物的钢骨架搭建起来，便能迅速附上其余组件以完成项目。
+                        </p>
                     </div>
                     <!-- Translation EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-translation-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-translation-edit">
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="text-sm font-bold text-indigo-400 flex items-center gap-2">✏️ 编辑译文</h4>
                             <div class="flex gap-2">
@@ -1011,19 +2794,35 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                                 <button class="btn-save" onclick="saveTranslation()">💾 保存</button>
                             </div>
                         </div>
-                        <textarea id="edit-translation-text" class="edit-textarea" rows="6" placeholder="输入中文译文..."></textarea>
+                        <textarea id="edit-translation-text" class="edit-textarea" rows="6"
+                            placeholder="输入中文译文..."></textarea>
                     </div>
 
                     <!-- Insights VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-insights-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-insights-view">
                         <div class="flex justify-between items-start mb-3">
                             <h4 class="text-sm font-bold text-slate-300">💡 翻译心法拆解</h4>
                             <button class="btn-edit" onclick="enterEditMode('insights')">✏️ 编辑</button>
                         </div>
-                        <ul id="translation-insights" class="space-y-2.5 text-sm text-slate-400 list-none"><li class="flex gap-2"><span class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【增词法与词类转换】原文：the abundance of steel。直译：钢材的丰富。翻译精雕：钢材的大量供应 / 充足储备。技巧：将抽象名词转换为动宾或偏正结构，符合中文工业文体表达习惯。</span></li><li class="flex gap-2"><span class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【被动语态无痕转换】原文：This was facilitated by... 直译：这被……所促进。翻译精雕：这还得益于……的引入 / 这一进程得益于…… 技巧：在中文中尽量避免死板的“被”字句，用“得益于”、“在……推动下”进行无痕转换。</span></li><li class="flex gap-2"><span class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【句式重组】原文：...which was given the challenge to invent the high-rise building... 直译：……他们被给予了去发明高层建筑的挑战。翻译精雕：……他们肩负着一项历史使命——发明高层建筑。技巧：将 was given the challenge 意译为“肩负使命”，并将定语拆成独立的短句。</span></li></ul>
+                        <ul id="translation-insights" class="space-y-2.5 text-sm text-slate-400 list-none">
+                            <li class="flex gap-2"><span
+                                    class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【增词法与词类转换】原文：the abundance of
+                                    steel。直译：钢材的丰富。翻译精雕：钢材的大量供应 / 充足储备。技巧：将抽象名词转换为动宾或偏正结构，符合中文工业文体表达习惯。</span></li>
+                            <li class="flex gap-2"><span
+                                    class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【被动语态无痕转换】原文：This was
+                                    facilitated by... 直译：这被……所促进。翻译精雕：这还得益于……的引入 / 这一进程得益于……
+                                    技巧：在中文中尽量避免死板的“被”字句，用“得益于”、“在……推动下”进行无痕转换。</span></li>
+                            <li class="flex gap-2"><span
+                                    class="text-emerald-500 mt-0.5 shrink-0">•</span><span>【句式重组】原文：...which was given
+                                    the challenge to invent the high-rise building...
+                                    直译：……他们被给予了去发明高层建筑的挑战。翻译精雕：……他们肩负着一项历史使命——发明高层建筑。技巧：将 was given the challenge
+                                    意译为“肩负使命”，并将定语拆成独立的短句。</span></li>
+                        </ul>
                     </div>
                     <!-- Insights EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-insights-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-insights-edit">
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑翻译心法</h4>
                             <div class="flex gap-2">
@@ -1032,7 +2831,8 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                             </div>
                         </div>
                         <div id="edit-insights-list" class="flex flex-col gap-2 mb-3"></div>
-                        <button onclick="addInsightRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addInsightRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加一条技巧
                         </button>
                     </div>
@@ -1042,33 +2842,42 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                 <div id="content-grammar" class="tab-pane hidden flex flex-col gap-5">
 
                     <!-- Grammar VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-grammar-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-grammar-view">
                         <div class="flex justify-between items-start mb-4">
                             <h4 class="text-sm font-bold text-slate-300">🔍 核心句型骨架拆解</h4>
                             <button class="btn-edit" onclick="enterEditMode('grammar')">✏️ 编辑</button>
                         </div>
                         <div id="grammar-breakdown" class="space-y-3">
-                    <div class="grammar-view-card">
-                        <p class="font-semibold text-slate-200 text-sm mb-1.5">第一句：多重定语嵌套</p>
-                        <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">The career (主语) + coincided with (谓语) + the Chicago School (宾语).</p>
-                        <p class="text-xs text-slate-400 leading-relaxed">Louis Sullivan 是主语的同位语；coincide with 是高频短语（与...重合）；which 引导非限制性定语从句修饰 School；to invent 做后置定语修饰 challenge；known as a skyscraper 是过去分词短语作定语修饰 building。</p>
-                    </div>
-                
-                    <div class="grammar-view-card">
-                        <p class="font-semibold text-slate-200 text-sm mb-1.5">第二句：被动语态与形式主语</p>
-                        <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">This (主语) + was facilitated by (被动谓语) + [the introduction... and the abundance...] (介宾结构作状语).</p>
-                        <p class="text-xs text-slate-400 leading-relaxed">This 指代上一句“发明摩天大楼”这一整件事。在学术写作中，被动语态比主动语态更显客观，同时能让主语 This 保持句际连贯性。</p>
-                    </div>
-                
-                    <div class="grammar-view-card">
-                        <p class="font-semibold text-slate-200 text-sm mb-1.5">第三句：并列句与省略技巧 (Ellipsis)</p>
-                        <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">The building's skeleton could be erected and the components quickly [could be] attached...</p>
-                        <p class="text-xs text-slate-400 leading-relaxed">后半句省略了与前半句相同的助动词 could be（只留下了过去分词 attached），这是英语为了避免重复而常用的省略手法。</p>
-                    </div>
-                </div>
+                            <div class="grammar-view-card">
+                                <p class="font-semibold text-slate-200 text-sm mb-1.5">第一句：多重定语嵌套</p>
+                                <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">The career (主语) +
+                                    coincided with (谓语) + the Chicago School (宾语).</p>
+                                <p class="text-xs text-slate-400 leading-relaxed">Louis Sullivan 是主语的同位语；coincide with
+                                    是高频短语（与...重合）；which 引导非限制性定语从句修饰 School；to invent 做后置定语修饰 challenge；known as a
+                                    skyscraper 是过去分词短语作定语修饰 building。</p>
+                            </div>
+
+                            <div class="grammar-view-card">
+                                <p class="font-semibold text-slate-200 text-sm mb-1.5">第二句：被动语态与形式主语</p>
+                                <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">This (主语) + was
+                                    facilitated by (被动谓语) + [the introduction... and the abundance...] (介宾结构作状语).</p>
+                                <p class="text-xs text-slate-400 leading-relaxed">This
+                                    指代上一句“发明摩天大楼”这一整件事。在学术写作中，被动语态比主动语态更显客观，同时能让主语 This 保持句际连贯性。</p>
+                            </div>
+
+                            <div class="grammar-view-card">
+                                <p class="font-semibold text-slate-200 text-sm mb-1.5">第三句：并列句与省略技巧 (Ellipsis)</p>
+                                <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">The building's skeleton
+                                    could be erected and the components quickly [could be] attached...</p>
+                                <p class="text-xs text-slate-400 leading-relaxed">后半句省略了与前半句相同的助动词 could be（只留下了过去分词
+                                    attached），这是英语为了避免重复而常用的省略手法。</p>
+                            </div>
+                        </div>
                     </div>
                     <!-- Grammar EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-grammar-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-grammar-edit">
                         <div class="flex justify-between items-center mb-4">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑语法句式</h4>
                             <div class="flex gap-2">
@@ -1077,7 +2886,8 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                             </div>
                         </div>
                         <div id="edit-grammar-list" class="flex flex-col gap-3 mb-3"></div>
-                        <button onclick="addGrammarRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addGrammarRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加语法条目
                         </button>
                     </div>
@@ -1104,29 +2914,36 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                                     </tr>
                                 </thead>
                                 <tbody id="vocab-table-body" class="divide-y divide-slate-800/70 text-slate-300">
-                    <tr>
-                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">coincide with</td>
-                        <td class="py-2.5 pr-4"><span class="text-slate-500 font-mono mr-1.5 text-[10px]">[v.]</span>与……相重合；恰逢</td>
-                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐⭐</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">facilitate</td>
-                        <td class="py-2.5 pr-4"><span class="text-slate-500 font-mono mr-1.5 text-[10px]">[v.]</span>促进；使便利；推动</td>
-                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐⭐</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">abundance</td>
-                        <td class="py-2.5 pr-4"><span class="text-slate-500 font-mono mr-1.5 text-[10px]">[n.]</span>充裕；丰裕</td>
-                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐</td>
-                    </tr>
-                </tbody>
+                                    <tr>
+                                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">coincide with</td>
+                                        <td class="py-2.5 pr-4"><span
+                                                class="text-slate-500 font-mono mr-1.5 text-[10px]">[v.]</span>与……相重合；恰逢
+                                        </td>
+                                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐⭐</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">facilitate</td>
+                                        <td class="py-2.5 pr-4"><span
+                                                class="text-slate-500 font-mono mr-1.5 text-[10px]">[v.]</span>促进；使便利；推动
+                                        </td>
+                                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐⭐</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">abundance</td>
+                                        <td class="py-2.5 pr-4"><span
+                                                class="text-slate-500 font-mono mr-1.5 text-[10px]">[n.]</span>充裕；丰裕
+                                        </td>
+                                        <td class="py-2.5 text-yellow-400">⭐⭐⭐⭐</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- Vocab EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-vocab-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-vocab-edit">
                         <div class="flex justify-between items-center mb-4">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑词汇列表</h4>
                             <div class="flex gap-2">
@@ -1134,30 +2951,35 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                                 <button class="btn-save" onclick="saveVocab()">💾 保存</button>
                             </div>
                         </div>
-                        <div class="vocab-edit-row text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider px-1">
+                        <div
+                            class="vocab-edit-row text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider px-1">
                             <span>词汇</span><span>词性</span><span>释义</span><span>推荐度</span><span></span>
                         </div>
                         <div id="edit-vocab-list" class="flex flex-col gap-1.5 mb-3"></div>
-                        <button onclick="addVocabRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addVocabRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加词汇
                         </button>
                     </div>
 
-                    <!-- Special Feature Box -->
-                    <div id="vocab-special-box" class="bg-gradient-to-br from-slate-950 to-slate-900 rounded-xl border border-blue-900/30 p-6"><h5>✍️ 黄金句式仿写模板</h5><p><strong>句型 1：表达“A 的职业生涯/发展恰逢 B 时代”</strong><br>模板：The career of [Person/Entity] coincided with [Trend/Movement]...<br>例句：The career of Steve Jobs coincided with the personal computer revolution.</p><p><strong>句型 2：表达“某事得益于某些因素共同促成”</strong><br>模板：This was facilitated by the introduction of A, and the abundance of B.<br>例句：The rise of e-commerce was facilitated by the introduction of smartphones, and the abundance of high-speed internet.</p></div>
+                    <!-- Special Feature Box (黄金句式模仿等自定义内容) -->
+                    <div id="vocab-special-box" class="bg-white rounded-xl border border-slate-800 p-6 hidden">
+                    </div>
                 </div>
 
             </div>
         </main>
 
         <!-- Empty State -->
-        <main class="flex-1 flex items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl" id="empty-state-prompt" style="display: none;">
+        <main class="flex-1 flex items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl"
+            id="empty-state-prompt" style="display: none;">
             <div class="text-center p-8">
                 <span class="text-4xl block mb-4">📚</span>
                 <h2 class="text-xl font-bold text-white mb-2">你的专属学术知识库</h2>
                 <p class="text-sm text-slate-400 mb-6 max-w-md">当前题库中还没有文章。请点击左侧的"导入"按钮，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。
                 </p>
-                <button onclick="openImportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
+                <button onclick="openImportModal()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
                     立即导入第一篇语料
                 </button>
             </div>
@@ -1165,22 +2987,29 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
     </div>
 
     <!-- ══ Import JSON Modal ════════════════════════════════════════ -->
-    <div id="import-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
-            <button onclick="toggleModal('import-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+    <div id="import-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
+            <button onclick="toggleModal('import-modal')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 📥 导入 AI 解析语料 (JSON 格式)
             </h2>
             <p class="text-xs text-slate-400 mb-2">
-                支持两种格式：单条语料 <code class="bg-slate-800 px-1 rounded text-emerald-400">{...}</code> 或批量数组 <code class="bg-slate-800 px-1 rounded text-emerald-400">[{...}, {...}]</code>
+                支持两种格式：单条语料 <code class="bg-slate-800 px-1 rounded text-emerald-400">{...}</code> 或批量数组 <code
+                    class="bg-slate-800 px-1 rounded text-emerald-400">[{...}, {...}]</code>
             </p>
             <p class="text-xs text-slate-500 mb-4">
-                🔁 兼容字段别名：<code class="bg-slate-800/60 px-1 rounded">translation_tips</code> → insights ｜ <code class="bg-slate-800/60 px-1 rounded">grammar</code> 字符串自动转换 ｜ <code class="bg-slate-800/60 px-1 rounded">takeaway</code> 追加至心法
+                🔁 兼容字段别名：<code class="bg-slate-800/60 px-1 rounded">translation_tips</code> → insights ｜ <code
+                    class="bg-slate-800/60 px-1 rounded">grammar</code> 字符串自动转换 ｜ <code
+                    class="bg-slate-800/60 px-1 rounded">takeaway</code> 追加至心法
             </p>
 
             <!-- JSON Field Docs Accordion -->
             <div class="mb-4 border border-slate-800 rounded-lg overflow-hidden">
-                <button onclick="toggleAccordion()" class="w-full flex justify-between items-center px-4 py-2.5 bg-slate-950 text-xs text-slate-400 hover:text-slate-300 hover:bg-slate-900/70 transition-all">
+                <button onclick="toggleAccordion()"
+                    class="w-full flex justify-between items-center px-4 py-2.5 bg-slate-950 text-xs text-slate-400 hover:text-slate-300 hover:bg-slate-900/70 transition-all">
                     <span class="font-semibold flex items-center gap-2">
                         📖 JSON 字段说明 <span class="text-slate-600 font-normal">（点击展开查看各字段含义）</span>
                     </span>
@@ -1255,7 +3084,9 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                 </div>
             </div>
 
-            <textarea id="import-json-area" rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4" placeholder="{
+            <textarea id="import-json-area" rows="12"
+                class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4"
+                placeholder="{
   &quot;title&quot;: &quot;序号. 主题标题&quot;,
   &quot;genre&quot;: &quot;学科领域&quot;,
   &quot;body&quot;: &quot;English source text...&quot;,
@@ -1266,10 +3097,12 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
 }"></textarea>
 
             <div class="flex justify-end gap-3">
-                <button onclick="toggleModal('import-modal')" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
+                <button onclick="toggleModal('import-modal')"
+                    class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
                     取消
                 </button>
-                <button onclick="processImport()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1">
+                <button onclick="processImport()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1">
                     💾 解析并存入题库
                 </button>
             </div>
@@ -1278,9 +3111,11 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
     </div>
 
     <!-- ══ GitHub Sync Modal ════════════════════════════════════════ -->
-    <div id="github-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div id="github-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 relative">
-            <button onclick="toggleModal('github-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            <button onclick="toggleModal('github-modal')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 🚀 GitHub 同步云端控制台
             </h2>
@@ -1288,38 +3123,51 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">GitHub PAT (Token)</label>
-                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" autocomplete="off" value="">
+                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxx"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                        autocomplete="off" value="">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">GitHub 用户名</label>
-                    <input type="text" id="gh-username" placeholder="e.g. yourname" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-username" placeholder="e.g. yourname"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">仓库名称</label>
-                    <input type="text" id="gh-repo" placeholder="e.g. academic-notebook" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-repo" placeholder="e.g. academic-notebook"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">仓库文件路径（需含文件名）</label>
-                    <input type="text" id="gh-path" placeholder="e.g. index.html" value="index.html" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-path" placeholder="e.g. index.html" value="index.html"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">分支名称</label>
-                    <input type="text" id="gh-branch" placeholder="main" value="main" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-branch" placeholder="main" value="main"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
             </div>
             <div class="mt-6 flex justify-between items-center gap-3">
-                <button onclick="saveGithubSettings()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">💾
+                <button onclick="saveGithubSettings()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">💾
                     保存设置</button>
-                <button onclick="pushToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">📤
+                <button onclick="pushToGithub()"
+                    class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">📤
                     立即同步推送</button>
             </div>
-            <div id="sync-log" class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto"><div>[10:34:19 AM] 正在建立连接...</div></div>
+            <div id="sync-log"
+                class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto">
+                <div>[10:34:19 AM] 正在建立连接...</div>
+            </div>
         </div>
     </div>
 
     <!-- ══ Template Modal ══════════════════════════════════════════ -->
-    <div id="template-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl relative">
+    <div id="template-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl relative">
 
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 shrink-0">
@@ -1328,16 +3176,19 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     <p class="text-xs text-slate-500 mt-0.5">管理句型模板，点击「复制」一键使用</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="openAddTemplateForm()" id="btn-add-template" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5">
+                    <button onclick="openAddTemplateForm()" id="btn-add-template"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5">
                         ➕ 新增模板
                     </button>
-                    <button onclick="toggleModal('template-modal')" class="text-slate-400 hover:text-white text-lg font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all ml-1">✕</button>
+                    <button onclick="toggleModal('template-modal')"
+                        class="text-slate-400 hover:text-white text-lg font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all ml-1">✕</button>
                 </div>
             </div>
 
             <!-- Search & Filter Bar -->
             <div class="px-6 py-3 border-b border-slate-800/50 flex gap-3 shrink-0 items-center">
-                <input id="tpl-search" type="text" class="tpl-search-input" placeholder="🔍  搜索模板名称或内容..." oninput="renderTemplateLibrary()">
+                <input id="tpl-search" type="text" class="tpl-search-input" placeholder="🔍  搜索模板名称或内容..."
+                    oninput="renderTemplateLibrary()">
                 <select id="tpl-category-filter" class="tpl-select" onchange="renderTemplateLibrary()">
                     <option value="">全部分类</option>
                 </select>
@@ -1352,20 +3203,26 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
-                            <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">模板名称 *</label>
+                            <label
+                                class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">模板名称
+                                *</label>
                             <input id="tpl-input-name" class="edit-input" placeholder="如：因果论证句式">
                         </div>
                         <div>
-                            <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">分类</label>
-                            <input id="tpl-input-category" class="edit-input" list="tpl-category-suggestions" placeholder="如：学术论证、法律/商业">
+                            <label
+                                class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">分类</label>
+                            <input id="tpl-input-category" class="edit-input" list="tpl-category-suggestions"
+                                placeholder="如：学术论证、法律/商业">
                             <datalist id="tpl-category-suggestions"></datalist>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">
-                            模板内容 * <span class="text-indigo-400 font-normal normal-case tracking-normal">— 用 [变量名] 标记可替换部分</span>
+                            模板内容 * <span class="text-indigo-400 font-normal normal-case tracking-normal">— 用 [变量名]
+                                标记可替换部分</span>
                         </label>
-                        <textarea id="tpl-input-content" class="edit-textarea" rows="3" placeholder="[Subject] is a/an [adjective] process of [verb-ing] [Object]..."></textarea>
+                        <textarea id="tpl-input-content" class="edit-textarea" rows="3"
+                            placeholder="[Subject] is a/an [adjective] process of [verb-ing] [Object]..."></textarea>
                     </div>
                     <div class="flex justify-end">
                         <button onclick="saveTemplateForm()" class="btn-save">💾 保存模板</button>
@@ -1379,7 +3236,8 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                 <div id="tpl-empty-state" class="hidden text-center py-16">
                     <span class="text-4xl block mb-3">📝</span>
                     <p class="text-slate-400 text-sm mb-4">还没有模板，点击「新增模板」开始创建吧！</p>
-                    <button onclick="openAddTemplateForm()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
+                    <button onclick="openAddTemplateForm()"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
                         ➕ 新增第一个模板
                     </button>
                 </div>
@@ -1390,230 +3248,230 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
     <!-- ══ Database ════════════════════════════════════════════════ -->
     <script id="database-script">
         const database = {
-          "a_1784306052346": {
-                    "title": "1. 芝加哥学派与摩天大楼",
-                    "genre": "建筑史学 / 说明文",
-                    "body": "The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel. The building's steel skeleton could be erected and the remaining components quickly attached to complete the project.",
-                    "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的“芝加哥建筑学派”兴起。当时，该学派肩负着一项历史使命——发明被称为“摩天大楼”的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。只要将建筑物的钢骨架搭建起来，便能迅速附上其余组件以完成项目。",
-                    "insights": [
-                              "【增词法与词类转换】原文：the abundance of steel。直译：钢材的丰富。翻译精雕：钢材的大量供应 / 充足储备。技巧：将抽象名词转换为动宾或偏正结构，符合中文工业文体表达习惯。",
-                              "【被动语态无痕转换】原文：This was facilitated by... 直译：这被……所促进。翻译精雕：这还得益于……的引入 / 这一进程得益于…… 技巧：在中文中尽量避免死板的“被”字句，用“得益于”、“在……推动下”进行无痕转换。",
-                              "【句式重组】原文：...which was given the challenge to invent the high-rise building... 直译：……他们被给予了去发明高层建筑的挑战。翻译精雕：……他们肩负着一项历史使命——发明高层建筑。技巧：将 was given the challenge 意译为“肩负使命”，并将定语拆成独立的短句。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "第一句：多重定语嵌套",
-                                        "skeleton": "The career (主语) + coincided with (谓语) + the Chicago School (宾语).",
-                                        "notes": "Louis Sullivan 是主语的同位语；coincide with 是高频短语（与...重合）；which 引导非限制性定语从句修饰 School；to invent 做后置定语修饰 challenge；known as a skyscraper 是过去分词短语作定语修饰 building。"
-                              },
-                              {
-                                        "title": "第二句：被动语态与形式主语",
-                                        "skeleton": "This (主语) + was facilitated by (被动谓语) + [the introduction... and the abundance...] (介宾结构作状语).",
-                                        "notes": "This 指代上一句“发明摩天大楼”这一整件事。在学术写作中，被动语态比主动语态更显客观，同时能让主语 This 保持句际连贯性。"
-                              },
-                              {
-                                        "title": "第三句：并列句与省略技巧 (Ellipsis)",
-                                        "skeleton": "The building's skeleton could be erected and the components quickly [could be] attached...",
-                                        "notes": "后半句省略了与前半句相同的助动词 could be（只留下了过去分词 attached），这是英语为了避免重复而常用的省略手法。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "coincide with",
-                                        "type": "v.",
-                                        "meaning": "与……相重合；恰逢",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "facilitate",
-                                        "type": "v.",
-                                        "meaning": "促进；使便利；推动",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "abundance",
-                                        "type": "n.",
-                                        "meaning": "充裕；丰裕",
-                                        "rating": "⭐⭐⭐⭐"
-                              }
-                    ],
-                    "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型 1：表达“A 的职业生涯/发展恰逢 B 时代”</strong><br/>模板：The career of [Person/Entity] coincided with [Trend/Movement]...<br/>例句：The career of Steve Jobs coincided with the personal computer revolution.</p><p><strong>句型 2：表达“某事得益于某些因素共同促成”</strong><br/>模板：This was facilitated by the introduction of A, and the abundance of B.<br/>例句：The rise of e-commerce was facilitated by the introduction of smartphones, and the abundance of high-speed internet.</p>"
-          },
-          "a_1784306052347": {
-                    "title": "2. 住宅室内设计要素",
-                    "genre": "室内设计 / 说明文",
-                    "body": "The interior design of dwellings, such as apartments and houses, usually involves both practical and aesthetic decisions. Choices have to be made for almost every element, from ceilings and lamps, curtains and blinds, corridors and doorways, niches and ledges, grates and ventilations, terraces and staircases and even sewers or drainers.",
-                    "translation": "住宅（如公寓、排屋等）的室内设计通常涉及实用与美观的双重抉择。从天花板与灯具、窗帘与百叶窗、走廊与门道、壁龛与窗台、格栅与通风口、露台与楼梯，甚至到下水道和排水口，几乎每一个要素都需要做出选择。",
-                    "insights": [
-                              "【无灵主语与被动化解】原文：Choices have to be made... 直译：选择必须被做出。翻译精雕：几乎每一个要素都需要做出选择。技巧：英文常用无灵主语强调客观必要性，中文则将其化被动为主动，理顺动作逻辑。",
-                              "【排比句的韵律与意合】原文：from ceilings and lamps, curtains and blinds... 直译：从天花板和灯、窗帘和百叶窗…… 翻译精雕：从天花板与灯具、窗帘与百叶窗…… 技巧：英文以介词 and 进行结构连接（形合），中文重意合，通过顿号与配对连词交叉使用，增强空间纵深感与节奏美。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "第一句：同位语插入与经典宾语搭配",
-                                        "skeleton": "The interior design (主语) + [of dwellings...] (后置定语) + usually involves (谓语) + decisions (宾语).",
-                                        "notes": "such as apartments and houses 作为插入语，补充说明 dwellings。involve both A and B decisions 是学术论文中概括综合性问题的黄金搭配。"
-                              },
-                              {
-                                        "title": "第二句：超长排比平行结构 (Parallel Structure)",
-                                        "skeleton": "Choices have to be made for elements + from [Category A, B... and even Z].",
-                                        "notes": "这是英文说明文的极品长句。运用 from 引导的长排比，通过 from... and even... 的递进结构，将 14 个家装词汇两两配对，营造穷尽式列举的视觉说服力。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "dwelling",
-                                        "type": "n.",
-                                        "meaning": "住宅；住所 (比 house 更具学术色彩)",
-                                        "rating": "⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "aesthetic",
-                                        "type": "adj.",
-                                        "meaning": "美学的；审美的",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ],
-                    "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：表达“在诸多繁杂要素中皆需做出考量/选择”</strong><br/>模板：Choices have to be made for almost every element, from [Item A] to [Item B], and even [Item C].<br/>例句：In digital marketing, choices have to be made for almost every element, from content creation to data analysis, and even customer feedback.</p><h5>🚿 深度辨析：Site (线与面) 与 Spot (具体点)</h5><p><strong>Site (大场地、规划土地)：</strong>边界明确，具特定用途。如 Construction site (建筑工地)。<br/><strong>Spot (具体点、眼前位置)：</strong>面积小，具现场感。如 Parking spot (停车位), Sweet spot (最佳击球点/黄金位)。</p>"
-          },
-          "a_1784306052348": {
-                    "title": "3. 房屋租赁契约定义",
-                    "genre": "法律英语 / 合同文本",
-                    "body": "The lease is a contract to rent by which one party, called the landlord or lessor, grants possession and use of the property for a limited term to another party, who is called the tenant or lessee.",
-                    "translation": "租赁合同是指一种租赁契约。根据该合同，一方（称为出租人）在特定期限内，将租赁财产的占有权和使用权让与另一方（称为承租人）。",
-                    "insights": [
-                              "【法律名词严谨对译】原文：grants possession and use。直译：给占有和使用。翻译精雕：将……的占有权和使用权让与……。技巧：在法律语境中，grant 不可译为随意的“给”，必须精雕为法理严谨的“让与/授予”；possession 需界定为“占有权”。",
-                              "【身份名词句式重组】原文：one party, called the lessor, grants... to another party, who is called the lessee。直译：被称为出租人的一方，让与给另一被称为承租人的一方。翻译精雕：一方（称为出租人）……让与另一方（称为承租人）。技巧：将繁琐的定语从句和分词短语处理为中文的括号备注或前置定语，消除阅读障碍。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "核心主干与防歧义定语从句",
-                                        "skeleton": "The lease is a contract + [by which one party... grants... to another party].",
-                                        "notes": "by which 相当于 through this contract，界定了合同的核心交换性质。法律英语必须用“介词+which”来确保关系代词的指代绝对清晰，杜绝漏洞。"
-                              },
-                              {
-                                        "title": "双重身份嵌套修饰",
-                                        "skeleton": "one party, [called the lessor] (分词作定语), grants... to another party, [who is called the lessee] (定语从句).",
-                                        "notes": "这是一种双重嵌套结构，目的在于在同一条长句中将“行为主体”、“权利边界”与“受让主体”死死绑定。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "possession",
-                                        "type": "n.",
-                                        "meaning": "占有权 (区别于 ownership 所有权)",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "grant",
-                                        "type": "v.",
-                                        "meaning": "授予；同意；让与 (法律文书极高频词)",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ],
-                    "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：界定具有法律效力的契约或协议</strong><br/>模板：[Agreement] is a contract by which one party, called [Party A], grants [Right] to another party, who is called [Party B].<br/>例句：A non-disclosure agreement is a contract by which one party, called the discloser, grants confidential information to another party, who is called the recipient.</p><h5>⚖️ 法律英语核心规律：-or 与 -ee</h5><p><strong>-or 代表“施动者”，-ee 代表“受动者”</strong>。如：Lessor(出租人) vs Lessee(承租人)；Mortgagor(抵押人) vs Mortgagee(受抵押人/银行)。</p><h5>⚖️ 权利让与的四维梯度</h5><p>1. <strong>possession (占有权)</strong>：最高权限，具有实际物理控制权。<br/>2. <strong>use (使用权)</strong>：中等权限，仅限在特定目的范围内使用。<br/>3. <strong>permit (批准许可)</strong>：行政性质，政府准许。<br/>4. <strong>right (合法权利)</strong>：最抽象，受法律保护的资格。</p>"
-          },
-          "a_1784306052349": {
-                    "title": "4. 都市圈与城市扩张",
-                    "genre": "社会地理学",
-                    "body": "These cities are usually associated with metropolitan areas and urban sprawl that creates a large numbers of business commuters. When a city's growth sprawls far enough to reach another city, the two cities can be deemed a conurbation, or megalopolis.",
-                    "translation": "这些城市通常与大都市区以及城市扩张联系在一起，从而产生了大量的通勤上班族。当一个城市的扩张范围足够大，以致与另一个城市相接合时，这两个城市便可被视为一个城市群（或称连绵大都市）。",
-                    "insights": [
-                              "【因果逻辑链重组】原文：urban sprawl that creates a large numbers of... 直译：创造大量通勤者的城市扩张。翻译精雕：与城市扩张联系在一起，从而产生了大量的通勤上班族。技巧：原文的定语从句若直译会导致头重脚轻，将其意译为结果状语，理顺了中文的因果递进链条。",
-                              "【同位语的多级递进翻译】原文：deemed a conurbation, or megalopolis. 直译：被视为城市群或连绵大都市。翻译精雕：被视为城市群（或称连绵大都市）。技巧：or 在这里不是选择关系，而是概念的跃升补充，译为“或称……”极好地还原了学术递进感。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "第一句：客观现象关联与定语从句",
-                                        "skeleton": "These cities (主) + are associated with (谓语) + areas and sprawl (宾) + [that creates...] (定从).",
-                                        "notes": "be associated with 是学术写作表达“事物间存在客观联系”的首选被动短语，避免武断地使用 cause (导致)。"
-                              },
-                              {
-                                        "title": "第二句：程度状语与高级推论谓语",
-                                        "skeleton": "When [condition sprawls far enough to reach...] + [the two cities can be deemed...].",
-                                        "notes": "far enough to reach 构成了典型的“程度+结果”状语结构；deemed 是表达“客观认定、学术判定”的顶级动词，其严谨度远超 consider。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "urban sprawl",
-                                        "type": "n.",
-                                        "meaning": "城市扩张；无序蔓延",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "deem",
-                                        "type": "v.",
-                                        "meaning": "认为；视作 (高度正式)",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ],
-                    "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：表达“某现象伴随某因素产生，并引发了进一步后果”</strong><br/>模板：[Subject] is usually associated with [Phenomenon A] that creates [Result C].<br/>例句：The rapid development of AI is usually associated with big data that creates a massive demand for computing power.</p><h5>🗺️ 空间词汇辨析：Suburbs vs Outskirts</h5><p>• <strong>Suburbs (住宅郊区)</strong>：侧重生活居住属性，西方语境指中产阶级居住、绿化极佳的成熟社区。<br/>• <strong>Outskirts (市郊/边缘)</strong>：侧重地理边界，指城市与乡村交界处，常伴随工业区或荒地。</p><h5>📐 北美生活必备：英美制度量衡换算</h5><p>• 1 inch = 2.54 cm；1 foot = 12 inches ≈ 30.48 cm；1 mile = 5280 feet ≈ 1.61 km<br/>• 容量：1 gallon ≈ 3.78 L<br/>• 温度：华氏度(℉) = ℃ × 1.8 + 32</p>"
-          },
-          "a_1784306052350": {
-                    "title": "5. 环境卫生与健康预防",
-                    "genre": "公共卫生学",
-                    "body": "Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.",
-                    "translation": "环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。",
-                    "insights": [
-                              "【经典动名转换】原文：limiting human exposure to... 直译：限制人类对……的暴露。翻译精雕：限制人类接触…… 技巧：名词 exposure 直译生硬，转换为动宾结构完美契合中文语感。",
-                              "【介词链逆向翻译与目的补齐】原文：hazards of wastes from agents that may cause... 直译：来自可能致病介质的废物的危害。翻译精雕：限制人类接触可能致病的……废物，从而达到卫生防病目的的过程。技巧：面对嵌套的 of/from，必须逆向重组（介质->废物->危害）。为了定义完整，在翻译 process 时补齐了“从而达到防病目的”的潜台词。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "主句骨架：极简定义句式",
-                                        "skeleton": "Sanitation (主语) + is (系动词) + a process (表语).",
-                                        "notes": "这是学术论文下定义的标准主系表结构，主干极简，为后面承载海量修饰语留出语法空间。"
-                              },
-                              {
-                                        "title": "修饰语：高难度葡萄串式介词链 (Prepositional Chain)",
-                                        "skeleton": "...a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents] + [that may cause...].",
-                                        "notes": "这是考研、托福等学术阅读中最难的介词嵌套。每一层介词都在界定前一个名词的范围，犹如连环扣。拆解这种长句必须像剥洋葱一样，找到最终端的 that 定语从句，然后从内向外回溯。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "sanitation",
-                                        "type": "n.",
-                                        "meaning": "环境卫生；卫生系统",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "hazard",
-                                        "type": "n.",
-                                        "meaning": "危险源；隐患 (强调潜在的客观威胁)",
-                                        "rating": "⭐⭐⭐⭐"
-                              }
-                    ],
-                    "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：为复杂的“防御/预防”机制下严谨定义</strong><br/>模板：[Concept] is a process of limiting human exposure to the potential hazards of [Element] from [Source] that may cause [Problem].<br/>例句：Cybersecurity is a process of limiting human exposure to the potential digital hazards of malicious software from unauthorized sources that may cause data breaches.</p><h5>🚿 排水与排污名词精准辨析</h5><p>• <strong>Sewage (黑水)</strong>：含有排泄物、高浓度病原体的极脏废水。<br/>• <strong>Sullage/Greywater (灰水)</strong>：洗衣服、洗碗等可回收的轻污染废水。<br/>• <strong>Drainer (地漏/排水口)</strong>：家用的最前端集水阀。<br/>• <strong>Septic Tank (化粪池)</strong>：独立私家的地下排污沉淀罐，依靠微生物自然净化。</p>"
-          }
-};
+            "a_1784306052346": {
+                "title": "1. 芝加哥学派与摩天大楼",
+                "genre": "建筑史学 / 说明文",
+                "body": "The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel. The building's steel skeleton could be erected and the remaining components quickly attached to complete the project.",
+                "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的“芝加哥建筑学派”兴起。当时，该学派肩负着一项历史使命——发明被称为“摩天大楼”的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。只要将建筑物的钢骨架搭建起来，便能迅速附上其余组件以完成项目。",
+                "insights": [
+                    "【增词法与词类转换】原文：the abundance of steel。直译：钢材的丰富。翻译精雕：钢材的大量供应 / 充足储备。技巧：将抽象名词转换为动宾或偏正结构，符合中文工业文体表达习惯。",
+                    "【被动语态无痕转换】原文：This was facilitated by... 直译：这被……所促进。翻译精雕：这还得益于……的引入 / 这一进程得益于…… 技巧：在中文中尽量避免死板的“被”字句，用“得益于”、“在……推动下”进行无痕转换。",
+                    "【句式重组】原文：...which was given the challenge to invent the high-rise building... 直译：……他们被给予了去发明高层建筑的挑战。翻译精雕：……他们肩负着一项历史使命——发明高层建筑。技巧：将 was given the challenge 意译为“肩负使命”，并将定语拆成独立的短句。"
+                ],
+                "grammar": [
+                    {
+                        "title": "第一句：多重定语嵌套",
+                        "skeleton": "The career (主语) + coincided with (谓语) + the Chicago School (宾语).",
+                        "notes": "Louis Sullivan 是主语的同位语；coincide with 是高频短语（与...重合）；which 引导非限制性定语从句修饰 School；to invent 做后置定语修饰 challenge；known as a skyscraper 是过去分词短语作定语修饰 building。"
+                    },
+                    {
+                        "title": "第二句：被动语态与形式主语",
+                        "skeleton": "This (主语) + was facilitated by (被动谓语) + [the introduction... and the abundance...] (介宾结构作状语).",
+                        "notes": "This 指代上一句“发明摩天大楼”这一整件事。在学术写作中，被动语态比主动语态更显客观，同时能让主语 This 保持句际连贯性。"
+                    },
+                    {
+                        "title": "第三句：并列句与省略技巧 (Ellipsis)",
+                        "skeleton": "The building's skeleton could be erected and the components quickly [could be] attached...",
+                        "notes": "后半句省略了与前半句相同的助动词 could be（只留下了过去分词 attached），这是英语为了避免重复而常用的省略手法。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "coincide with",
+                        "type": "v.",
+                        "meaning": "与……相重合；恰逢",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "facilitate",
+                        "type": "v.",
+                        "meaning": "促进；使便利；推动",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "abundance",
+                        "type": "n.",
+                        "meaning": "充裕；丰裕",
+                        "rating": "⭐⭐⭐⭐"
+                    }
+                ],
+                "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型 1：表达“A 的职业生涯/发展恰逢 B 时代”</strong><br/>模板：The career of [Person/Entity] coincided with [Trend/Movement]...<br/>例句：The career of Steve Jobs coincided with the personal computer revolution.</p><p><strong>句型 2：表达“某事得益于某些因素共同促成”</strong><br/>模板：This was facilitated by the introduction of A, and the abundance of B.<br/>例句：The rise of e-commerce was facilitated by the introduction of smartphones, and the abundance of high-speed internet.</p>"
+            },
+            "a_1784306052347": {
+                "title": "2. 住宅室内设计要素",
+                "genre": "室内设计 / 说明文",
+                "body": "The interior design of dwellings, such as apartments and houses, usually involves both practical and aesthetic decisions. Choices have to be made for almost every element, from ceilings and lamps, curtains and blinds, corridors and doorways, niches and ledges, grates and ventilations, terraces and staircases and even sewers or drainers.",
+                "translation": "住宅（如公寓、排屋等）的室内设计通常涉及实用与美观的双重抉择。从天花板与灯具、窗帘与百叶窗、走廊与门道、壁龛与窗台、格栅与通风口、露台与楼梯，甚至到下水道和排水口，几乎每一个要素都需要做出选择。",
+                "insights": [
+                    "【无灵主语与被动化解】原文：Choices have to be made... 直译：选择必须被做出。翻译精雕：几乎每一个要素都需要做出选择。技巧：英文常用无灵主语强调客观必要性，中文则将其化被动为主动，理顺动作逻辑。",
+                    "【排比句的韵律与意合】原文：from ceilings and lamps, curtains and blinds... 直译：从天花板和灯、窗帘和百叶窗…… 翻译精雕：从天花板与灯具、窗帘与百叶窗…… 技巧：英文以介词 and 进行结构连接（形合），中文重意合，通过顿号与配对连词交叉使用，增强空间纵深感与节奏美。"
+                ],
+                "grammar": [
+                    {
+                        "title": "第一句：同位语插入与经典宾语搭配",
+                        "skeleton": "The interior design (主语) + [of dwellings...] (后置定语) + usually involves (谓语) + decisions (宾语).",
+                        "notes": "such as apartments and houses 作为插入语，补充说明 dwellings。involve both A and B decisions 是学术论文中概括综合性问题的黄金搭配。"
+                    },
+                    {
+                        "title": "第二句：超长排比平行结构 (Parallel Structure)",
+                        "skeleton": "Choices have to be made for elements + from [Category A, B... and even Z].",
+                        "notes": "这是英文说明文的极品长句。运用 from 引导的长排比，通过 from... and even... 的递进结构，将 14 个家装词汇两两配对，营造穷尽式列举的视觉说服力。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "dwelling",
+                        "type": "n.",
+                        "meaning": "住宅；住所 (比 house 更具学术色彩)",
+                        "rating": "⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "aesthetic",
+                        "type": "adj.",
+                        "meaning": "美学的；审美的",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ],
+                "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：表达“在诸多繁杂要素中皆需做出考量/选择”</strong><br/>模板：Choices have to be made for almost every element, from [Item A] to [Item B], and even [Item C].<br/>例句：In digital marketing, choices have to be made for almost every element, from content creation to data analysis, and even customer feedback.</p><h5>🚿 深度辨析：Site (线与面) 与 Spot (具体点)</h5><p><strong>Site (大场地、规划土地)：</strong>边界明确，具特定用途。如 Construction site (建筑工地)。<br/><strong>Spot (具体点、眼前位置)：</strong>面积小，具现场感。如 Parking spot (停车位), Sweet spot (最佳击球点/黄金位)。</p>"
+            },
+            "a_1784306052348": {
+                "title": "3. 房屋租赁契约定义",
+                "genre": "法律英语 / 合同文本",
+                "body": "The lease is a contract to rent by which one party, called the landlord or lessor, grants possession and use of the property for a limited term to another party, who is called the tenant or lessee.",
+                "translation": "租赁合同是指一种租赁契约。根据该合同，一方（称为出租人）在特定期限内，将租赁财产的占有权和使用权让与另一方（称为承租人）。",
+                "insights": [
+                    "【法律名词严谨对译】原文：grants possession and use。直译：给占有和使用。翻译精雕：将……的占有权和使用权让与……。技巧：在法律语境中，grant 不可译为随意的“给”，必须精雕为法理严谨的“让与/授予”；possession 需界定为“占有权”。",
+                    "【身份名词句式重组】原文：one party, called the lessor, grants... to another party, who is called the lessee。直译：被称为出租人的一方，让与给另一被称为承租人的一方。翻译精雕：一方（称为出租人）……让与另一方（称为承租人）。技巧：将繁琐的定语从句和分词短语处理为中文的括号备注或前置定语，消除阅读障碍。"
+                ],
+                "grammar": [
+                    {
+                        "title": "核心主干与防歧义定语从句",
+                        "skeleton": "The lease is a contract + [by which one party... grants... to another party].",
+                        "notes": "by which 相当于 through this contract，界定了合同的核心交换性质。法律英语必须用“介词+which”来确保关系代词的指代绝对清晰，杜绝漏洞。"
+                    },
+                    {
+                        "title": "双重身份嵌套修饰",
+                        "skeleton": "one party, [called the lessor] (分词作定语), grants... to another party, [who is called the lessee] (定语从句).",
+                        "notes": "这是一种双重嵌套结构，目的在于在同一条长句中将“行为主体”、“权利边界”与“受让主体”死死绑定。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "possession",
+                        "type": "n.",
+                        "meaning": "占有权 (区别于 ownership 所有权)",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "grant",
+                        "type": "v.",
+                        "meaning": "授予；同意；让与 (法律文书极高频词)",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ],
+                "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：界定具有法律效力的契约或协议</strong><br/>模板：[Agreement] is a contract by which one party, called [Party A], grants [Right] to another party, who is called [Party B].<br/>例句：A non-disclosure agreement is a contract by which one party, called the discloser, grants confidential information to another party, who is called the recipient.</p><h5>⚖️ 法律英语核心规律：-or 与 -ee</h5><p><strong>-or 代表“施动者”，-ee 代表“受动者”</strong>。如：Lessor(出租人) vs Lessee(承租人)；Mortgagor(抵押人) vs Mortgagee(受抵押人/银行)。</p><h5>⚖️ 权利让与的四维梯度</h5><p>1. <strong>possession (占有权)</strong>：最高权限，具有实际物理控制权。<br/>2. <strong>use (使用权)</strong>：中等权限，仅限在特定目的范围内使用。<br/>3. <strong>permit (批准许可)</strong>：行政性质，政府准许。<br/>4. <strong>right (合法权利)</strong>：最抽象，受法律保护的资格。</p>"
+            },
+            "a_1784306052349": {
+                "title": "4. 都市圈与城市扩张",
+                "genre": "社会地理学",
+                "body": "These cities are usually associated with metropolitan areas and urban sprawl that creates a large numbers of business commuters. When a city's growth sprawls far enough to reach another city, the two cities can be deemed a conurbation, or megalopolis.",
+                "translation": "这些城市通常与大都市区以及城市扩张联系在一起，从而产生了大量的通勤上班族。当一个城市的扩张范围足够大，以致与另一个城市相接合时，这两个城市便可被视为一个城市群（或称连绵大都市）。",
+                "insights": [
+                    "【因果逻辑链重组】原文：urban sprawl that creates a large numbers of... 直译：创造大量通勤者的城市扩张。翻译精雕：与城市扩张联系在一起，从而产生了大量的通勤上班族。技巧：原文的定语从句若直译会导致头重脚轻，将其意译为结果状语，理顺了中文的因果递进链条。",
+                    "【同位语的多级递进翻译】原文：deemed a conurbation, or megalopolis. 直译：被视为城市群或连绵大都市。翻译精雕：被视为城市群（或称连绵大都市）。技巧：or 在这里不是选择关系，而是概念的跃升补充，译为“或称……”极好地还原了学术递进感。"
+                ],
+                "grammar": [
+                    {
+                        "title": "第一句：客观现象关联与定语从句",
+                        "skeleton": "These cities (主) + are associated with (谓语) + areas and sprawl (宾) + [that creates...] (定从).",
+                        "notes": "be associated with 是学术写作表达“事物间存在客观联系”的首选被动短语，避免武断地使用 cause (导致)。"
+                    },
+                    {
+                        "title": "第二句：程度状语与高级推论谓语",
+                        "skeleton": "When [condition sprawls far enough to reach...] + [the two cities can be deemed...].",
+                        "notes": "far enough to reach 构成了典型的“程度+结果”状语结构；deemed 是表达“客观认定、学术判定”的顶级动词，其严谨度远超 consider。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "urban sprawl",
+                        "type": "n.",
+                        "meaning": "城市扩张；无序蔓延",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "deem",
+                        "type": "v.",
+                        "meaning": "认为；视作 (高度正式)",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ],
+                "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：表达“某现象伴随某因素产生，并引发了进一步后果”</strong><br/>模板：[Subject] is usually associated with [Phenomenon A] that creates [Result C].<br/>例句：The rapid development of AI is usually associated with big data that creates a massive demand for computing power.</p><h5>🗺️ 空间词汇辨析：Suburbs vs Outskirts</h5><p>• <strong>Suburbs (住宅郊区)</strong>：侧重生活居住属性，西方语境指中产阶级居住、绿化极佳的成熟社区。<br/>• <strong>Outskirts (市郊/边缘)</strong>：侧重地理边界，指城市与乡村交界处，常伴随工业区或荒地。</p><h5>📐 北美生活必备：英美制度量衡换算</h5><p>• 1 inch = 2.54 cm；1 foot = 12 inches ≈ 30.48 cm；1 mile = 5280 feet ≈ 1.61 km<br/>• 容量：1 gallon ≈ 3.78 L<br/>• 温度：华氏度(℉) = ℃ × 1.8 + 32</p>"
+            },
+            "a_1784306052350": {
+                "title": "5. 环境卫生与健康预防",
+                "genre": "公共卫生学",
+                "body": "Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.",
+                "translation": "环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。",
+                "insights": [
+                    "【经典动名转换】原文：limiting human exposure to... 直译：限制人类对……的暴露。翻译精雕：限制人类接触…… 技巧：名词 exposure 直译生硬，转换为动宾结构完美契合中文语感。",
+                    "【介词链逆向翻译与目的补齐】原文：hazards of wastes from agents that may cause... 直译：来自可能致病介质的废物的危害。翻译精雕：限制人类接触可能致病的……废物，从而达到卫生防病目的的过程。技巧：面对嵌套的 of/from，必须逆向重组（介质->废物->危害）。为了定义完整，在翻译 process 时补齐了“从而达到防病目的”的潜台词。"
+                ],
+                "grammar": [
+                    {
+                        "title": "主句骨架：极简定义句式",
+                        "skeleton": "Sanitation (主语) + is (系动词) + a process (表语).",
+                        "notes": "这是学术论文下定义的标准主系表结构，主干极简，为后面承载海量修饰语留出语法空间。"
+                    },
+                    {
+                        "title": "修饰语：高难度葡萄串式介词链 (Prepositional Chain)",
+                        "skeleton": "...a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents] + [that may cause...].",
+                        "notes": "这是考研、托福等学术阅读中最难的介词嵌套。每一层介词都在界定前一个名词的范围，犹如连环扣。拆解这种长句必须像剥洋葱一样，找到最终端的 that 定语从句，然后从内向外回溯。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "sanitation",
+                        "type": "n.",
+                        "meaning": "环境卫生；卫生系统",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "hazard",
+                        "type": "n.",
+                        "meaning": "危险源；隐患 (强调潜在的客观威胁)",
+                        "rating": "⭐⭐⭐⭐"
+                    }
+                ],
+                "specialHTML": "<h5>✍️ 黄金句式仿写模板</h5><p><strong>句型：为复杂的“防御/预防”机制下严谨定义</strong><br/>模板：[Concept] is a process of limiting human exposure to the potential hazards of [Element] from [Source] that may cause [Problem].<br/>例句：Cybersecurity is a process of limiting human exposure to the potential digital hazards of malicious software from unauthorized sources that may cause data breaches.</p><h5>🚿 排水与排污名词精准辨析</h5><p>• <strong>Sewage (黑水)</strong>：含有排泄物、高浓度病原体的极脏废水。<br/>• <strong>Sullage/Greywater (灰水)</strong>：洗衣服、洗碗等可回收的轻污染废水。<br/>• <strong>Drainer (地漏/排水口)</strong>：家用的最前端集水阀。<br/>• <strong>Septic Tank (化粪池)</strong>：独立私家的地下排污沉淀罐，依靠微生物自然净化。</p>"
+            }
+        };
     </script>
 
     <!-- ══ Templates Database ════════════════════════════════════════ -->
     <script id="templates-script">
         const templateLibrary = {
-          "t_1784264734001": {
-                    "name": "合同定义句式",
-                    "category": "法律/商业",
-                    "content": "[Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B]."
-          },
-          "t_1784264734002": {
-                    "name": "因果论证句式",
-                    "category": "学术论证",
-                    "content": "[Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain]."
-          },
-          "t_1784264734003": {
-                    "name": "时代趋势句式",
-                    "category": "社会分析",
-                    "content": "The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission]."
-          },
-          "t_1784264734004": {
-                    "name": "过程定义句式",
-                    "category": "学术定义",
-                    "content": "[Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal]."
-          }
-};
+            "t_1784264734001": {
+                "name": "合同定义句式",
+                "category": "法律/商业",
+                "content": "[Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B]."
+            },
+            "t_1784264734002": {
+                "name": "因果论证句式",
+                "category": "学术论证",
+                "content": "[Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain]."
+            },
+            "t_1784264734003": {
+                "name": "时代趋势句式",
+                "category": "社会分析",
+                "content": "The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission]."
+            },
+            "t_1784264734004": {
+                "name": "过程定义句式",
+                "category": "学术定义",
+                "content": "[Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal]."
+            }
+        };
     </script>
 
     <!-- ══ App Engine ══════════════════════════════════════════════ -->
@@ -2218,11 +4076,11 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
         // ══════════════════════════════════════════════════════════════
 
         const TPL_CAT_COLORS = {
-            '法律/商业': { bg: 'rgba(245,158,11,0.13)',  text: '#fbbf24', border: 'rgba(245,158,11,0.3)'  },
-            '学术论证':  { bg: 'rgba(59,130,246,0.13)',   text: '#60a5fa', border: 'rgba(59,130,246,0.3)'  },
-            '社会分析':  { bg: 'rgba(139,92,246,0.13)',   text: '#a78bfa', border: 'rgba(139,92,246,0.3)'  },
-            '学术定义':  { bg: 'rgba(16,185,129,0.13)',   text: '#34d399', border: 'rgba(16,185,129,0.3)'  },
-            '_default':  { bg: 'rgba(100,116,139,0.12)',  text: '#94a3b8', border: 'rgba(100,116,139,0.3)' }
+            '法律/商业': { bg: 'rgba(245,158,11,0.13)', text: '#fbbf24', border: 'rgba(245,158,11,0.3)' },
+            '学术论证': { bg: 'rgba(59,130,246,0.13)', text: '#60a5fa', border: 'rgba(59,130,246,0.3)' },
+            '社会分析': { bg: 'rgba(139,92,246,0.13)', text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
+            '学术定义': { bg: 'rgba(16,185,129,0.13)', text: '#34d399', border: 'rgba(16,185,129,0.3)' },
+            '_default': { bg: 'rgba(100,116,139,0.12)', text: '#94a3b8', border: 'rgba(100,116,139,0.3)' }
         };
 
         let editingTemplateId = null;
@@ -2378,4 +4236,6 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
 
 
 
-</body></html>
+</body>
+
+</html>
