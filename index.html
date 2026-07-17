@@ -1,425 +1,146 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学术英语 &amp; 法律写作终极笔记本 (容器版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script>
         MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
     </script>
-    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
-        /* MathJax styles to match text colors */
         .MathJax { color: inherit !important; }
+
+        /* ─── Scrollbar ─────────────────────────────────── */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* ─── Sidebar item ──────────────────────────────── */
+        .article-item { position: relative; display: flex; align-items: center; border-radius: 0.5rem; transition: all 0.18s; }
+        .article-item .article-btn { flex: 1; min-width: 0; text-align: left; padding: 0.625rem 0.75rem; font-size: 0.8125rem; font-weight: 500; color: #94a3b8; transition: color 0.15s; border-radius: 0.5rem; background: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .article-item:hover .article-btn { color: #e2e8f0; background: rgba(15,23,42,0.8); }
+        .article-item.active .article-btn { color: #ffffff; }
+        .article-item.active { background: linear-gradient(90deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%); border-left: 2px solid #3b82f6; padding-left: 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .article-item:not(.active) { border-left: 2px solid transparent; padding-left: 0; }
+
+        .delete-btn { opacity: 0; flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #64748b; transition: all 0.15s; margin-right: 4px; cursor: pointer; background: transparent; border: none; font-size: 12px; }
+        .article-item:hover .delete-btn { opacity: 1; }
+        .delete-btn:hover { color: #f87171; background: rgba(239,68,68,0.12); }
+
+        /* ─── Source card ───────────────────────────────── */
+        .source-card {
+            background: linear-gradient(145deg, #020617 0%, #0d1829 100%);
+            position: relative; overflow: hidden;
+        }
+        .source-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.4) 40%, rgba(99,102,241,0.3) 60%, transparent 100%);
+        }
+
+        /* ─── Editable card hover ───────────────────────── */
+        .editable-card { transition: border-color 0.2s, box-shadow 0.2s; }
+        .editable-card:hover { border-color: rgba(99,102,241,0.25) !important; }
+
+        /* ─── Tab indicator ─────────────────────────────── */
+        .tab-indicator-bar { position: absolute; bottom: 0; height: 2px; background: #3b82f6; border-radius: 1px; transition: left 0.25s cubic-bezier(0.4,0,0.2,1), width 0.25s cubic-bezier(0.4,0,0.2,1); }
+
+        /* ─── Edit controls ─────────────────────────────── */
+        .btn-edit {
+            font-size: 10px; padding: 3px 10px; border-radius: 6px;
+            border: 1px solid #334155; background: rgba(30,41,59,0.7);
+            color: #94a3b8; cursor: pointer; transition: all 0.15s;
+            display: flex; align-items: center; gap: 4px; white-space: nowrap;
+        }
+        .btn-edit:hover { border-color: #6366f1; color: #a5b4fc; background: rgba(99,102,241,0.1); }
+        .btn-save {
+            font-size: 10px; padding: 3px 12px; border-radius: 6px;
+            border: 1px solid rgba(16,185,129,0.4); background: rgba(16,185,129,0.1);
+            color: #34d399; cursor: pointer; transition: all 0.15s;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .btn-save:hover { background: rgba(16,185,129,0.2); border-color: #10b981; }
+        .btn-cancel {
+            font-size: 10px; padding: 3px 10px; border-radius: 6px;
+            border: 1px solid #334155; background: transparent;
+            color: #64748b; cursor: pointer; transition: all 0.15s;
+        }
+        .btn-cancel:hover { color: #94a3b8; border-color: #475569; }
+
+        /* ─── Edit mode card ────────────────────────────── */
+        .edit-card { border-color: rgba(99,102,241,0.35) !important; box-shadow: 0 0 0 1px rgba(99,102,241,0.1), 0 4px 20px rgba(0,0,0,0.3); }
+
+        /* ─── Textarea / Input ──────────────────────────── */
+        .edit-textarea {
+            background: #020617; border: 1px solid #334155; border-radius: 0.5rem;
+            padding: 0.75rem; color: #cbd5e1; font-size: 0.8125rem;
+            line-height: 1.65; width: 100%; resize: vertical; outline: none;
+            font-family: 'Inter', sans-serif; transition: border-color 0.15s;
+        }
+        .edit-textarea:focus { border-color: #6366f1; }
+        .edit-input {
+            background: #020617; border: 1px solid #2d3748; border-radius: 0.375rem;
+            padding: 0.35rem 0.6rem; color: #cbd5e1; font-size: 0.72rem; outline: none;
+            width: 100%; transition: border-color 0.15s;
+        }
+        .edit-input:focus { border-color: #6366f1; }
+
+        /* ─── Insights edit row ─────────────────────────── */
+        .insight-edit-row { display: flex; gap: 6px; align-items: flex-start; }
+        .insight-edit-row textarea { flex: 1; }
+
+        /* ─── Grammar edit block ────────────────────────── */
+        .grammar-edit-block { background: rgba(2,6,23,0.6); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.875rem; }
+
+        /* ─── Vocab edit row ────────────────────────────── */
+        .vocab-edit-row { display: grid; grid-template-columns: 2fr 0.9fr 2.2fr 1.4fr 26px; gap: 5px; align-items: center; }
+
+        /* ─── Remove btn in edit lists ──────────────────── */
+        .remove-btn {
+            width: 22px; height: 22px; border-radius: 4px; border: none; cursor: pointer;
+            background: rgba(239,68,68,0.1); color: #f87171; font-size: 13px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .remove-btn:hover { background: rgba(239,68,68,0.2); }
+
+        /* ─── JSON Accordion ────────────────────────────── */
+        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.32s ease; }
+        .accordion-body.open { max-height: 600px; }
+        .accordion-icon { transition: transform 0.25s; display: inline-block; }
+        .accordion-icon.open { transform: rotate(90deg); }
+
+        /* ─── Fade in ───────────────────────────────────── */
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeSlideIn 0.22s ease-out forwards; }
+
+        /* ─── Grammar view card ─────────────────────────── */
+        .grammar-view-card { background: rgba(15,23,42,0.7); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.right-4{right:1rem}.top-4{top:1rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mr-1\.5{margin-right:0.375rem}.block{display:block}.flex{display:flex}.hidden{display:none}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.max-h-\[500px\]{max-height:500px}.max-h-\[80px\]{max-height:80px}.max-h-\[85vh\]{max-height:85vh}.min-h-0{min-height:0px}.min-h-screen{min-height:100vh}.w-2{width:0.5rem}.w-2\.5{width:0.625rem}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-7xl{max-width:80rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-slate-800 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(30 41 59 / var(--tw-divide-opacity, 1))}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-dashed{border-style:dashed}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-blue-500\/20{border-color:rgb(59 130 246 / 0.2)}.border-blue-900\/30{border-color:rgb(30 58 138 / 0.3)}.border-emerald-500\/20{border-color:rgb(16 185 129 / 0.2)}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-transparent{border-color:transparent}.bg-blue-500\/10{background-color:rgb(59 130 246 / 0.1)}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-emerald-600\/10{background-color:rgb(5 150 105 / 0.1)}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-950\/80{background-color:rgb(2 6 23 / 0.8)}.bg-yellow-500{--tw-bg-opacity:1;background-color:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.from-slate-950{--tw-gradient-from:#020617 var(--tw-gradient-from-position);--tw-gradient-to:rgb(2 6 23 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-slate-900{--tw-gradient-to:#0f172a var(--tw-gradient-to-position)}.p-2\.5{padding:0.625rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pr-1{padding-right:0.25rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-blue-900\/20{--tw-shadow-color:rgb(30 58 138 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.shadow-emerald-900\/20{--tw-shadow-color:rgb(6 78 59 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.shadow-blue-950\/50{--tw-shadow-color:rgb(23 37 84 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-200{transition-duration:200ms}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-600\/20:hover{background-color:rgb(5 150 105 / 0.2)}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-900:hover{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.hover\:text-slate-200:hover{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:border-blue-500:focus{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.focus\:border-emerald-500:focus{--tw-border-opacity:1;border-color:rgb(16 185 129 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 768px){.md\:w-64{width:16rem}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:text-lg{font-size:1.125rem;line-height:1.75rem}}</style><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
-.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
-.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
-.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
-</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
-.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
-.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
-.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
-.CtxtMenu_MenuClose:hover:focus {  outline:none}
-</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
-.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
-.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
-.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
-.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
-.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
-.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
-.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
-.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
-.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
-.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
-.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
-.CtxtMenu_MenuSlider {  left: .1em;}
-.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
-.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
-.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
-.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
-.CtxtMenu_MenuDisabled {  color:GrayText}
-.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
-.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
-.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
-.CtxtMenu_ContextMenu:focus {  outline:none}
-.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
-.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
-.CtxtMenu_SelectionItem {  padding-right: 1em;}
-.CtxtMenu_Selection {  right: 40%; width:50%; }
-.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
-.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
-.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
-</style><style id="MJX-CHTML-styles">
-mjx-container[jax="CHTML"] {
-  line-height: 0;
-}
+</head>
+<body class="bg-slate-900 text-slate-100 antialiased min-h-screen flex flex-col">
 
-mjx-container [space="1"] {
-  margin-left: .111em;
-}
-
-mjx-container [space="2"] {
-  margin-left: .167em;
-}
-
-mjx-container [space="3"] {
-  margin-left: .222em;
-}
-
-mjx-container [space="4"] {
-  margin-left: .278em;
-}
-
-mjx-container [space="5"] {
-  margin-left: .333em;
-}
-
-mjx-container [rspace="1"] {
-  margin-right: .111em;
-}
-
-mjx-container [rspace="2"] {
-  margin-right: .167em;
-}
-
-mjx-container [rspace="3"] {
-  margin-right: .222em;
-}
-
-mjx-container [rspace="4"] {
-  margin-right: .278em;
-}
-
-mjx-container [rspace="5"] {
-  margin-right: .333em;
-}
-
-mjx-container [size="s"] {
-  font-size: 70.7%;
-}
-
-mjx-container [size="ss"] {
-  font-size: 50%;
-}
-
-mjx-container [size="Tn"] {
-  font-size: 60%;
-}
-
-mjx-container [size="sm"] {
-  font-size: 85%;
-}
-
-mjx-container [size="lg"] {
-  font-size: 120%;
-}
-
-mjx-container [size="Lg"] {
-  font-size: 144%;
-}
-
-mjx-container [size="LG"] {
-  font-size: 173%;
-}
-
-mjx-container [size="hg"] {
-  font-size: 207%;
-}
-
-mjx-container [size="HG"] {
-  font-size: 249%;
-}
-
-mjx-container [width="full"] {
-  width: 100%;
-}
-
-mjx-box {
-  display: inline-block;
-}
-
-mjx-block {
-  display: block;
-}
-
-mjx-itable {
-  display: inline-table;
-}
-
-mjx-row {
-  display: table-row;
-}
-
-mjx-row > * {
-  display: table-cell;
-}
-
-mjx-mtext {
-  display: inline-block;
-}
-
-mjx-mstyle {
-  display: inline-block;
-}
-
-mjx-merror {
-  display: inline-block;
-  color: red;
-  background-color: yellow;
-}
-
-mjx-mphantom {
-  visibility: hidden;
-}
-
-_::-webkit-full-page-media, _:future, :root mjx-container {
-  will-change: opacity;
-}
-
-mjx-assistive-mml {
-  position: absolute !important;
-  top: 0px;
-  left: 0px;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0px 0px 0px !important;
-  border: 0px !important;
-  display: block !important;
-  width: auto !important;
-  overflow: hidden !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-mjx-assistive-mml[display="block"] {
-  width: 100% !important;
-}
-
-mjx-c::before {
-  display: block;
-  width: 0;
-}
-
-.MJX-TEX {
-  font-family: MJXZERO, MJXTEX;
-}
-
-.TEX-B {
-  font-family: MJXZERO, MJXTEX-B;
-}
-
-.TEX-I {
-  font-family: MJXZERO, MJXTEX-I;
-}
-
-.TEX-MI {
-  font-family: MJXZERO, MJXTEX-MI;
-}
-
-.TEX-BI {
-  font-family: MJXZERO, MJXTEX-BI;
-}
-
-.TEX-S1 {
-  font-family: MJXZERO, MJXTEX-S1;
-}
-
-.TEX-S2 {
-  font-family: MJXZERO, MJXTEX-S2;
-}
-
-.TEX-S3 {
-  font-family: MJXZERO, MJXTEX-S3;
-}
-
-.TEX-S4 {
-  font-family: MJXZERO, MJXTEX-S4;
-}
-
-.TEX-A {
-  font-family: MJXZERO, MJXTEX-A;
-}
-
-.TEX-C {
-  font-family: MJXZERO, MJXTEX-C;
-}
-
-.TEX-CB {
-  font-family: MJXZERO, MJXTEX-CB;
-}
-
-.TEX-FR {
-  font-family: MJXZERO, MJXTEX-FR;
-}
-
-.TEX-FRB {
-  font-family: MJXZERO, MJXTEX-FRB;
-}
-
-.TEX-SS {
-  font-family: MJXZERO, MJXTEX-SS;
-}
-
-.TEX-SSB {
-  font-family: MJXZERO, MJXTEX-SSB;
-}
-
-.TEX-SSI {
-  font-family: MJXZERO, MJXTEX-SSI;
-}
-
-.TEX-SC {
-  font-family: MJXZERO, MJXTEX-SC;
-}
-
-.TEX-T {
-  font-family: MJXZERO, MJXTEX-T;
-}
-
-.TEX-V {
-  font-family: MJXZERO, MJXTEX-V;
-}
-
-.TEX-VB {
-  font-family: MJXZERO, MJXTEX-VB;
-}
-
-mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
-  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
-}
-
-@font-face /* 0 */ {
-  font-family: MJXZERO;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
-}
-
-@font-face /* 1 */ {
-  font-family: MJXTEX;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
-}
-
-@font-face /* 2 */ {
-  font-family: MJXTEX-B;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
-}
-
-@font-face /* 3 */ {
-  font-family: MJXTEX-I;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
-}
-
-@font-face /* 4 */ {
-  font-family: MJXTEX-MI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
-}
-
-@font-face /* 5 */ {
-  font-family: MJXTEX-BI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
-}
-
-@font-face /* 6 */ {
-  font-family: MJXTEX-S1;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
-}
-
-@font-face /* 7 */ {
-  font-family: MJXTEX-S2;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
-}
-
-@font-face /* 8 */ {
-  font-family: MJXTEX-S3;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
-}
-
-@font-face /* 9 */ {
-  font-family: MJXTEX-S4;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
-}
-
-@font-face /* 10 */ {
-  font-family: MJXTEX-A;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
-}
-
-@font-face /* 11 */ {
-  font-family: MJXTEX-C;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
-}
-
-@font-face /* 12 */ {
-  font-family: MJXTEX-CB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
-}
-
-@font-face /* 13 */ {
-  font-family: MJXTEX-FR;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
-}
-
-@font-face /* 14 */ {
-  font-family: MJXTEX-FRB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
-}
-
-@font-face /* 15 */ {
-  font-family: MJXTEX-SS;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
-}
-
-@font-face /* 16 */ {
-  font-family: MJXTEX-SSB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
-}
-
-@font-face /* 17 */ {
-  font-family: MJXTEX-SSI;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
-}
-
-@font-face /* 18 */ {
-  font-family: MJXTEX-SC;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
-}
-
-@font-face /* 19 */ {
-  font-family: MJXTEX-T;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
-}
-
-@font-face /* 20 */ {
-  font-family: MJXTEX-V;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
-}
-
-@font-face /* 21 */ {
-  font-family: MJXTEX-VB;
-  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
-}
-</style></head>
-<body class="bg-slate-900 text-slate-100 antialiased min-h-screen flex flex-col" cz-shortcut-listen="true">
-
-    <!-- Top Header -->
+    <!-- ══ Top Header ══════════════════════════════════════════════ -->
     <header class="bg-slate-950 border-b border-slate-800 shrink-0">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
                 <div class="flex items-center gap-2 mb-1">
                     <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blue-500/20">个人学术资产</span>
-                    <span class="text-slate-500 text-xs">V7.0 动态容器版</span>
+                    <span class="text-slate-500 text-xs">V8.0 增强编辑版</span>
                 </div>
                 <h1 class="text-2xl font-bold text-white tracking-tight">学术英语 &amp; 法律写作终极笔记本</h1>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="toggleModal('github-modal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 border border-slate-700">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500" id="github-status-dot"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" id="github-status-dot"></span>
                     🚀 同步 GitHub 仓库
                 </button>
                 <button onclick="toggleModal('template-modal')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20">
@@ -429,122 +150,185 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
         </div>
     </header>
 
-    <!-- Main Workspace -->
+    <!-- ══ Main Workspace ══════════════════════════════════════════ -->
     <div class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-6 py-6 flex flex-col md:flex-row gap-6 min-h-0">
-        
-        <!-- Left Sidebar: Article Navigator -->
+
+        <!-- Left Sidebar -->
         <aside class="w-full md:w-64 shrink-0 flex flex-col gap-4">
             <div class="bg-slate-950 rounded-xl border border-slate-800 p-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest">已汇整语料库</h3>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">已汇整语料库</h3>
                     <button onclick="openImportModal()" class="text-[10px] bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-bold px-2 py-1 rounded border border-emerald-500/20 transition-all flex items-center gap-1">
-                        ➕ 导入新语料
+                        ➕ 导入
                     </button>
                 </div>
-                <nav class="flex flex-col gap-1.5 max-h-[500px] overflow-y-auto pr-1" id="article-nav"><button id="btn-a_1784264734772" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all duration-200">1. 芝加哥学派与摩天大楼</button><button id="btn-a_1784264744823" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all duration-200">2. 住宅室内设计要素</button><button id="btn-a_1784264751027" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all duration-200">3. 房屋租赁契约定义</button><button id="btn-a_1784264758953" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all duration-200">4. 都市圈与城市扩张</button><button id="btn-a_1784264764914" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 bg-blue-600 text-white shadow-sm shadow-blue-950/50">5. 环境卫生与健康预防</button></nav>
+                <nav class="flex flex-col gap-1 max-h-[500px] overflow-y-auto" id="article-nav"></nav>
             </div>
         </aside>
 
         <!-- Right Content Area -->
-        <main class="flex-1 min-w-0 flex flex-col gap-6" id="main-content-area" style="display: flex;">
-            
+        <main class="flex-1 min-w-0 flex flex-col gap-5" id="main-content-area" style="display: flex;">
+
             <!-- Source Text Card -->
-            <section class="bg-slate-950 rounded-2xl border border-slate-800 p-6">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">分析语料 (Source Text)</span>
-                    <span id="text-genre" class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded">公共卫生学</span>
+            <section class="source-card rounded-2xl border border-slate-800 p-6 editable-card">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">分析语料 · Source Text</span>
+                        <span id="text-genre" class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-700"></span>
+                    </div>
                 </div>
-                <p id="text-body" class="text-base md:text-lg text-slate-200 leading-relaxed font-medium italic">Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.</p>
+                <p id="article-title-display" class="text-[11px] text-slate-600 mb-3 font-medium tracking-wide"></p>
+                <p id="text-body" class="text-base md:text-lg text-slate-200 leading-relaxed font-medium italic"></p>
             </section>
 
-            <!-- Detail Tabs Section -->
-            <div class="flex border-b border-slate-800" aria-label="Tabs">
-                <button onclick="switchTab('translation')" id="tab-translation" class="border-b-2 border-blue-500 py-3 px-6 text-sm font-semibold text-blue-400 transition-all">
-                    译文对比 &amp; 技巧
-                </button>
-                <button onclick="switchTab('grammar')" id="tab-grammar" class="border-b-2 border-transparent py-3 px-6 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
-                    语法句式剖析
-                </button>
-                <button onclick="switchTab('vocabulary')" id="tab-vocabulary" class="border-b-2 border-transparent py-3 px-6 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
-                    重点词汇 &amp; 专属拓展
-                </button>
+            <!-- Tab Bar -->
+            <div class="relative border-b border-slate-800">
+                <div class="flex" id="tab-bar" aria-label="Tabs">
+                    <button onclick="switchTab('translation')" id="tab-translation" class="tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400">
+                        译文对比 &amp; 技巧
+                    </button>
+                    <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                        语法句式剖析
+                    </button>
+                    <button onclick="switchTab('vocabulary')" id="tab-vocabulary" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                        重点词汇 &amp; 拓展
+                    </button>
+                </div>
+                <div id="tab-indicator" class="tab-indicator-bar"></div>
             </div>
 
-            <!-- Tab Content Cards -->
-            <div class="flex flex-col gap-6">
-                
-                <!-- Tab: Translation -->
-                <div id="content-translation" class="tab-pane flex flex-col gap-6">
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6">
-                        <h4 class="text-sm font-bold text-emerald-400 mb-3 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 精雕学术译文
-                        </h4>
-                        <p id="translation-body" class="text-slate-300 leading-relaxed">环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。</p>
+            <!-- Tab Content -->
+            <div class="flex flex-col gap-5">
+
+                <!-- ── Tab: Translation ────────────────────────── -->
+                <div id="content-translation" class="tab-pane flex flex-col gap-5">
+
+                    <!-- Translation VIEW -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-translation-view">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>精雕学术译文
+                            </h4>
+                            <button class="btn-edit" onclick="enterEditMode('translation')">✏️ 编辑</button>
+                        </div>
+                        <p id="translation-body" class="text-slate-300 leading-relaxed text-sm"></p>
+                    </div>
+                    <!-- Translation EDIT -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-translation-edit">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="text-sm font-bold text-indigo-400 flex items-center gap-2">✏️ 编辑译文</h4>
+                            <div class="flex gap-2">
+                                <button class="btn-cancel" onclick="cancelEditMode('translation')">取消</button>
+                                <button class="btn-save" onclick="saveTranslation()">💾 保存</button>
+                            </div>
+                        </div>
+                        <textarea id="edit-translation-text" class="edit-textarea" rows="6" placeholder="输入中文译文..."></textarea>
                     </div>
 
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6">
-                        <h4 class="text-sm font-bold text-slate-300 mb-3">💡 翻译心法拆解</h4>
-                        <ul id="translation-insights" class="space-y-3 text-sm text-slate-400"><li>状语前置：为了中文逻辑的“预防在先”，我们将 by using the simple technologies 提至句首。</li><li>排水词汇对比：注意 Sewage (强污染废水) 与 Greywater (盥洗灰水) 的物理性质差异。</li></ul>
+                    <!-- Insights VIEW -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-insights-view">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-sm font-bold text-slate-300">💡 翻译心法拆解</h4>
+                            <button class="btn-edit" onclick="enterEditMode('insights')">✏️ 编辑</button>
+                        </div>
+                        <ul id="translation-insights" class="space-y-2.5 text-sm text-slate-400 list-none"></ul>
+                    </div>
+                    <!-- Insights EDIT -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-insights-edit">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑翻译心法</h4>
+                            <div class="flex gap-2">
+                                <button class="btn-cancel" onclick="cancelEditMode('insights')">取消</button>
+                                <button class="btn-save" onclick="saveInsights()">💾 保存</button>
+                            </div>
+                        </div>
+                        <div id="edit-insights-list" class="flex flex-col gap-2 mb-3"></div>
+                        <button onclick="addInsightRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                            ➕ 添加一条技巧
+                        </button>
                     </div>
                 </div>
 
-                <!-- Tab: Grammar -->
-                <div id="content-grammar" class="tab-pane hidden flex flex-col gap-6">
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6">
-                        <h4 class="text-sm font-bold text-slate-300 mb-4">🔍 核心句型骨架拆解</h4>
-                        <div id="grammar-breakdown" class="space-y-4">
-                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
-                        <p class="font-semibold text-slate-200 text-sm mb-1">葡萄串式介词嵌套</p>
-                        <p class="text-xs text-blue-400 font-mono mb-2">Sanitation is a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents].</p>
-                        <p class="text-xs text-slate-400 leading-relaxed">这是学术写作最难处理的‘介词链’，翻译时需将其拆解为多个定语进行重组。</p>
+                <!-- ── Tab: Grammar ────────────────────────────── -->
+                <div id="content-grammar" class="tab-pane hidden flex flex-col gap-5">
+
+                    <!-- Grammar VIEW -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-grammar-view">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-sm font-bold text-slate-300">🔍 核心句型骨架拆解</h4>
+                            <button class="btn-edit" onclick="enterEditMode('grammar')">✏️ 编辑</button>
+                        </div>
+                        <div id="grammar-breakdown" class="space-y-3"></div>
                     </div>
-                </div>
+                    <!-- Grammar EDIT -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-grammar-edit">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑语法句式</h4>
+                            <div class="flex gap-2">
+                                <button class="btn-cancel" onclick="cancelEditMode('grammar')">取消</button>
+                                <button class="btn-save" onclick="saveGrammar()">💾 保存</button>
+                            </div>
+                        </div>
+                        <div id="edit-grammar-list" class="flex flex-col gap-3 mb-3"></div>
+                        <button onclick="addGrammarRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                            ➕ 添加语法条目
+                        </button>
                     </div>
                 </div>
 
-                <!-- Tab: Vocabulary -->
-                <div id="content-vocabulary" class="tab-pane hidden flex flex-col gap-6">
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6">
-                        <h4 class="text-sm font-bold text-slate-300 mb-3">💡 核心学术/法律词汇列表</h4>
+                <!-- ── Tab: Vocabulary ─────────────────────────── -->
+                <div id="content-vocabulary" class="tab-pane hidden flex flex-col gap-5">
+
+                    <!-- Vocab VIEW -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-vocab-view">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-sm font-bold text-slate-300">💡 核心学术 / 法律词汇</h4>
+                            <button class="btn-edit" onclick="enterEditMode('vocab')">✏️ 编辑</button>
+                        </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
-                                    <tr class="border-b border-slate-800 text-slate-400">
-                                        <th class="py-2.5 font-semibold">词汇 (Vocabulary)</th>
-                                        <th class="py-2.5 font-semibold">精准词性/释义</th>
-                                        <th class="py-2.5 font-semibold">学术写作推荐度</th>
+                                    <tr class="border-b border-slate-800 text-slate-500">
+                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词汇</th>
+                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词性 / 释义</th>
+                                        <th class="py-2.5 font-semibold uppercase tracking-wider text-[10px]">推荐度</th>
                                     </tr>
                                 </thead>
-                                <tbody id="vocab-table-body" class="divide-y divide-slate-800 text-slate-300">
-                    <tr>
-                        <td class="py-2.5 font-medium text-blue-400 font-mono">sanitation</td>
-                        <td class="py-2.5"><span class="text-slate-500 font-mono mr-1.5">[n.]</span>环境卫生</td>
-                        <td class="py-2.5">⭐⭐⭐⭐⭐</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="py-2.5 font-medium text-blue-400 font-mono">septic tank</td>
-                        <td class="py-2.5"><span class="text-slate-500 font-mono mr-1.5">[n.]</span>化粪池</td>
-                        <td class="py-2.5">⭐⭐⭐⭐</td>
-                    </tr>
-                </tbody>
+                                <tbody id="vocab-table-body" class="divide-y divide-slate-800/70 text-slate-300"></tbody>
                             </table>
                         </div>
                     </div>
+                    <!-- Vocab EDIT -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-vocab-edit">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑词汇列表</h4>
+                            <div class="flex gap-2">
+                                <button class="btn-cancel" onclick="cancelEditMode('vocab')">取消</button>
+                                <button class="btn-save" onclick="saveVocab()">💾 保存</button>
+                            </div>
+                        </div>
+                        <div class="vocab-edit-row text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider px-1">
+                            <span>词汇</span><span>词性</span><span>释义</span><span>推荐度</span><span></span>
+                        </div>
+                        <div id="edit-vocab-list" class="flex flex-col gap-1.5 mb-3"></div>
+                        <button onclick="addVocabRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                            ➕ 添加词汇
+                        </button>
+                    </div>
 
-                    <!-- Special Feature: Dynamic Content based on text selected -->
+                    <!-- Special Feature Box -->
                     <div id="vocab-special-box" class="bg-gradient-to-br from-slate-950 to-slate-900 rounded-xl border border-blue-900/30 p-6 hidden"></div>
                 </div>
 
             </div>
         </main>
-        
-        <!-- Empty State Prompt -->
+
+        <!-- Empty State -->
         <main class="flex-1 flex items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl" id="empty-state-prompt" style="display: none;">
             <div class="text-center p-8">
                 <span class="text-4xl block mb-4">📚</span>
                 <h2 class="text-xl font-bold text-white mb-2">你的专属学术知识库</h2>
-                <p class="text-sm text-slate-400 mb-6 max-w-md">当前题库中还没有文章。请点击左侧的“导入新语料”，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。</p>
+                <p class="text-sm text-slate-400 mb-6 max-w-md">当前题库中还没有文章。请点击左侧的"导入"按钮，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。</p>
                 <button onclick="openImportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
                     立即导入第一篇语料
                 </button>
@@ -552,42 +336,118 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
         </main>
     </div>
 
-    <!-- Import JSON Modal -->
+    <!-- ══ Import JSON Modal ════════════════════════════════════════ -->
     <div id="import-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
             <button onclick="toggleModal('import-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 📥 导入 AI 解析语料 (JSON 格式)
             </h2>
-            <p class="text-xs text-slate-400 mb-4">
-                请将 AI 助手为你生成的那段以 <code>{</code> 开头、<code>}</code> 结尾的完整 JSON 代码粘贴到下方框内。
+            <p class="text-xs text-slate-400 mb-2">
+                支持两种格式：单条语料 <code class="bg-slate-800 px-1 rounded text-emerald-400">{...}</code> 或批量数组 <code class="bg-slate-800 px-1 rounded text-emerald-400">[{...}, {...}]</code>
+            </p>
+            <p class="text-xs text-slate-500 mb-4">
+                🔁 兼容字段别名：<code class="bg-slate-800/60 px-1 rounded">translation_tips</code> → insights ｜ <code class="bg-slate-800/60 px-1 rounded">grammar</code> 字符串自动转换 ｜ <code class="bg-slate-800/60 px-1 rounded">takeaway</code> 追加至心法
             </p>
 
-            <textarea id="import-json-area" rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4" placeholder="{\n  &quot;title&quot;: &quot;...&quot;,\n  &quot;genre&quot;: &quot;...&quot;,\n  ...\n}"></textarea>
+            <!-- JSON Field Docs Accordion -->
+            <div class="mb-4 border border-slate-800 rounded-lg overflow-hidden">
+                <button onclick="toggleAccordion()" class="w-full flex justify-between items-center px-4 py-2.5 bg-slate-950 text-xs text-slate-400 hover:text-slate-300 hover:bg-slate-900/70 transition-all">
+                    <span class="font-semibold flex items-center gap-2">
+                        📖 JSON 字段说明 <span class="text-slate-600 font-normal">（点击展开查看各字段含义）</span>
+                    </span>
+                    <span class="accordion-icon" id="accordion-icon">▶</span>
+                </button>
+                <div id="accordion-body" class="accordion-body bg-slate-950/60 border-t border-slate-800/50">
+                    <div class="p-4">
+                        <table class="w-full text-left text-[11px] border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800">
+                                    <th class="py-2 pr-3 text-slate-400 font-semibold" style="width:110px">字段名</th>
+                                    <th class="py-2 pr-3 text-slate-400 font-semibold" style="width:60px">类型</th>
+                                    <th class="py-2 text-slate-400 font-semibold">含义 / 对应页面位置</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/50">
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">title</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string</td>
+                                    <td class="py-2 text-slate-400">语料标题，显示在左侧导航栏列表中（建议格式："序号. 主题"）</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">genre</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string</td>
+                                    <td class="py-2 text-slate-400">体裁 / 学科领域标签，显示在原文卡右上角的小徽章（如 "法律英语 / 合同文本"）</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">body</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string</td>
+                                    <td class="py-2 text-slate-400">英文原文语料段落，显示在顶部蓝色发光原文卡中（斜体大字）</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">translation</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string</td>
+                                    <td class="py-2 text-slate-400">精雕中文译文，显示在「译文对比 &amp; 技巧」Tab 的第一张卡片中</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">insights</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string[]</td>
+                                    <td class="py-2 text-slate-400">翻译心法列表，每个字符串是一条独立技巧，显示为列表项（同一 Tab 第二张卡）</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">grammar</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">object[]</td>
+                                    <td class="py-2 text-slate-400">
+                                        语法剖析条目数组，显示在「语法句式剖析」Tab。每条对象含三个字段：<br>
+                                        <span class="font-mono text-slate-500">title</span> — 语法现象名称（加粗）<br>
+                                        <span class="font-mono text-slate-500">skeleton</span> — 句型骨架拆解（蓝色等宽字体）<br>
+                                        <span class="font-mono text-slate-500">notes</span> — 详细分析说明（灰色小字）
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">vocab</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">object[]</td>
+                                    <td class="py-2 text-slate-400">
+                                        词汇表数组，显示在「重点词汇」Tab 的表格。每条对象含四个字段：<br>
+                                        <span class="font-mono text-slate-500">word</span> — 词汇或短语<br>
+                                        <span class="font-mono text-slate-500">type</span> — 词性（n. / v. / adj. 等）<br>
+                                        <span class="font-mono text-slate-500">meaning</span> — 中文释义<br>
+                                        <span class="font-mono text-slate-500">rating</span> — 学术推荐度（如 ⭐⭐⭐⭐⭐）
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-3 font-mono text-indigo-400 align-top">specialHTML</td>
+                                    <td class="py-2 pr-3 text-slate-600 align-top">string?</td>
+                                    <td class="py-2 text-slate-400">【可选】自定义 HTML 片段，支持 MathJax 数学公式渲染，显示在词汇板块底部的蓝色卡片中</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <textarea id="import-json-area" rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4" placeholder='&#123;&#10;  "title": "序号. 主题标题",&#10;  "genre": "学科领域",&#10;  "body": "English source text...",&#10;  "translation": "中文译文",&#10;  "insights": ["技巧一", "技巧二"],&#10;  "grammar": [&#123;"title":"","skeleton":"","notes":""&#125;],&#10;  "vocab": [&#123;"word":"","type":"","meaning":"","rating":"⭐⭐⭐"&#125;]&#10;&#125;'></textarea>
 
             <div class="flex justify-end gap-3">
-                <button onclick="toggleModal('import-modal')" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded transition-all">
+                <button onclick="toggleModal('import-modal')" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
                     取消
                 </button>
-                <button onclick="processImport()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">
+                <button onclick="processImport()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1">
                     💾 解析并存入题库
                 </button>
             </div>
-            <div id="import-error" class="text-negative text-xs mt-3 hidden"></div>
+            <div id="import-error" class="text-red-400 text-xs mt-3 hidden"></div>
         </div>
     </div>
 
-    <!-- GitHub Sync Modal (Same as before) -->
-    <div id="github-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <!-- ══ GitHub Sync Modal ════════════════════════════════════════ -->
+    <div id="github-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 relative">
             <button onclick="toggleModal('github-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 🚀 GitHub 同步云端控制台
             </h2>
-            <p class="text-xs text-slate-400 mb-4">
-                配置你的 GitHub 个人访问令牌（PAT），一键将本地新增的学术笔记本代码与数据同步回你的代码库。
-            </p>
-
+            <p class="text-xs text-slate-400 mb-4">配置你的 GitHub 个人访问令牌（PAT），一键将本地笔记本代码与数据同步回你的代码库。</p>
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">GitHub PAT (Token)</label>
@@ -602,7 +462,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     <input type="text" id="gh-repo" placeholder="e.g. academic-notebook" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
-                    <label class="block text-slate-400 font-medium mb-1">仓库文件路径 (需包含文件名)</label>
+                    <label class="block text-slate-400 font-medium mb-1">仓库文件路径（需含文件名）</label>
                     <input type="text" id="gh-path" placeholder="e.g. index.html" value="index.html" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
@@ -610,48 +470,40 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     <input type="text" id="gh-branch" placeholder="main" value="main" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
             </div>
-
-            <!-- Action buttons -->
             <div class="mt-6 flex justify-between items-center gap-3">
-                <button onclick="saveGithubSettings()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">
-                    💾 保存设置
-                </button>
-                <div class="flex gap-2">
-                    <button onclick="pushToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">
-                        📤 立即同步推送
-                    </button>
-                </div>
+                <button onclick="saveGithubSettings()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">💾 保存设置</button>
+                <button onclick="pushToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">📤 立即同步推送</button>
             </div>
-            <div id="sync-log" class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto"><div>[11:06:14 PM] 正在建立连接...</div></div>
+            <div id="sync-log" class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto"></div>
         </div>
     </div>
 
-    <!-- Global Template Modal (Hidden for brevity, but kept in code logic for completeness) -->
+    <!-- ══ Template Modal ══════════════════════════════════════════ -->
     <div id="template-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 relative">
             <button onclick="toggleModal('template-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-xl font-bold text-white mb-6">我的学术写作高阶模板库</h2>
             <p class="text-sm text-slate-400 mb-4">你的四大核心模板（已存档）。</p>
-            <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 text-xs text-slate-300">
-                <p class="mb-2"><strong>模板一 (法律/商业):</strong> [Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B].</p>
-                <p class="mb-2"><strong>模板二 (因果现象):</strong> [Phenomenon A] is usually associated with [Factor B] and [Factor C] that creates a large number of [Affected Group].</p>
-                <p class="mb-2"><strong>模板三 (时代趋势):</strong> The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission].</p>
-                <p><strong>模板四 (过程目标):</strong> [Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal].</p>
+            <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-3">
+                <p><strong class="text-slate-200">模板一 (法律/商业):</strong> [Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B].</p>
+                <p><strong class="text-slate-200">模板二 (因果现象):</strong> [Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain].</p>
+                <p><strong class="text-slate-200">模板三 (时代趋势):</strong> The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission].</p>
+                <p><strong class="text-slate-200">模板四 (过程目标):</strong> [Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal].</p>
             </div>
         </div>
     </div>
 
-    <!-- 🌟 CORE DATABASE 🌟: This script tag holds all your imported JSON objects. It will be overwritten upon GitHub Sync -->
+    <!-- ══ Database ════════════════════════════════════════════════ -->
     <script id="database-script">
         const database = {
           "a_1784264734772": {
                     "title": "1. 芝加哥学派与摩天大楼",
                     "genre": "建筑史学 / 说明文",
                     "body": "The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel.",
-                    "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的“芝加哥建筑学派”兴起。当时，该学派肩负着一项历史使命——发明被称为“摩天大楼”的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。",
+                    "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的'芝加哥建筑学派'兴起。当时，该学派肩负着一项历史使命——发明被称为'摩天大楼'的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。",
                     "insights": [
-                              "动名转换：abundance of steel 译为“钢材的大量供应”比“钢材的丰富”更符合工业文体。",
-                              "顺应中文逻辑：facilitated 译为“得益于”比被动语态直译“被促成”更符合行文流畅度。"
+                              "动名转换：abundance of steel 译为'钢材的大量供应'比'钢材的丰富'更符合工业文体。",
+                              "顺应中文逻辑：facilitated 译为'得益于'比被动语态直译'被促成'更符合行文流畅度。"
                     ],
                     "grammar": [
                               {
@@ -682,7 +534,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     "translation": "住宅的室内设计通常涉及实用与美观的双重抉择。从天花板与灯具、窗帘与百叶窗、走廊与门道、壁龛与窗台、格栅与通风口、露台与楼梯，甚至到下水道和排水口，几乎每一个要素都需要做出选择。",
                     "insights": [
                               "排比句翻译：英文的 from A to B 并列式，中文翻译时采用顿号与配对连词，增强了空间的纵深感。",
-                              "动词化翻译：将 landscaping 和 installing 这种名词性表达，译为动词“进行美化”、“修筑”，更符合中文习惯。"
+                              "动词化翻译：将 landscaping 和 installing 这种名词性表达，译为动词'进行美化'、'修筑'，更符合中文习惯。"
                     ],
                     "grammar": [
                               {
@@ -718,7 +570,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     "body": "The lease is a contract to rent by which one party, called the landlord or lessor, grants possession and use of the property for a limited term to another party, who is called the tenant or lessee.",
                     "translation": "租赁合同是指一种租赁契约。根据该合同，一方（称为出租人）在特定期限内，将租赁财产的占有权和使用权让与另一方（称为承租人）。",
                     "insights": [
-                              "法律术语规范：landlord 和 lessor 在学术法律写作中需区分，lessor 为“出租人”，tenat/lessee 为“承租人”。",
+                              "法律术语规范：landlord 和 lessor 在学术法律写作中需区分，lessor 为'出租人'，tenant/lessee 为'承租人'。",
                               "句式嵌套：by which 和 who 引导的定语从句，是法律英语确保定义严密的典型做法。"
                     ],
                     "grammar": [
@@ -736,9 +588,9 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                                         "rating": "⭐⭐⭐⭐⭐"
                               },
                               {
-                                        "word": "lessor/lessee",
+                                        "word": "lessor / lessee",
                                         "type": "n.",
-                                        "meaning": "出租人/承租人",
+                                        "meaning": "出租人 / 承租人",
                                         "rating": "⭐⭐⭐⭐⭐"
                               }
                     ]
@@ -750,7 +602,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     "translation": "这些城市通常与大都市区以及城市扩张联系在一起，从而产生了大量的通勤上班族。当一个城市的扩张范围足够大，以致与另一个城市相接合时，这两个城市便可被视为一个城市群。",
                     "insights": [
                               "概念升级：metropolis (大都市) -> conurbation (城市群) -> megalopolis (连绵大都市)。",
-                              "逻辑重组：把城市蔓延带来的“通勤需求”作为因果链条的末端，使逻辑更符合中文习惯。"
+                              "逻辑重组：把城市蔓延带来的'通勤需求'作为因果链条的末端，使逻辑更符合中文习惯。"
                     ],
                     "grammar": [
                               {
@@ -763,7 +615,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                               {
                                         "word": "urban sprawl",
                                         "type": "n.",
-                                        "meaning": "城市扩张/蔓延",
+                                        "meaning": "城市扩张 / 蔓延",
                                         "rating": "⭐⭐⭐⭐⭐"
                               },
                               {
@@ -780,14 +632,14 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                     "body": "Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.",
                     "translation": "环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。",
                     "insights": [
-                              "状语前置：为了中文逻辑的“预防在先”，我们将 by using the simple technologies 提至句首。",
+                              "状语前置：为了中文逻辑的'预防在先'，我们将 by using the simple technologies 提至句首。",
                               "排水词汇对比：注意 Sewage (强污染废水) 与 Greywater (盥洗灰水) 的物理性质差异。"
                     ],
                     "grammar": [
                               {
                                         "title": "葡萄串式介词嵌套",
                                         "skeleton": "Sanitation is a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents].",
-                                        "notes": "这是学术写作最难处理的‘介词链’，翻译时需将其拆解为多个定语进行重组。"
+                                        "notes": "这是学术写作最难处理的'介词链'，翻译时需将其拆解为多个定语进行重组。"
                               }
                     ],
                     "vocab": [
@@ -805,17 +657,19 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                               }
                     ]
           }
-};
+        };
     </script>
 
-    <!-- App Engine Script -->
+    <!-- ══ App Engine ══════════════════════════════════════════════ -->
     <script>
         let currentArticle = null;
         let currentTab = 'translation';
 
+        // ── Modal helpers ────────────────────────────────────────
         function toggleModal(id) {
             const modal = document.getElementById(id);
-            if (modal.classList.contains('hidden')) {
+            const isHidden = modal.classList.contains('hidden');
+            if (isHidden) {
                 modal.classList.remove('hidden');
                 if (id === 'import-modal') {
                     document.getElementById('import-error').classList.add('hidden');
@@ -826,8 +680,18 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
             }
         }
 
+        function openImportModal() { toggleModal('import-modal'); }
+
+        // ── Accordion (JSON field docs) ──────────────────────────
+        function toggleAccordion() {
+            const body = document.getElementById('accordion-body');
+            const icon = document.getElementById('accordion-icon');
+            body.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        // ── Init ─────────────────────────────────────────────────
         function initApp() {
-            // Load GitHub Settings
             document.getElementById('gh-token').value = localStorage.getItem('gh_token') || '';
             document.getElementById('gh-username').value = localStorage.getItem('gh_username') || '';
             document.getElementById('gh-repo').value = localStorage.getItem('gh_repo') || '';
@@ -839,7 +703,7 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
 
             const keys = Object.keys(database);
             if (keys.length > 0) {
-                switchArticle(keys[0]);
+                switchArticle(keys[keys.length - 1]);
                 document.getElementById('main-content-area').style.display = 'flex';
                 document.getElementById('empty-state-prompt').style.display = 'none';
             } else {
@@ -848,90 +712,120 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
             }
         }
 
+        // ── GitHub status dot ─────────────────────────────────────
         function updateGithubStatus() {
             const token = localStorage.getItem('gh_token');
             const dot = document.getElementById('github-status-dot');
-            if (token && token.trim() !== "") {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
-            } else {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-yellow-500";
-            }
+            dot.className = 'w-2.5 h-2.5 rounded-full ' + (token && token.trim() ? 'bg-emerald-500' : 'bg-yellow-500');
         }
 
+        // ── Render sidebar ────────────────────────────────────────
         function renderSidebar() {
             const nav = document.getElementById('article-nav');
             nav.innerHTML = '';
-            
-            Object.keys(database).forEach(key => {
+            Object.keys(database).forEach((key, idx) => {
+                const item = document.createElement('div');
+                item.className = 'article-item' + (key === currentArticle ? ' active' : '');
+                item.id = `item-${key}`;
+
                 const btn = document.createElement('button');
-                btn.id = `btn-${key}`;
-                btn.onclick = () => switchArticle(key);
-                btn.className = "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-900";
+                btn.className = 'article-btn';
+                btn.title = database[key].title;
                 btn.innerText = database[key].title;
-                nav.appendChild(btn);
+                btn.onclick = () => switchArticle(key);
+
+                const del = document.createElement('button');
+                del.className = 'delete-btn';
+                del.title = '删除此语料';
+                del.innerHTML = '🗑';
+                del.onclick = (e) => { e.stopPropagation(); deleteArticle(key); };
+
+                item.appendChild(btn);
+                item.appendChild(del);
+                nav.appendChild(item);
             });
         }
 
+        // ── Delete article ────────────────────────────────────────
+        function deleteArticle(key) {
+            const title = database[key] ? database[key].title : '此语料';
+            if (!confirm(`确定要删除「${title}」吗？\n\n此操作将从本地内存移除，如需永久生效请在删除后点击「同步 GitHub」。`)) return;
+
+            delete database[key];
+
+            const keys = Object.keys(database);
+            if (keys.length === 0) {
+                currentArticle = null;
+                document.getElementById('main-content-area').style.display = 'none';
+                document.getElementById('empty-state-prompt').style.display = 'flex';
+                renderSidebar();
+            } else {
+                const nextKey = keys[Math.max(0, keys.indexOf(key) - 1)] || keys[0];
+                currentArticle = null;
+                renderSidebar();
+                switchArticle(nextKey);
+            }
+        }
+
+        // ── Switch article ────────────────────────────────────────
         function switchArticle(id) {
+            // Cancel any open edit modes
+            ['translation','insights','grammar','vocab'].forEach(p => cancelEditMode(p, true));
+
             currentArticle = id;
             const data = database[id];
             if (!data) return;
 
-            // Handle UI states
             document.getElementById('main-content-area').style.display = 'flex';
             document.getElementById('empty-state-prompt').style.display = 'none';
 
-            // Update nav styles
-            document.querySelectorAll('#article-nav button').forEach(btn => {
-                btn.className = "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all duration-200";
-            });
-            const activeBtn = document.getElementById(`btn-${id}`);
-            if (activeBtn) activeBtn.className = "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 bg-blue-600 text-white shadow-sm shadow-blue-950/50";
+            // Sidebar active state
+            document.querySelectorAll('.article-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.getElementById(`item-${id}`);
+            if (activeItem) activeItem.classList.add('active');
 
-            // Populate text
-            document.getElementById('text-genre').innerHTML = data.genre;
-            document.getElementById('text-body').innerHTML = data.body;
-            document.getElementById('translation-body').innerHTML = data.translation;
+            // Populate source
+            document.getElementById('text-genre').innerHTML = data.genre || '';
+            document.getElementById('article-title-display').innerText = data.title || '';
+            document.getElementById('text-body').innerHTML = data.body || '';
+            document.getElementById('translation-body').innerHTML = data.translation || '';
 
-            // Populate insights
+            // Insights
             const insightsList = document.getElementById('translation-insights');
-            insightsList.innerHTML = data.insights && data.insights.length > 0 
-                ? data.insights.map(item => `<li>${item}</li>`).join('')
+            insightsList.innerHTML = data.insights && data.insights.length > 0
+                ? data.insights.map(item => `<li class="flex gap-2"><span class="text-emerald-500 mt-0.5 shrink-0">•</span><span>${item}</span></li>`).join('')
                 : `<li class="text-slate-500 italic">暂无翻译技巧剖析</li>`;
 
-            // Populate Grammar
+            // Grammar
             const grammarContainer = document.getElementById('grammar-breakdown');
-            grammarContainer.innerHTML = data.grammar && data.grammar.length > 0 
+            grammarContainer.innerHTML = data.grammar && data.grammar.length > 0
                 ? data.grammar.map(item => `
-                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
-                        <p class="font-semibold text-slate-200 text-sm mb-1">${item.title}</p>
-                        <p class="text-xs text-blue-400 font-mono mb-2">${item.skeleton}</p>
+                    <div class="grammar-view-card">
+                        <p class="font-semibold text-slate-200 text-sm mb-1.5">${item.title}</p>
+                        <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">${item.skeleton}</p>
                         <p class="text-xs text-slate-400 leading-relaxed">${item.notes}</p>
                     </div>
                 `).join('')
-                : `<div class="p-4 bg-slate-900 rounded-xl border border-slate-800 text-slate-500 italic text-xs">暂无核心句型骨架拆解</div>`;
+                : `<div class="grammar-view-card text-slate-500 italic text-xs">暂无核心句型骨架拆解</div>`;
 
-            // Populate Vocab
+            // Vocab
             const vocabTable = document.getElementById('vocab-table-body');
             vocabTable.innerHTML = data.vocab && data.vocab.length > 0
                 ? data.vocab.map(item => `
                     <tr>
-                        <td class="py-2.5 font-medium text-blue-400 font-mono">${item.word}</td>
-                        <td class="py-2.5"><span class="text-slate-500 font-mono mr-1.5">[${item.type}]</span>${item.meaning}</td>
-                        <td class="py-2.5">${item.rating}</td>
+                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">${item.word}</td>
+                        <td class="py-2.5 pr-4"><span class="text-slate-500 font-mono mr-1.5 text-[10px]">[${item.type}]</span>${item.meaning}</td>
+                        <td class="py-2.5 text-yellow-400">${item.rating}</td>
                     </tr>
                 `).join('')
                 : `<tr><td colspan="3" class="py-4 text-center text-slate-500 italic">暂无核心词汇记录</td></tr>`;
 
-            // Special Feature Box
+            // Special HTML box
             const specialBox = document.getElementById('vocab-special-box');
-            if (data.specialHTML && data.specialHTML.trim() !== "") {
+            if (data.specialHTML && data.specialHTML.trim()) {
                 specialBox.innerHTML = data.specialHTML;
                 specialBox.classList.remove('hidden');
-                // Trigger MathJax typesetting if applicable
-                if (window.MathJax) {
-                    MathJax.typesetPromise([specialBox]).catch((err) => console.log('MathJax error: ', err.message));
-                }
+                if (window.MathJax) MathJax.typesetPromise([specialBox]).catch(err => console.log(err));
             } else {
                 specialBox.classList.add('hidden');
                 specialBox.innerHTML = '';
@@ -940,165 +834,423 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
             switchTab('translation');
         }
 
+        // ── Switch tab ────────────────────────────────────────────
         function switchTab(tabId) {
             currentTab = tabId;
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
             document.getElementById(`content-${tabId}`).classList.remove('hidden');
-            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
-                btn.className = "border-b-2 border-transparent py-3 px-6 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all";
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all';
             });
-            document.getElementById(`tab-${tabId}`).className = "border-b-2 border-blue-500 py-3 px-6 text-sm font-semibold text-blue-400 transition-all";
+            const activeTabBtn = document.getElementById(`tab-${tabId}`);
+            activeTabBtn.className = 'tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400';
+
+            // Animate indicator
+            const indicator = document.getElementById('tab-indicator');
+            const tabBar = document.getElementById('tab-bar');
+            const rect = activeTabBtn.getBoundingClientRect();
+            const barRect = tabBar.getBoundingClientRect();
+            indicator.style.left = (rect.left - barRect.left) + 'px';
+            indicator.style.width = rect.width + 'px';
         }
 
-        // --- JSON Import Logic ---
-        function openImportModal() {
-            toggleModal('import-modal');
+        // ══════════════════════════════════════════════════════════
+        // ── Edit mode system ──────────────────────────────────────
+        // ══════════════════════════════════════════════════════════
+
+        const PANEL_MAP = {
+            'translation': { view: 'card-translation-view', edit: 'card-translation-edit' },
+            'insights':    { view: 'card-insights-view',    edit: 'card-insights-edit'    },
+            'grammar':     { view: 'card-grammar-view',     edit: 'card-grammar-edit'     },
+            'vocab':       { view: 'card-vocab-view',       edit: 'card-vocab-edit'       }
+        };
+
+        function enterEditMode(panel) {
+            if (!currentArticle) return;
+            const data = database[currentArticle];
+            const { view, edit } = PANEL_MAP[panel];
+            document.getElementById(view).classList.add('hidden');
+            const editCard = document.getElementById(edit);
+            editCard.classList.remove('hidden');
+            editCard.classList.add('fade-in');
+
+            if (panel === 'translation') {
+                document.getElementById('edit-translation-text').value = data.translation || '';
+            } else if (panel === 'insights') {
+                renderInsightsEditList(data.insights || []);
+            } else if (panel === 'grammar') {
+                renderGrammarEditList(data.grammar || []);
+            } else if (panel === 'vocab') {
+                renderVocabEditList(data.vocab || []);
+            }
+        }
+
+        function cancelEditMode(panel, silent) {
+            const maps = silent ? Object.keys(PANEL_MAP) : [panel];
+            maps.forEach(p => {
+                const m = PANEL_MAP[p];
+                if (!m) return;
+                const viewEl = document.getElementById(m.view);
+                const editEl = document.getElementById(m.edit);
+                if (viewEl) viewEl.classList.remove('hidden');
+                if (editEl) editEl.classList.add('hidden');
+            });
+        }
+
+        // ── Translation ───────────────────────────────────────────
+        function saveTranslation() {
+            if (!currentArticle) return;
+            const val = document.getElementById('edit-translation-text').value.trim();
+            database[currentArticle].translation = val;
+            document.getElementById('translation-body').innerHTML = val;
+            cancelEditMode('translation');
+        }
+
+        // ── Insights ──────────────────────────────────────────────
+        function renderInsightsEditList(items) {
+            const container = document.getElementById('edit-insights-list');
+            container.innerHTML = '';
+            (items.length ? items : ['']).forEach((text, i) => {
+                container.appendChild(createInsightRow(text, i));
+            });
+        }
+
+        function createInsightRow(text, idx) {
+            const row = document.createElement('div');
+            row.className = 'insight-edit-row';
+            row.dataset.idx = idx;
+            row.innerHTML = `
+                <textarea class="edit-textarea" rows="2" placeholder="输入一条翻译技巧...">${text}</textarea>
+                <button class="remove-btn" onclick="removeInsightRow(this)" title="删除">✕</button>
+            `;
+            return row;
+        }
+
+        function addInsightRow() {
+            const container = document.getElementById('edit-insights-list');
+            const idx = container.children.length;
+            container.appendChild(createInsightRow('', idx));
+        }
+
+        function removeInsightRow(btn) {
+            btn.closest('.insight-edit-row').remove();
+        }
+
+        function saveInsights() {
+            if (!currentArticle) return;
+            const rows = document.querySelectorAll('#edit-insights-list .insight-edit-row');
+            const items = [...rows].map(r => r.querySelector('textarea').value.trim()).filter(Boolean);
+            database[currentArticle].insights = items;
+
+            const insightsList = document.getElementById('translation-insights');
+            insightsList.innerHTML = items.length > 0
+                ? items.map(item => `<li class="flex gap-2"><span class="text-emerald-500 mt-0.5 shrink-0">•</span><span>${item}</span></li>`).join('')
+                : `<li class="text-slate-500 italic">暂无翻译技巧剖析</li>`;
+            cancelEditMode('insights');
+        }
+
+        // ── Grammar ───────────────────────────────────────────────
+        function renderGrammarEditList(items) {
+            const container = document.getElementById('edit-grammar-list');
+            container.innerHTML = '';
+            (items.length ? items : [{ title: '', skeleton: '', notes: '' }]).forEach((g, i) => {
+                container.appendChild(createGrammarBlock(g, i));
+            });
+        }
+
+        function createGrammarBlock(g, idx) {
+            const block = document.createElement('div');
+            block.className = 'grammar-edit-block';
+            block.dataset.idx = idx;
+            block.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">条目 ${idx + 1}</span>
+                    <button class="remove-btn" onclick="removeGrammarBlock(this)" title="删除">✕</button>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <input class="edit-input" placeholder="语法现象名称（title）" value="${escHtml(g.title || '')}">
+                    <input class="edit-input font-mono" placeholder="句型骨架（skeleton）" value="${escHtml(g.skeleton || '')}">
+                    <textarea class="edit-textarea" rows="2" placeholder="详细说明（notes）">${escHtml(g.notes || '')}</textarea>
+                </div>
+            `;
+            return block;
+        }
+
+        function addGrammarRow() {
+            const container = document.getElementById('edit-grammar-list');
+            container.appendChild(createGrammarBlock({ title: '', skeleton: '', notes: '' }, container.children.length));
+        }
+
+        function removeGrammarBlock(btn) {
+            btn.closest('.grammar-edit-block').remove();
+        }
+
+        function saveGrammar() {
+            if (!currentArticle) return;
+            const blocks = document.querySelectorAll('#edit-grammar-list .grammar-edit-block');
+            const items = [...blocks].map(b => {
+                const inputs = b.querySelectorAll('input');
+                const ta = b.querySelector('textarea');
+                return {
+                    title: inputs[0].value.trim(),
+                    skeleton: inputs[1].value.trim(),
+                    notes: ta.value.trim()
+                };
+            }).filter(g => g.title || g.skeleton || g.notes);
+            database[currentArticle].grammar = items;
+
+            const container = document.getElementById('grammar-breakdown');
+            container.innerHTML = items.length > 0
+                ? items.map(item => `
+                    <div class="grammar-view-card">
+                        <p class="font-semibold text-slate-200 text-sm mb-1.5">${item.title}</p>
+                        <p class="text-xs text-blue-400 font-mono mb-2 leading-relaxed">${item.skeleton}</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">${item.notes}</p>
+                    </div>
+                `).join('')
+                : `<div class="grammar-view-card text-slate-500 italic text-xs">暂无核心句型骨架拆解</div>`;
+            cancelEditMode('grammar');
+        }
+
+        // ── Vocab ─────────────────────────────────────────────────
+        function renderVocabEditList(items) {
+            const container = document.getElementById('edit-vocab-list');
+            container.innerHTML = '';
+            (items.length ? items : [{ word: '', type: '', meaning: '', rating: '⭐⭐⭐' }]).forEach((v, i) => {
+                container.appendChild(createVocabRow(v, i));
+            });
+        }
+
+        function createVocabRow(v, idx) {
+            const row = document.createElement('div');
+            row.className = 'vocab-edit-row';
+            row.dataset.idx = idx;
+            row.innerHTML = `
+                <input class="edit-input font-mono" placeholder="词汇" value="${escHtml(v.word || '')}">
+                <input class="edit-input" placeholder="词性" value="${escHtml(v.type || '')}">
+                <input class="edit-input" placeholder="释义" value="${escHtml(v.meaning || '')}">
+                <input class="edit-input" placeholder="⭐⭐⭐" value="${escHtml(v.rating || '')}">
+                <button class="remove-btn" onclick="removeVocabRow(this)" title="删除">✕</button>
+            `;
+            return row;
+        }
+
+        function addVocabRow() {
+            const container = document.getElementById('edit-vocab-list');
+            container.appendChild(createVocabRow({ word: '', type: '', meaning: '', rating: '⭐⭐⭐' }, container.children.length));
+        }
+
+        function removeVocabRow(btn) {
+            btn.closest('.vocab-edit-row').remove();
+        }
+
+        function saveVocab() {
+            if (!currentArticle) return;
+            const rows = document.querySelectorAll('#edit-vocab-list .vocab-edit-row');
+            const items = [...rows].map(r => {
+                const inputs = r.querySelectorAll('input');
+                return {
+                    word: inputs[0].value.trim(),
+                    type: inputs[1].value.trim(),
+                    meaning: inputs[2].value.trim(),
+                    rating: inputs[3].value.trim()
+                };
+            }).filter(v => v.word);
+            database[currentArticle].vocab = items;
+
+            const vocabTable = document.getElementById('vocab-table-body');
+            vocabTable.innerHTML = items.length > 0
+                ? items.map(item => `
+                    <tr>
+                        <td class="py-2.5 pr-4 font-medium text-blue-400 font-mono">${item.word}</td>
+                        <td class="py-2.5 pr-4"><span class="text-slate-500 font-mono mr-1.5 text-[10px]">[${item.type}]</span>${item.meaning}</td>
+                        <td class="py-2.5 text-yellow-400">${item.rating}</td>
+                    </tr>
+                `).join('')
+                : `<tr><td colspan="3" class="py-4 text-center text-slate-500 italic">暂无核心词汇记录</td></tr>`;
+            cancelEditMode('vocab');
+        }
+
+        // ── Utility ───────────────────────────────────────────────
+        function escHtml(str) {
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // ── Import ────────────────────────────────────────────────
+
+        // Normalize an article object from any supported schema into internal format
+        function normalizeArticle(obj) {
+            // ── insights: accept translation_tips / insights / tips ──
+            if (!obj.insights) {
+                const raw = obj.translation_tips || obj.tips || null;
+                if (raw) {
+                    // Split multi-line string into array items
+                    obj.insights = raw.split('\n').map(s => s.trim()).filter(Boolean);
+                } else {
+                    obj.insights = [];
+                }
+            } else if (typeof obj.insights === 'string') {
+                obj.insights = obj.insights.split('\n').map(s => s.trim()).filter(Boolean);
+            }
+            // Append takeaway as a bonus insight item
+            if (obj.takeaway) {
+                obj.insights.push('📌 句型模板：' + obj.takeaway.trim());
+                delete obj.takeaway;
+            }
+            delete obj.translation_tips; delete obj.tips;
+
+            // ── grammar: accept string or array ──────────────────────
+            if (typeof obj.grammar === 'string' && obj.grammar.trim()) {
+                // Split numbered lines like "1. xxx\n2. yyy"
+                const lines = obj.grammar.split(/\n+/).map(s => s.trim()).filter(Boolean);
+                // First line = title/skeleton, rest = notes
+                obj.grammar = [{
+                    title: '语法句式剖析',
+                    skeleton: lines[0] || '',
+                    notes: lines.slice(1).join('  ') || lines[0] || ''
+                }];
+            } else if (!Array.isArray(obj.grammar)) {
+                obj.grammar = [];
+            }
+
+            // ── vocab: ensure array ───────────────────────────────────
+            if (!Array.isArray(obj.vocab)) { obj.vocab = []; }
+
+            // ── genre fallback ────────────────────────────────────────
+            if (!obj.genre) { obj.genre = '未分类'; }
+
+            return obj;
         }
 
         function processImport() {
             const rawText = document.getElementById('import-json-area').value.trim();
             const errBox = document.getElementById('import-error');
             errBox.classList.add('hidden');
-            errBox.innerText = "";
+            errBox.innerText = '';
 
             if (!rawText) {
-                errBox.innerText = "错误：请输入 JSON 代码。";
+                errBox.innerText = '错误：请输入 JSON 代码。';
                 errBox.classList.remove('hidden');
                 return;
             }
-
             try {
-                // Remove code block markdown if pasted by accident
-                let cleanText = rawText.replace(/^```json/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-                const newArticleObj = JSON.parse(cleanText);
+                // Strip markdown code fences if present
+                let cleanText = rawText
+                    .replace(/^```json\s*/i, '')
+                    .replace(/^```\s*/i, '')
+                    .replace(/\s*```$/i, '')
+                    .trim();
 
-                // Basic validation
-                if (!newArticleObj.title || !newArticleObj.body) {
-                    throw new Error("JSON 格式错误：缺少 'title' 或 'body' 核心字段。");
-                }
+                const parsed = JSON.parse(cleanText);
 
-                // Generate a unique ID (e.g. a_1684323010202)
-                const newKey = 'a_' + Date.now();
-                database[newKey] = newArticleObj;
+                // Support both single object {} and array [...]
+                const items = Array.isArray(parsed) ? parsed : [parsed];
 
-                // Re-render UI
+                if (items.length === 0) throw new Error('JSON 数组为空，请确保数组中至少包含一条语料。');
+
+                let lastKey = null;
+                items.forEach((obj, idx) => {
+                    if (!obj.title || !obj.body) {
+                        throw new Error(`第 ${idx + 1} 条语料缺少 'title' 或 'body' 字段。`);
+                    }
+                    const normalized = normalizeArticle(obj);
+                    const key = 'a_' + (Date.now() + idx); // unique keys even in same ms
+                    database[key] = normalized;
+                    lastKey = key;
+                });
+
                 renderSidebar();
-                switchArticle(newKey);
-                
+                if (lastKey) switchArticle(lastKey);
                 toggleModal('import-modal');
-                alert("🎉 恭喜！新语料导入成功并已挂载到左侧目录！\n\n如果需要永久保存，请点击顶部的「🚀 同步 GitHub 仓库」进行云端推送。");
+
+                const count = items.length;
+                alert(`🎉 导入成功！共导入 ${count} 条语料，已挂载到左侧目录。\n\n如需永久保存，请点击「🚀 同步 GitHub 仓库」。`);
 
             } catch (e) {
-                errBox.innerText = "JSON 解析失败，请检查语法错误。详情：" + e.message;
+                errBox.innerText = 'JSON 解析失败，请检查格式。详情：' + e.message;
                 errBox.classList.remove('hidden');
             }
         }
 
-        // --- GitHub Synchronizer Logic ---
+        // ── GitHub ────────────────────────────────────────────────
         function saveGithubSettings() {
-            const token = document.getElementById('gh-token').value.trim();
-            const username = document.getElementById('gh-username').value.trim();
-            const repo = document.getElementById('gh-repo').value.trim();
-            const path = document.getElementById('gh-path').value.trim();
-            const branch = document.getElementById('gh-branch').value.trim();
-
-            localStorage.setItem('gh_token', token);
-            localStorage.setItem('gh_username', username);
-            localStorage.setItem('gh_repo', repo);
-            localStorage.setItem('gh_path', path);
-            localStorage.setItem('gh_branch', branch);
-
+            localStorage.setItem('gh_token',    document.getElementById('gh-token').value.trim());
+            localStorage.setItem('gh_username', document.getElementById('gh-username').value.trim());
+            localStorage.setItem('gh_repo',     document.getElementById('gh-repo').value.trim());
+            localStorage.setItem('gh_path',     document.getElementById('gh-path').value.trim());
+            localStorage.setItem('gh_branch',   document.getElementById('gh-branch').value.trim());
             updateGithubStatus();
-            alert("✅ GitHub 设置保存至浏览器缓存成功！");
+            alert('✅ GitHub 设置保存至浏览器缓存成功！');
             toggleModal('github-modal');
         }
 
         function logSync(msg) {
             const logger = document.getElementById('sync-log');
-            logger.classList.remove('hidden');
             logger.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
             logger.scrollTop = logger.scrollHeight;
         }
 
         async function pushToGithub() {
-            const token = localStorage.getItem('gh_token');
+            const token    = localStorage.getItem('gh_token');
             const username = localStorage.getItem('gh_username');
-            const repo = localStorage.getItem('gh_repo');
-            const path = localStorage.getItem('gh_path') || 'index.html';
-            const branch = localStorage.getItem('gh_branch') || 'main';
+            const repo     = localStorage.getItem('gh_repo');
+            const path     = localStorage.getItem('gh_path') || 'index.html';
+            const branch   = localStorage.getItem('gh_branch') || 'main';
 
-            const logger = document.getElementById('sync-log');
-            logger.innerHTML = ''; 
-
+            document.getElementById('sync-log').innerHTML = '';
             if (!token || !username || !repo) {
-                alert("❌ 请先完整配置 GitHub Token、用户名及仓库名称！");
+                alert('❌ 请先完整配置 GitHub Token、用户名及仓库名称！');
                 return;
             }
+            logSync('正在建立连接...');
 
-            logSync("正在建立连接...");
-
-            // Directly inject the live database object into the HTML string before pushing
             const docClone = document.documentElement.cloneNode(true);
-
-            // Clean inputs for security
             docClone.querySelector('#gh-token').value = '';
             docClone.querySelector('#gh-token').setAttribute('value', '');
 
             const dbScript = docClone.querySelector('#database-script');
             if (dbScript) {
-                dbScript.textContent = `\n        const database = ${JSON.stringify(database, null, 12)};\n    `;
+                dbScript.textContent = `\n        const database = ${JSON.stringify(database, null, 10)};\n    `;
             }
 
-            const htmlContent = "<!DOCTYPE html>\n" + docClone.outerHTML;
+            const htmlContent = '<!DOCTYPE html>\n' + docClone.outerHTML;
             const encodedContent = btoa(unescape(encodeURIComponent(htmlContent)));
-
             const url = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
 
             try {
-                logSync("正在获取 GitHub 远程文件最新的 SHA...");
-                const getResponse = await fetch(url, {
+                logSync('正在获取 GitHub 远程文件最新的 SHA...');
+                const getRes = await fetch(url, {
                     method: 'GET',
                     headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
                 });
-
                 let sha = null;
-                if (getResponse.status === 200) {
-                    const fileData = await getResponse.json();
-                    sha = fileData.sha;
-                    logSync(`获取成功！`);
-                }
+                if (getRes.status === 200) { sha = (await getRes.json()).sha; logSync('获取成功！'); }
 
-                logSync("正在推送更新后的最新代码及题库至 GitHub...");
-                const putBody = {
-                    message: `Auto-Sync Knowledge Base [${new Date().toLocaleDateString()}]`,
-                    content: encodedContent,
-                    branch: branch
-                };
+                logSync('正在推送更新后的最新代码及题库至 GitHub...');
+                const putBody = { message: `Auto-Sync Knowledge Base [${new Date().toLocaleDateString()}]`, content: encodedContent, branch };
                 if (sha) putBody.sha = sha;
 
-                const putResponse = await fetch(url, {
+                const putRes = await fetch(url, {
                     method: 'PUT',
                     headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
                     body: JSON.stringify(putBody)
                 });
 
-                if (putResponse.status === 200 || putResponse.status === 201) {
-                    logSync("🎉 同步推送成功！GitHub Pages 即将重新部署生效。");
-                    alert("🎉 一键云端同步成功！你的在线网页将在几分钟后更新。");
+                if (putRes.status === 200 || putRes.status === 201) {
+                    logSync('🎉 同步推送成功！GitHub Pages 即将重新部署生效。');
+                    alert('🎉 一键云端同步成功！你的在线网页将在几分钟后更新。');
                 } else {
-                    const errData = await putResponse.json();
-                    throw new Error(errData.message);
+                    throw new Error((await putRes.json()).message);
                 }
             } catch (err) {
                 logSync(`❌ 错误: ${err.message}`);
-                console.error(err);
                 alert(`❌ 同步发生错误:\n${err.message}`);
             }
         }
 
-        window.onload = function() {
-            initApp();
-        }
+        window.onload = () => initApp();
     </script>
 
-</body></html>
+</body>
+</html>
