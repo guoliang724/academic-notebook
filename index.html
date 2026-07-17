@@ -1,149 +1,556 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学术英语 &amp; 法律写作终极笔记本 (容器版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <script>
         MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        .code-font { font-family: 'JetBrains Mono', monospace; }
-        .MathJax { color: inherit !important; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
 
-        /* ─── Scrollbar ─────────────────────────────────── */
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .MathJax {
+            color: inherit !important;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           暖纸学术主题 · Warm Paper Academic
+           易读 · 易记 · 清晒 · 好看
+           ═══════════════════════════════════════════════════════════ */
+
+        /* ── Page & Surface Backgrounds ─────────────────────────── */
+        body, .bg-slate-900  { background-color: #f4f2ec !important; }
+        .bg-slate-950        { background-color: #ffffff !important; }
+        .bg-slate-800        { background-color: #ece9e1 !important; }
+        .bg-slate-800\/60    { background-color: rgba(236,233,225,0.7) !important; }
+        .bg-slate-800\/70    { background-color: rgba(236,233,225,0.8) !important; }
+        .bg-slate-950\/60    { background-color: rgba(255,255,255,0.88) !important; }
+        /* Keep modal backdrop visibly dark */
+        .bg-slate-950\/80    { background-color: rgba(15,23,42,0.6) !important; }
+
+        /* ── Text Colors ───────────────────────────────────────── */
+        .text-white            { color: #1c1814 !important; }
+        .hover\:text-white:hover { color: #0f0d0a !important; }
+        .text-slate-100        { color: #1c1814 !important; }
+        .text-slate-200        { color: #2e2b27 !important; }
+        .text-slate-300        { color: #47433e !important; }
+        .text-slate-400        { color: #6e6a63 !important; }
+        .text-slate-500        { color: #a09992 !important; }
+        .text-slate-600        { color: #c2bcb5 !important; }
+
+        /* Colored action buttons keep white text — placed AFTER .text-white override */
+        .bg-blue-600    { color: #ffffff !important; }
+        .bg-emerald-600 { color: #ffffff !important; }
+        .bg-indigo-600  { color: #ffffff !important; }
+
+        /* ── Accent Text (saturated for light backgrounds) ────────── */
+        .text-blue-400    { color: #1d4ed8 !important; }
+        .text-emerald-400 { color: #059669 !important; }
+        .text-emerald-500 { color: #0d9488 !important; }
+        .text-indigo-400  { color: #4338ca !important; }
+        .text-yellow-400  { color: #b45309 !important; }  /* amber — readable on cream */
+        .text-red-400     { color: #dc2626 !important; }
+        .text-amber-500   { color: #d97706 !important; }
+
+        /* ── Borders ───────────────────────────────────────────── */
+        .border-slate-800      { border-color: #d9d3cb !important; }
+        .border-slate-800\/50  { border-color: rgba(217,211,203,0.5) !important; }
+        .border-slate-700      { border-color: #c8c2ba !important; }
+        .border-blue-900\/30   { border-color: rgba(29,78,216,0.15) !important; }
+        .border-blue-500\/20   { border-color: rgba(29,78,216,0.2) !important; }
+        .border-emerald-500\/20 { border-color: rgba(5,150,105,0.2) !important; }
+        .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25) !important; }
+
+        /* ── Accent Backgrounds ──────────────────────────────────── */
+        .bg-blue-500\/10                 { background-color: rgba(29,78,216,0.07) !important; }
+        .bg-emerald-600\/10              { background-color: rgba(5,150,105,0.07) !important; }
+        .bg-emerald-500\/10              { background-color: rgba(16,185,129,0.07) !important; }
+        .hover\:bg-emerald-600\/20:hover { background-color: rgba(5,150,105,0.12) !important; }
+        .hover\:bg-emerald-500\/10:hover { background-color: rgba(16,185,129,0.06) !important; }
+
+        /* ── Interactive Hover States ───────────────────────────── */
+        .hover\:bg-slate-700:hover    { background-color: #e4e0d8 !important; }
+        .hover\:bg-slate-800:hover    { background-color: #ece9e1 !important; }
+        .hover\:bg-slate-900\/70:hover { background-color: rgba(236,233,225,0.8) !important; }
+        .divide-slate-800\/70 > * + * { border-color: rgba(217,211,203,0.7) !important; }
+
+        /* ═══════════════════════════════════════════════════════════
+           Component Styles
+           ═══════════════════════════════════════════════════════════ */
+
+        /* ── Scrollbar ────────────────────────────────────────────── */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar-thumb { background: #c8c2ba; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a09992; }
 
-        /* ─── Sidebar item ──────────────────────────────── */
-        .article-item { position: relative; display: flex; align-items: center; border-radius: 0.5rem; transition: all 0.18s; }
-        .article-item .article-btn { flex: 1; min-width: 0; text-align: left; padding: 0.625rem 0.75rem; font-size: 0.8125rem; font-weight: 500; color: #94a3b8; transition: color 0.15s; border-radius: 0.5rem; background: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .article-item:hover .article-btn { color: #e2e8f0; background: rgba(15,23,42,0.8); }
-        .article-item.active .article-btn { color: #ffffff; }
-        .article-item.active { background: linear-gradient(90deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%); border-left: 2px solid #3b82f6; padding-left: 0; border-radius: 0 0.5rem 0.5rem 0; }
-        .article-item:not(.active) { border-left: 2px solid transparent; padding-left: 0; }
+        /* ── Sidebar Item ─────────────────────────────────────────── */
+        .article-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border-radius: 0.5rem;
+            transition: all 0.18s;
+        }
 
-        .delete-btn { opacity: 0; flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #64748b; transition: all 0.15s; margin-right: 4px; cursor: pointer; background: transparent; border: none; font-size: 12px; }
+        .article-item .article-btn {
+            flex: 1;
+            min-width: 0;
+            text-align: left;
+            padding: 0.625rem 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #6e6a63;
+            transition: color 0.15s;
+            border-radius: 0.5rem;
+            background: transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .article-item:hover .article-btn {
+            color: #1c1814;
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .article-item.active .article-btn {
+            color: #1a3a8a;
+            font-weight: 600;
+        }
+
+        .article-item.active {
+            background: linear-gradient(90deg, rgba(29, 78, 216, 0.1) 0%, rgba(29, 78, 216, 0.02) 100%);
+            border-left: 2px solid #2563eb;
+            padding-left: 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .article-item:not(.active) {
+            border-left: 2px solid transparent;
+            padding-left: 0;
+        }
+
+        .delete-btn {
+            opacity: 0;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: #a09992;
+            transition: all 0.15s;
+            margin-right: 4px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 12px;
+        }
+
         .article-item:hover .delete-btn { opacity: 1; }
-        .delete-btn:hover { color: #f87171; background: rgba(239,68,68,0.12); }
 
-        /* ─── Source card ───────────────────────────────── */
+        .delete-btn:hover {
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.08);
+        }
+
+        /* ── Source Card ──────────────────────────────────────────── */
         .source-card {
-            background: linear-gradient(145deg, #020617 0%, #0d1829 100%);
-            position: relative; overflow: hidden;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.04);
         }
+
+        /* Rainbow bookmark line — signals "this is important content to read" */
         .source-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.4) 40%, rgba(99,102,241,0.3) 60%, transparent 100%);
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5 0%, #2563eb 30%, #0891b2 60%, #059669 100%);
         }
 
-        /* ─── Editable card hover ───────────────────────── */
-        .editable-card { transition: border-color 0.2s, box-shadow 0.2s; }
-        .editable-card:hover { border-color: rgba(99,102,241,0.25) !important; }
+        /* ── Editable Card Hover ───────────────────────────────────── */
+        .editable-card {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
 
-        /* ─── Tab indicator ─────────────────────────────── */
-        .tab-indicator-bar { position: absolute; bottom: 0; height: 2px; background: #3b82f6; border-radius: 1px; transition: left 0.25s cubic-bezier(0.4,0,0.2,1), width 0.25s cubic-bezier(0.4,0,0.2,1); }
+        .editable-card:hover {
+            border-color: rgba(79, 70, 229, 0.28) !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
 
-        /* ─── Edit controls ─────────────────────────────── */
+        /* ── Tab Indicator ─────────────────────────────────────────── */
+        .tab-indicator-bar {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 1px;
+            transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ── Edit Controls ────────────────────────────────────────── */
         .btn-edit {
-            font-size: 10px; padding: 3px 10px; border-radius: 6px;
-            border: 1px solid #334155; background: rgba(30,41,59,0.7);
-            color: #94a3b8; cursor: pointer; transition: all 0.15s;
-            display: flex; align-items: center; gap: 4px; white-space: nowrap;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid #d9d3cb;
+            background: rgba(236, 233, 225, 0.9);
+            color: #6e6a63;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
         }
-        .btn-edit:hover { border-color: #6366f1; color: #a5b4fc; background: rgba(99,102,241,0.1); }
+
+        .btn-edit:hover {
+            border-color: #6366f1;
+            color: #4338ca;
+            background: rgba(67, 56, 202, 0.06);
+        }
+
         .btn-save {
-            font-size: 10px; padding: 3px 12px; border-radius: 6px;
-            border: 1px solid rgba(16,185,129,0.4); background: rgba(16,185,129,0.1);
-            color: #34d399; cursor: pointer; transition: all 0.15s;
-            display: flex; align-items: center; gap: 4px;
+            font-size: 10px;
+            padding: 3px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(5, 150, 105, 0.35);
+            background: rgba(5, 150, 105, 0.07);
+            color: #059669;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .btn-save:hover { background: rgba(16,185,129,0.2); border-color: #10b981; }
+
+        .btn-save:hover {
+            background: rgba(5, 150, 105, 0.14);
+            border-color: #059669;
+        }
+
         .btn-cancel {
-            font-size: 10px; padding: 3px 10px; border-radius: 6px;
-            border: 1px solid #334155; background: transparent;
-            color: #64748b; cursor: pointer; transition: all 0.15s;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid #d9d3cb;
+            background: transparent;
+            color: #a09992;
+            cursor: pointer;
+            transition: all 0.15s;
         }
-        .btn-cancel:hover { color: #94a3b8; border-color: #475569; }
 
-        /* ─── Edit mode card ────────────────────────────── */
-        .edit-card { border-color: rgba(99,102,241,0.35) !important; box-shadow: 0 0 0 1px rgba(99,102,241,0.1), 0 4px 20px rgba(0,0,0,0.3); }
+        .btn-cancel:hover {
+            color: #6e6a63;
+            border-color: #c8c2ba;
+        }
 
-        /* ─── Textarea / Input ──────────────────────────── */
+        /* ── Edit Mode Card ───────────────────────────────────────── */
+        .edit-card {
+            border-color: rgba(67, 56, 202, 0.3) !important;
+            box-shadow: 0 0 0 1px rgba(67, 56, 202, 0.08), 0 4px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        /* ── Textarea / Input ─────────────────────────────────────── */
         .edit-textarea {
-            background: #020617; border: 1px solid #334155; border-radius: 0.5rem;
-            padding: 0.75rem; color: #cbd5e1; font-size: 0.8125rem;
-            line-height: 1.65; width: 100%; resize: vertical; outline: none;
-            font-family: 'Inter', sans-serif; transition: border-color 0.15s;
+            background: #ffffff;
+            border: 1px solid #d9d3cb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            color: #2e2b27;
+            font-size: 0.8125rem;
+            line-height: 1.65;
+            width: 100%;
+            resize: vertical;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.15s;
         }
+
         .edit-textarea:focus { border-color: #6366f1; }
+
         .edit-input {
-            background: #020617; border: 1px solid #2d3748; border-radius: 0.375rem;
-            padding: 0.35rem 0.6rem; color: #cbd5e1; font-size: 0.72rem; outline: none;
-            width: 100%; transition: border-color 0.15s;
+            background: #ffffff;
+            border: 1px solid #d9d3cb;
+            border-radius: 0.375rem;
+            padding: 0.35rem 0.6rem;
+            color: #2e2b27;
+            font-size: 0.72rem;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.15s;
         }
+
         .edit-input:focus { border-color: #6366f1; }
 
-        /* ─── Insights edit row ─────────────────────────── */
-        .insight-edit-row { display: flex; gap: 6px; align-items: flex-start; }
+        /* ── Insights Edit Row ────────────────────────────────────── */
+        .insight-edit-row {
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
         .insight-edit-row textarea { flex: 1; }
 
-        /* ─── Grammar edit block ────────────────────────── */
-        .grammar-edit-block { background: rgba(2,6,23,0.6); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.875rem; }
+        /* ── Grammar Edit Block ───────────────────────────────────── */
+        .grammar-edit-block {
+            background: rgba(244, 242, 236, 0.8);
+            border: 1px solid #d9d3cb;
+            border-radius: 0.75rem;
+            padding: 0.875rem;
+        }
 
-        /* ─── Vocab edit row ────────────────────────────── */
-        .vocab-edit-row { display: grid; grid-template-columns: 2fr 0.9fr 2.2fr 1.4fr 26px; gap: 5px; align-items: center; }
+        /* ── Vocab Edit Row ───────────────────────────────────────── */
+        .vocab-edit-row {
+            display: grid;
+            grid-template-columns: 2fr 0.9fr 2.2fr 1.4fr 26px;
+            gap: 5px;
+            align-items: center;
+        }
 
-        /* ─── Remove btn in edit lists ──────────────────── */
+        /* ── Remove Button ─────────────────────────────────────────── */
         .remove-btn {
-            width: 22px; height: 22px; border-radius: 4px; border: none; cursor: pointer;
-            background: rgba(239,68,68,0.1); color: #f87171; font-size: 13px;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            background: rgba(220, 38, 38, 0.08);
+            color: #dc2626;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
             transition: background 0.15s;
         }
-        .remove-btn:hover { background: rgba(239,68,68,0.2); }
 
-        /* ─── JSON Accordion ────────────────────────────── */
-        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.32s ease; }
+        .remove-btn:hover { background: rgba(220, 38, 38, 0.16); }
+
+        /* ── JSON Accordion ────────────────────────────────────────── */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.32s ease;
+        }
+
         .accordion-body.open { max-height: 600px; }
-        .accordion-icon { transition: transform 0.25s; display: inline-block; }
+
+        .accordion-icon {
+            transition: transform 0.25s;
+            display: inline-block;
+        }
+
         .accordion-icon.open { transform: rotate(90deg); }
 
-        /* ─── Fade in ───────────────────────────────────── */
+        /* ── Fade-in Animation ─────────────────────────────────────── */
         @keyframes fadeSlideIn {
             from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
+
         .fade-in { animation: fadeSlideIn 0.22s ease-out forwards; }
 
-        /* ─── Grammar view card ─────────────────────────── */
-        .grammar-view-card { background: rgba(15,23,42,0.7); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; }
+        /* ── Grammar View Card ────────────────────────────────────── */
+        .grammar-view-card {
+            background: #f8f6f1;
+            border: 1px solid #d9d3cb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+
+        /* ── Template Library Cards ──────────────────────────────── */
+        .template-card {
+            background: #ffffff;
+            border: 1px solid #e2ddd7;
+            border-radius: 0.875rem;
+            padding: 1.125rem 1.25rem;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.18s;
+        }
+
+        .template-card:hover {
+            border-color: rgba(67, 56, 202, 0.3);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+        }
+
+        /* Placeholder highlights — indigo pill, very readable on white */
+        .template-placeholder {
+            display: inline;
+            background: rgba(67, 56, 202, 0.08);
+            color: #3730a3;
+            border: 1px solid rgba(67, 56, 202, 0.22);
+            border-radius: 4px;
+            padding: 0 4px;
+            font-size: 0.83em;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+            border: 1px solid transparent;
+        }
+
+        .tpl-copy-btn {
+            background: rgba(67, 56, 202, 0.07);
+            border: 1px solid rgba(67, 56, 202, 0.2);
+            color: #4338ca;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+
+        .tpl-copy-btn:hover {
+            background: rgba(67, 56, 202, 0.14);
+            color: #312e81;
+            border-color: rgba(67, 56, 202, 0.35);
+        }
+
+        .tpl-icon-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid #e2ddd7;
+            background: transparent;
+            color: #c2bcb5;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .tpl-icon-btn:hover {
+            border-color: #c8c2ba;
+            color: #6e6a63;
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .tpl-icon-btn.danger:hover {
+            border-color: rgba(220, 38, 38, 0.3);
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.06);
+        }
+
+        /* ── Copy Toast ────────────────────────────────────────────── */
+        .copy-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: linear-gradient(135deg, #059669, #047857);
+            color: #fff;
+            padding: 0.55rem 1.4rem;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.28s, transform 0.28s;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+        }
+
+        .copy-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── Template Search & Filter ─────────────────────────────── */
+        .tpl-search-input {
+            background: #ffffff;
+            border: 1px solid #d9d3cb;
+            border-radius: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            color: #2e2b27;
+            font-size: 0.8125rem;
+            outline: none;
+            transition: border-color 0.15s;
+            flex: 1;
+        }
+
+        .tpl-search-input::placeholder { color: #a09992; }
+        .tpl-search-input:focus { border-color: #6366f1; }
+
+        .tpl-select {
+            background: #ffffff;
+            border: 1px solid #d9d3cb;
+            border-radius: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            color: #6e6a63;
+            font-size: 0.8125rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.15s;
+            white-space: nowrap;
+        }
+
+        .tpl-select:focus { border-color: #6366f1; }
+
+        /* ── Template Add / Edit Form ──────────────────────────────── */
+        .tpl-add-form {
+            background: rgba(244, 242, 236, 0.7);
+            border: 1px dashed rgba(67, 56, 202, 0.28);
+            border-radius: 0.875rem;
+            padding: 1.125rem 1.25rem;
+        }
     </style>
 </head>
+
 <body class="bg-slate-900 text-slate-100 antialiased min-h-screen flex flex-col">
 
     <!-- ══ Top Header ══════════════════════════════════════════════ -->
     <header class="bg-slate-950 border-b border-slate-800 shrink-0">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div
+            class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
                 <div class="flex items-center gap-2 mb-1">
-                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blue-500/20">个人学术资产</span>
+                    <span
+                        class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blue-500/20">个人学术资产</span>
                     <span class="text-slate-500 text-xs">V8.0 增强编辑版</span>
                 </div>
                 <h1 class="text-2xl font-bold text-white tracking-tight">学术英语 &amp; 法律写作终极笔记本</h1>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <button onclick="toggleModal('github-modal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 border border-slate-700">
+                <button onclick="toggleModal('github-modal')"
+                    class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 border border-slate-700">
                     <span class="w-2.5 h-2.5 rounded-full" id="github-status-dot"></span>
                     🚀 同步 GitHub 仓库
                 </button>
-                <button onclick="toggleModal('template-modal')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20">
+                <button onclick="toggleModal('template-modal')"
+                    class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20">
                     📚 全局模板库
                 </button>
             </div>
@@ -158,7 +565,8 @@
             <div class="bg-slate-950 rounded-xl border border-slate-800 p-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">已汇整语料库</h3>
-                    <button onclick="openImportModal()" class="text-[10px] bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-bold px-2 py-1 rounded border border-emerald-500/20 transition-all flex items-center gap-1">
+                    <button onclick="openImportModal()"
+                        class="text-[10px] bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-bold px-2 py-1 rounded border border-emerald-500/20 transition-all flex items-center gap-1">
                         ➕ 导入
                     </button>
                 </div>
@@ -173,8 +581,10 @@
             <section class="source-card rounded-2xl border border-slate-800 p-6 editable-card">
                 <div class="flex justify-between items-start mb-2">
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">分析语料 · Source Text</span>
-                        <span id="text-genre" class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-700"></span>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">分析语料 · Source
+                            Text</span>
+                        <span id="text-genre"
+                            class="bg-slate-800 text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-700"></span>
                     </div>
                 </div>
                 <p id="article-title-display" class="text-[11px] text-slate-600 mb-3 font-medium tracking-wide"></p>
@@ -184,13 +594,16 @@
             <!-- Tab Bar -->
             <div class="relative border-b border-slate-800">
                 <div class="flex" id="tab-bar" aria-label="Tabs">
-                    <button onclick="switchTab('translation')" id="tab-translation" class="tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400">
+                    <button onclick="switchTab('translation')" id="tab-translation"
+                        class="tab-btn py-3 px-5 text-sm font-semibold transition-all text-blue-400">
                         译文对比 &amp; 技巧
                     </button>
-                    <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                    <button onclick="switchTab('grammar')" id="tab-grammar"
+                        class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
                         语法句式剖析
                     </button>
-                    <button onclick="switchTab('vocabulary')" id="tab-vocabulary" class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
+                    <button onclick="switchTab('vocabulary')" id="tab-vocabulary"
+                        class="tab-btn py-3 px-5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-all">
                         重点词汇 &amp; 拓展
                     </button>
                 </div>
@@ -204,7 +617,8 @@
                 <div id="content-translation" class="tab-pane flex flex-col gap-5">
 
                     <!-- Translation VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-translation-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-translation-view">
                         <div class="flex justify-between items-start mb-3">
                             <h4 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>精雕学术译文
@@ -214,7 +628,8 @@
                         <p id="translation-body" class="text-slate-300 leading-relaxed text-sm"></p>
                     </div>
                     <!-- Translation EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-translation-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-translation-edit">
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="text-sm font-bold text-indigo-400 flex items-center gap-2">✏️ 编辑译文</h4>
                             <div class="flex gap-2">
@@ -222,11 +637,13 @@
                                 <button class="btn-save" onclick="saveTranslation()">💾 保存</button>
                             </div>
                         </div>
-                        <textarea id="edit-translation-text" class="edit-textarea" rows="6" placeholder="输入中文译文..."></textarea>
+                        <textarea id="edit-translation-text" class="edit-textarea" rows="6"
+                            placeholder="输入中文译文..."></textarea>
                     </div>
 
                     <!-- Insights VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-insights-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-insights-view">
                         <div class="flex justify-between items-start mb-3">
                             <h4 class="text-sm font-bold text-slate-300">💡 翻译心法拆解</h4>
                             <button class="btn-edit" onclick="enterEditMode('insights')">✏️ 编辑</button>
@@ -234,7 +651,8 @@
                         <ul id="translation-insights" class="space-y-2.5 text-sm text-slate-400 list-none"></ul>
                     </div>
                     <!-- Insights EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-insights-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-insights-edit">
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑翻译心法</h4>
                             <div class="flex gap-2">
@@ -243,7 +661,8 @@
                             </div>
                         </div>
                         <div id="edit-insights-list" class="flex flex-col gap-2 mb-3"></div>
-                        <button onclick="addInsightRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addInsightRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加一条技巧
                         </button>
                     </div>
@@ -253,7 +672,8 @@
                 <div id="content-grammar" class="tab-pane hidden flex flex-col gap-5">
 
                     <!-- Grammar VIEW -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card" id="card-grammar-view">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 editable-card"
+                        id="card-grammar-view">
                         <div class="flex justify-between items-start mb-4">
                             <h4 class="text-sm font-bold text-slate-300">🔍 核心句型骨架拆解</h4>
                             <button class="btn-edit" onclick="enterEditMode('grammar')">✏️ 编辑</button>
@@ -261,7 +681,8 @@
                         <div id="grammar-breakdown" class="space-y-3"></div>
                     </div>
                     <!-- Grammar EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-grammar-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-grammar-edit">
                         <div class="flex justify-between items-center mb-4">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑语法句式</h4>
                             <div class="flex gap-2">
@@ -270,7 +691,8 @@
                             </div>
                         </div>
                         <div id="edit-grammar-list" class="flex flex-col gap-3 mb-3"></div>
-                        <button onclick="addGrammarRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addGrammarRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加语法条目
                         </button>
                     </div>
@@ -289,17 +711,21 @@
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-slate-800 text-slate-500">
-                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词汇</th>
-                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词性 / 释义</th>
+                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词汇
+                                        </th>
+                                        <th class="py-2.5 pr-4 font-semibold uppercase tracking-wider text-[10px]">词性 /
+                                            释义</th>
                                         <th class="py-2.5 font-semibold uppercase tracking-wider text-[10px]">推荐度</th>
                                     </tr>
                                 </thead>
-                                <tbody id="vocab-table-body" class="divide-y divide-slate-800/70 text-slate-300"></tbody>
+                                <tbody id="vocab-table-body" class="divide-y divide-slate-800/70 text-slate-300">
+                                </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- Vocab EDIT -->
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden" id="card-vocab-edit">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 p-6 edit-card hidden"
+                        id="card-vocab-edit">
                         <div class="flex justify-between items-center mb-4">
                             <h4 class="text-sm font-bold text-indigo-400">✏️ 编辑词汇列表</h4>
                             <div class="flex gap-2">
@@ -307,29 +733,36 @@
                                 <button class="btn-save" onclick="saveVocab()">💾 保存</button>
                             </div>
                         </div>
-                        <div class="vocab-edit-row text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider px-1">
+                        <div
+                            class="vocab-edit-row text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider px-1">
                             <span>词汇</span><span>词性</span><span>释义</span><span>推荐度</span><span></span>
                         </div>
                         <div id="edit-vocab-list" class="flex flex-col gap-1.5 mb-3"></div>
-                        <button onclick="addVocabRow()" class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
+                        <button onclick="addVocabRow()"
+                            class="text-[10px] text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-all">
                             ➕ 添加词汇
                         </button>
                     </div>
 
                     <!-- Special Feature Box -->
-                    <div id="vocab-special-box" class="bg-gradient-to-br from-slate-950 to-slate-900 rounded-xl border border-blue-900/30 p-6 hidden"></div>
+                    <div id="vocab-special-box"
+                        class="bg-gradient-to-br from-slate-950 to-slate-900 rounded-xl border border-blue-900/30 p-6 hidden">
+                    </div>
                 </div>
 
             </div>
         </main>
 
         <!-- Empty State -->
-        <main class="flex-1 flex items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl" id="empty-state-prompt" style="display: none;">
+        <main class="flex-1 flex items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl"
+            id="empty-state-prompt" style="display: none;">
             <div class="text-center p-8">
                 <span class="text-4xl block mb-4">📚</span>
                 <h2 class="text-xl font-bold text-white mb-2">你的专属学术知识库</h2>
-                <p class="text-sm text-slate-400 mb-6 max-w-md">当前题库中还没有文章。请点击左侧的"导入"按钮，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。</p>
-                <button onclick="openImportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
+                <p class="text-sm text-slate-400 mb-6 max-w-md">当前题库中还没有文章。请点击左侧的"导入"按钮，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。
+                </p>
+                <button onclick="openImportModal()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
                     立即导入第一篇语料
                 </button>
             </div>
@@ -337,22 +770,29 @@
     </div>
 
     <!-- ══ Import JSON Modal ════════════════════════════════════════ -->
-    <div id="import-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
-            <button onclick="toggleModal('import-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+    <div id="import-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
+            <button onclick="toggleModal('import-modal')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 📥 导入 AI 解析语料 (JSON 格式)
             </h2>
             <p class="text-xs text-slate-400 mb-2">
-                支持两种格式：单条语料 <code class="bg-slate-800 px-1 rounded text-emerald-400">{...}</code> 或批量数组 <code class="bg-slate-800 px-1 rounded text-emerald-400">[{...}, {...}]</code>
+                支持两种格式：单条语料 <code class="bg-slate-800 px-1 rounded text-emerald-400">{...}</code> 或批量数组 <code
+                    class="bg-slate-800 px-1 rounded text-emerald-400">[{...}, {...}]</code>
             </p>
             <p class="text-xs text-slate-500 mb-4">
-                🔁 兼容字段别名：<code class="bg-slate-800/60 px-1 rounded">translation_tips</code> → insights ｜ <code class="bg-slate-800/60 px-1 rounded">grammar</code> 字符串自动转换 ｜ <code class="bg-slate-800/60 px-1 rounded">takeaway</code> 追加至心法
+                🔁 兼容字段别名：<code class="bg-slate-800/60 px-1 rounded">translation_tips</code> → insights ｜ <code
+                    class="bg-slate-800/60 px-1 rounded">grammar</code> 字符串自动转换 ｜ <code
+                    class="bg-slate-800/60 px-1 rounded">takeaway</code> 追加至心法
             </p>
 
             <!-- JSON Field Docs Accordion -->
             <div class="mb-4 border border-slate-800 rounded-lg overflow-hidden">
-                <button onclick="toggleAccordion()" class="w-full flex justify-between items-center px-4 py-2.5 bg-slate-950 text-xs text-slate-400 hover:text-slate-300 hover:bg-slate-900/70 transition-all">
+                <button onclick="toggleAccordion()"
+                    class="w-full flex justify-between items-center px-4 py-2.5 bg-slate-950 text-xs text-slate-400 hover:text-slate-300 hover:bg-slate-900/70 transition-all">
                     <span class="font-semibold flex items-center gap-2">
                         📖 JSON 字段说明 <span class="text-slate-600 font-normal">（点击展开查看各字段含义）</span>
                     </span>
@@ -418,7 +858,8 @@
                                 <tr>
                                     <td class="py-2 pr-3 font-mono text-indigo-400 align-top">specialHTML</td>
                                     <td class="py-2 pr-3 text-slate-600 align-top">string?</td>
-                                    <td class="py-2 text-slate-400">【可选】自定义 HTML 片段，支持 MathJax 数学公式渲染，显示在词汇板块底部的蓝色卡片中</td>
+                                    <td class="py-2 text-slate-400">【可选】自定义 HTML 片段，支持 MathJax 数学公式渲染，显示在词汇板块底部的蓝色卡片中
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -426,13 +867,17 @@
                 </div>
             </div>
 
-            <textarea id="import-json-area" rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4" placeholder='&#123;&#10;  "title": "序号. 主题标题",&#10;  "genre": "学科领域",&#10;  "body": "English source text...",&#10;  "translation": "中文译文",&#10;  "insights": ["技巧一", "技巧二"],&#10;  "grammar": [&#123;"title":"","skeleton":"","notes":""&#125;],&#10;  "vocab": [&#123;"word":"","type":"","meaning":"","rating":"⭐⭐⭐"&#125;]&#10;&#125;'></textarea>
+            <textarea id="import-json-area" rows="12"
+                class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 mb-4"
+                placeholder='&#123;&#10;  "title": "序号. 主题标题",&#10;  "genre": "学科领域",&#10;  "body": "English source text...",&#10;  "translation": "中文译文",&#10;  "insights": ["技巧一", "技巧二"],&#10;  "grammar": [&#123;"title":"","skeleton":"","notes":""&#125;],&#10;  "vocab": [&#123;"word":"","type":"","meaning":"","rating":"⭐⭐⭐"&#125;]&#10;&#125;'></textarea>
 
             <div class="flex justify-end gap-3">
-                <button onclick="toggleModal('import-modal')" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
+                <button onclick="toggleModal('import-modal')"
+                    class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
                     取消
                 </button>
-                <button onclick="processImport()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1">
+                <button onclick="processImport()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1">
                     💾 解析并存入题库
                 </button>
             </div>
@@ -441,9 +886,11 @@
     </div>
 
     <!-- ══ GitHub Sync Modal ════════════════════════════════════════ -->
-    <div id="github-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div id="github-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 relative">
-            <button onclick="toggleModal('github-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            <button onclick="toggleModal('github-modal')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
             <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                 🚀 GitHub 同步云端控制台
             </h2>
@@ -451,44 +898,118 @@
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">GitHub PAT (Token)</label>
-                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" autocomplete="off" value="">
+                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxx"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                        autocomplete="off" value="">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">GitHub 用户名</label>
-                    <input type="text" id="gh-username" placeholder="e.g. yourname" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-username" placeholder="e.g. yourname"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">仓库名称</label>
-                    <input type="text" id="gh-repo" placeholder="e.g. academic-notebook" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-repo" placeholder="e.g. academic-notebook"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">仓库文件路径（需含文件名）</label>
-                    <input type="text" id="gh-path" placeholder="e.g. index.html" value="index.html" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-path" placeholder="e.g. index.html" value="index.html"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">分支名称</label>
-                    <input type="text" id="gh-branch" placeholder="main" value="main" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
+                    <input type="text" id="gh-branch" placeholder="main" value="main"
+                        class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500">
                 </div>
             </div>
             <div class="mt-6 flex justify-between items-center gap-3">
-                <button onclick="saveGithubSettings()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">💾 保存设置</button>
-                <button onclick="pushToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">📤 立即同步推送</button>
+                <button onclick="saveGithubSettings()"
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all">💾
+                    保存设置</button>
+                <button onclick="pushToGithub()"
+                    class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded transition-all flex items-center gap-1">📤
+                    立即同步推送</button>
             </div>
-            <div id="sync-log" class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto"></div>
+            <div id="sync-log"
+                class="mt-4 p-2.5 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono text-slate-400 max-h-[80px] overflow-y-auto">
+            </div>
         </div>
     </div>
 
     <!-- ══ Template Modal ══════════════════════════════════════════ -->
-    <div id="template-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 relative">
-            <button onclick="toggleModal('template-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
-            <h2 class="text-xl font-bold text-white mb-6">我的学术写作高阶模板库</h2>
-            <p class="text-sm text-slate-400 mb-4">你的四大核心模板（已存档）。</p>
-            <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-3">
-                <p><strong class="text-slate-200">模板一 (法律/商业):</strong> [Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B].</p>
-                <p><strong class="text-slate-200">模板二 (因果现象):</strong> [Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain].</p>
-                <p><strong class="text-slate-200">模板三 (时代趋势):</strong> The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission].</p>
-                <p><strong class="text-slate-200">模板四 (过程目标):</strong> [Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal].</p>
+    <div id="template-modal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl relative">
+
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 shrink-0">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">📚 全局模板库</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">管理句型模板，点击「复制」一键使用</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openAddTemplateForm()" id="btn-add-template"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5">
+                        ➕ 新增模板
+                    </button>
+                    <button onclick="toggleModal('template-modal')"
+                        class="text-slate-400 hover:text-white text-lg font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all ml-1">✕</button>
+                </div>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="px-6 py-3 border-b border-slate-800/50 flex gap-3 shrink-0 items-center">
+                <input id="tpl-search" type="text" class="tpl-search-input"
+                    placeholder="🔍  搜索模板名称或内容..." oninput="renderTemplateLibrary()">
+                <select id="tpl-category-filter" class="tpl-select" onchange="renderTemplateLibrary()">
+                    <option value="">全部分类</option>
+                </select>
+            </div>
+
+            <!-- Add / Edit Form (hidden by default) -->
+            <div id="tpl-add-panel" class="px-6 pt-4 pb-0 hidden shrink-0">
+                <div class="tpl-add-form mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-sm font-bold text-indigo-400" id="tpl-form-title">✏️ 新增模板</h4>
+                        <button onclick="closeTemplateForm()" class="btn-cancel">取消</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">模板名称 *</label>
+                            <input id="tpl-input-name" class="edit-input" placeholder="如：因果论证句式">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">分类</label>
+                            <input id="tpl-input-category" class="edit-input" list="tpl-category-suggestions"
+                                placeholder="如：学术论证、法律/商业">
+                            <datalist id="tpl-category-suggestions"></datalist>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-1 block">
+                            模板内容 * <span class="text-indigo-400 font-normal normal-case tracking-normal">— 用 [变量名] 标记可替换部分</span>
+                        </label>
+                        <textarea id="tpl-input-content" class="edit-textarea" rows="3"
+                            placeholder="[Subject] is a/an [adjective] process of [verb-ing] [Object]..."></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button onclick="saveTemplateForm()" class="btn-save">💾 保存模板</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Cards Grid -->
+            <div class="flex-1 overflow-y-auto px-6 py-5">
+                <div id="template-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div id="tpl-empty-state" class="hidden text-center py-16">
+                    <span class="text-4xl block mb-3">📝</span>
+                    <p class="text-slate-400 text-sm mb-4">还没有模板，点击「新增模板」开始创建吧！</p>
+                    <button onclick="openAddTemplateForm()"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
+                        ➕ 新增第一个模板
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -496,167 +1017,193 @@
     <!-- ══ Database ════════════════════════════════════════════════ -->
     <script id="database-script">
         const database = {
-          "a_1784264734772": {
-                    "title": "1. 芝加哥学派与摩天大楼",
-                    "genre": "建筑史学 / 说明文",
-                    "body": "The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel.",
-                    "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的'芝加哥建筑学派'兴起。当时，该学派肩负着一项历史使命——发明被称为'摩天大楼'的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。",
-                    "insights": [
-                              "动名转换：abundance of steel 译为'钢材的大量供应'比'钢材的丰富'更符合工业文体。",
-                              "顺应中文逻辑：facilitated 译为'得益于'比被动语态直译'被促成'更符合行文流畅度。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "同位语与非限制性定语从句",
-                                        "skeleton": "The career of Sullivan (主) + coincided with (谓) + Chicago School (宾), which was given the challenge to invent (从句).",
-                                        "notes": "非限制性定语从句which补充了学派的历史功能，known as a skyscraper 是过去分词作定语修饰 building。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "coincide with",
-                                        "type": "v.",
-                                        "meaning": "恰逢；重合",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "facilitate",
-                                        "type": "v.",
-                                        "meaning": "推动；使便利",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ]
-          },
-          "a_1784264744823": {
-                    "title": "2. 住宅室内设计要素",
-                    "genre": "室内设计 / 说明文",
-                    "body": "The interior design of dwellings, such as apartments and houses, usually involves both practical and aesthetic decisions. Choices have to be made for almost every element, from ceilings and lamps, curtains and blinds, corridors and doorways, niches and ledges, grates and ventilations, terraces and staircases and even sewers or drainers.",
-                    "translation": "住宅的室内设计通常涉及实用与美观的双重抉择。从天花板与灯具、窗帘与百叶窗、走廊与门道、壁龛与窗台、格栅与通风口、露台与楼梯，甚至到下水道和排水口，几乎每一个要素都需要做出选择。",
-                    "insights": [
-                              "排比句翻译：英文的 from A to B 并列式，中文翻译时采用顿号与配对连词，增强了空间的纵深感。",
-                              "动词化翻译：将 landscaping 和 installing 这种名词性表达，译为动词'进行美化'、'修筑'，更符合中文习惯。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "超长排比平行结构",
-                                        "skeleton": "Choices have to be made for elements + from [Pair A, Pair B, Pair C ... and Pair Z].",
-                                        "notes": "通过 from... and even... 这种结构，将 14 个家居词汇配对，营造空间立体感。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "dwelling",
-                                        "type": "n.",
-                                        "meaning": "住宅",
-                                        "rating": "⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "aesthetic",
-                                        "type": "adj.",
-                                        "meaning": "美学的",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "facade",
-                                        "type": "n.",
-                                        "meaning": "外立面",
-                                        "rating": "⭐⭐⭐⭐"
-                              }
-                    ]
-          },
-          "a_1784264751027": {
-                    "title": "3. 房屋租赁契约定义",
-                    "genre": "法律英语 / 合同文本",
-                    "body": "The lease is a contract to rent by which one party, called the landlord or lessor, grants possession and use of the property for a limited term to another party, who is called the tenant or lessee.",
-                    "translation": "租赁合同是指一种租赁契约。根据该合同，一方（称为出租人）在特定期限内，将租赁财产的占有权和使用权让与另一方（称为承租人）。",
-                    "insights": [
-                              "法律术语规范：landlord 和 lessor 在学术法律写作中需区分，lessor 为'出租人'，tenant/lessee 为'承租人'。",
-                              "句式嵌套：by which 和 who 引导的定语从句，是法律英语确保定义严密的典型做法。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "双重定语从句嵌套",
-                                        "skeleton": "The lease is a contract + [by which one party grants...] + [who is called the tenant].",
-                                        "notes": "第一层 by which 限定合同内容；第二层 who 限定了 party 的身份，杜绝歧义。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "possession",
-                                        "type": "n.",
-                                        "meaning": "占有权",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "lessor / lessee",
-                                        "type": "n.",
-                                        "meaning": "出租人 / 承租人",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ]
-          },
-          "a_1784264758953": {
-                    "title": "4. 都市圈与城市扩张",
-                    "genre": "社会地理学",
-                    "body": "These cities are usually associated with metropolitan areas and urban sprawl that creates a large numbers of business commuters. When a city's growth sprawls far enough to reach another city, the two cities can be deemed a conurbation, or megalopolis.",
-                    "translation": "这些城市通常与大都市区以及城市扩张联系在一起，从而产生了大量的通勤上班族。当一个城市的扩张范围足够大，以致与另一个城市相接合时，这两个城市便可被视为一个城市群。",
-                    "insights": [
-                              "概念升级：metropolis (大都市) -> conurbation (城市群) -> megalopolis (连绵大都市)。",
-                              "逻辑重组：把城市蔓延带来的'通勤需求'作为因果链条的末端，使逻辑更符合中文习惯。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "条件状语从句与客观推论",
-                                        "skeleton": "When [condition] + [主句主被动 deemed structure].",
-                                        "notes": "deemed 作为书面词，比 consider 更加客观，适合学术判定。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "urban sprawl",
-                                        "type": "n.",
-                                        "meaning": "城市扩张 / 蔓延",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "deem",
-                                        "type": "v.",
-                                        "meaning": "视作（正式）",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              }
-                    ]
-          },
-          "a_1784264764914": {
-                    "title": "5. 环境卫生与健康预防",
-                    "genre": "公共卫生学",
-                    "body": "Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.",
-                    "translation": "环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。",
-                    "insights": [
-                              "状语前置：为了中文逻辑的'预防在先'，我们将 by using the simple technologies 提至句首。",
-                              "排水词汇对比：注意 Sewage (强污染废水) 与 Greywater (盥洗灰水) 的物理性质差异。"
-                    ],
-                    "grammar": [
-                              {
-                                        "title": "葡萄串式介词嵌套",
-                                        "skeleton": "Sanitation is a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents].",
-                                        "notes": "这是学术写作最难处理的'介词链'，翻译时需将其拆解为多个定语进行重组。"
-                              }
-                    ],
-                    "vocab": [
-                              {
-                                        "word": "sanitation",
-                                        "type": "n.",
-                                        "meaning": "环境卫生",
-                                        "rating": "⭐⭐⭐⭐⭐"
-                              },
-                              {
-                                        "word": "septic tank",
-                                        "type": "n.",
-                                        "meaning": "化粪池",
-                                        "rating": "⭐⭐⭐⭐"
-                              }
-                    ]
-          }
+            "a_1784264734772": {
+                "title": "1. 芝加哥学派与摩天大楼",
+                "genre": "建筑史学 / 说明文",
+                "body": "The career of the Chicago architect, Louis Sullivan, coincided with the so-called Chicago School of Architects, which was given the challenge to invent the high-rise building, known as a skyscraper. This was facilitated by the introduction of the electric elevator, and the abundance of steel.",
+                "translation": "芝加哥建筑师路易斯·沙利文的职业生涯，恰逢所谓的'芝加哥建筑学派'兴起。当时，该学派肩负着一项历史使命——发明被称为'摩天大楼'的高层建筑。这一进程还得益于电力电梯的引入以及钢材的大量供应。",
+                "insights": [
+                    "动名转换：abundance of steel 译为'钢材的大量供应'比'钢材的丰富'更符合工业文体。",
+                    "顺应中文逻辑：facilitated 译为'得益于'比被动语态直译'被促成'更符合行文流畅度。"
+                ],
+                "grammar": [
+                    {
+                        "title": "同位语与非限制性定语从句",
+                        "skeleton": "The career of Sullivan (主) + coincided with (谓) + Chicago School (宾), which was given the challenge to invent (从句).",
+                        "notes": "非限制性定语从句which补充了学派的历史功能，known as a skyscraper 是过去分词作定语修饰 building。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "coincide with",
+                        "type": "v.",
+                        "meaning": "恰逢；重合",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "facilitate",
+                        "type": "v.",
+                        "meaning": "推动；使便利",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ]
+            },
+            "a_1784264744823": {
+                "title": "2. 住宅室内设计要素",
+                "genre": "室内设计 / 说明文",
+                "body": "The interior design of dwellings, such as apartments and houses, usually involves both practical and aesthetic decisions. Choices have to be made for almost every element, from ceilings and lamps, curtains and blinds, corridors and doorways, niches and ledges, grates and ventilations, terraces and staircases and even sewers or drainers.",
+                "translation": "住宅的室内设计通常涉及实用与美观的双重抉择。从天花板与灯具、窗帘与百叶窗、走廊与门道、壁龛与窗台、格栅与通风口、露台与楼梯，甚至到下水道和排水口，几乎每一个要素都需要做出选择。",
+                "insights": [
+                    "排比句翻译：英文的 from A to B 并列式，中文翻译时采用顿号与配对连词，增强了空间的纵深感。",
+                    "动词化翻译：将 landscaping 和 installing 这种名词性表达，译为动词'进行美化'、'修筑'，更符合中文习惯。"
+                ],
+                "grammar": [
+                    {
+                        "title": "超长排比平行结构",
+                        "skeleton": "Choices have to be made for elements + from [Pair A, Pair B, Pair C ... and Pair Z].",
+                        "notes": "通过 from... and even... 这种结构，将 14 个家居词汇配对，营造空间立体感。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "dwelling",
+                        "type": "n.",
+                        "meaning": "住宅",
+                        "rating": "⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "aesthetic",
+                        "type": "adj.",
+                        "meaning": "美学的",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "facade",
+                        "type": "n.",
+                        "meaning": "外立面",
+                        "rating": "⭐⭐⭐⭐"
+                    }
+                ]
+            },
+            "a_1784264751027": {
+                "title": "3. 房屋租赁契约定义",
+                "genre": "法律英语 / 合同文本",
+                "body": "The lease is a contract to rent by which one party, called the landlord or lessor, grants possession and use of the property for a limited term to another party, who is called the tenant or lessee.",
+                "translation": "租赁合同是指一种租赁契约。根据该合同，一方（称为出租人）在特定期限内，将租赁财产的占有权和使用权让与另一方（称为承租人）。",
+                "insights": [
+                    "法律术语规范：landlord 和 lessor 在学术法律写作中需区分，lessor 为'出租人'，tenant/lessee 为'承租人'。",
+                    "句式嵌套：by which 和 who 引导的定语从句，是法律英语确保定义严密的典型做法。"
+                ],
+                "grammar": [
+                    {
+                        "title": "双重定语从句嵌套",
+                        "skeleton": "The lease is a contract + [by which one party grants...] + [who is called the tenant].",
+                        "notes": "第一层 by which 限定合同内容；第二层 who 限定了 party 的身份，杜绝歧义。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "possession",
+                        "type": "n.",
+                        "meaning": "占有权",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "lessor / lessee",
+                        "type": "n.",
+                        "meaning": "出租人 / 承租人",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ]
+            },
+            "a_1784264758953": {
+                "title": "4. 都市圈与城市扩张",
+                "genre": "社会地理学",
+                "body": "These cities are usually associated with metropolitan areas and urban sprawl that creates a large numbers of business commuters. When a city's growth sprawls far enough to reach another city, the two cities can be deemed a conurbation, or megalopolis.",
+                "translation": "这些城市通常与大都市区以及城市扩张联系在一起，从而产生了大量的通勤上班族。当一个城市的扩张范围足够大，以致与另一个城市相接合时，这两个城市便可被视为一个城市群。",
+                "insights": [
+                    "概念升级：metropolis (大都市) -> conurbation (城市群) -> megalopolis (连绵大都市)。",
+                    "逻辑重组：把城市蔓延带来的'通勤需求'作为因果链条的末端，使逻辑更符合中文习惯。"
+                ],
+                "grammar": [
+                    {
+                        "title": "条件状语从句与客观推论",
+                        "skeleton": "When [condition] + [主句主被动 deemed structure].",
+                        "notes": "deemed 作为书面词，比 consider 更加客观，适合学术判定。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "urban sprawl",
+                        "type": "n.",
+                        "meaning": "城市扩张 / 蔓延",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "deem",
+                        "type": "v.",
+                        "meaning": "视作（正式）",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    }
+                ]
+            },
+            "a_1784264764914": {
+                "title": "5. 环境卫生与健康预防",
+                "genre": "公共卫生学",
+                "body": "Sanitation is a hygienic process of limiting human exposure to the potential health hazards of wastes from physical, microbiological, biological, or chemical agents that may cause diseases.",
+                "translation": "环境卫生是指通过限制人类接触可能致病的物理、微生物、生物或化学介质等潜在健康危害废物，从而达到卫生防病目的的过程。",
+                "insights": [
+                    "状语前置：为了中文逻辑的'预防在先'，我们将 by using the simple technologies 提至句首。",
+                    "排水词汇对比：注意 Sewage (强污染废水) 与 Greywater (盥洗灰水) 的物理性质差异。"
+                ],
+                "grammar": [
+                    {
+                        "title": "葡萄串式介词嵌套",
+                        "skeleton": "Sanitation is a process + [of limiting exposure] + [to hazards] + [of wastes] + [from agents].",
+                        "notes": "这是学术写作最难处理的'介词链'，翻译时需将其拆解为多个定语进行重组。"
+                    }
+                ],
+                "vocab": [
+                    {
+                        "word": "sanitation",
+                        "type": "n.",
+                        "meaning": "环境卫生",
+                        "rating": "⭐⭐⭐⭐⭐"
+                    },
+                    {
+                        "word": "septic tank",
+                        "type": "n.",
+                        "meaning": "化粪池",
+                        "rating": "⭐⭐⭐⭐"
+                    }
+                ]
+            }
+        };
+    </script>
+
+    <!-- ══ Templates Database ════════════════════════════════════════ -->
+    <script id="templates-script">
+        const templateLibrary = {
+            "t_1784264734001": {
+                "name": "合同定义句式",
+                "category": "法律/商业",
+                "content": "[Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B]."
+            },
+            "t_1784264734002": {
+                "name": "因果论证句式",
+                "category": "学术论证",
+                "content": "[Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain]."
+            },
+            "t_1784264734003": {
+                "name": "时代趋势句式",
+                "category": "社会分析",
+                "content": "The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission]."
+            },
+            "t_1784264734004": {
+                "name": "过程定义句式",
+                "category": "学术定义",
+                "content": "[Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal]."
+            }
         };
     </script>
 
@@ -674,6 +1221,9 @@
                 if (id === 'import-modal') {
                     document.getElementById('import-error').classList.add('hidden');
                     document.getElementById('import-json-area').value = '';
+                }
+                if (id === 'template-modal') {
+                    renderTemplateLibrary();
                 }
             } else {
                 modal.classList.add('hidden');
@@ -770,7 +1320,7 @@
         // ── Switch article ────────────────────────────────────────
         function switchArticle(id) {
             // Cancel any open edit modes
-            ['translation','insights','grammar','vocab'].forEach(p => cancelEditMode(p, true));
+            ['translation', 'insights', 'grammar', 'vocab'].forEach(p => cancelEditMode(p, true));
 
             currentArticle = id;
             const data = database[id];
@@ -861,9 +1411,9 @@
 
         const PANEL_MAP = {
             'translation': { view: 'card-translation-view', edit: 'card-translation-edit' },
-            'insights':    { view: 'card-insights-view',    edit: 'card-insights-edit'    },
-            'grammar':     { view: 'card-grammar-view',     edit: 'card-grammar-edit'     },
-            'vocab':       { view: 'card-vocab-view',       edit: 'card-vocab-edit'       }
+            'insights': { view: 'card-insights-view', edit: 'card-insights-edit' },
+            'grammar': { view: 'card-grammar-view', edit: 'card-grammar-edit' },
+            'vocab': { view: 'card-vocab-view', edit: 'card-vocab-edit' }
         };
 
         function enterEditMode(panel) {
@@ -1074,7 +1624,7 @@
 
         // ── Utility ───────────────────────────────────────────────
         function escHtml(str) {
-            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
         // ── Import ────────────────────────────────────────────────
@@ -1175,11 +1725,11 @@
 
         // ── GitHub ────────────────────────────────────────────────
         function saveGithubSettings() {
-            localStorage.setItem('gh_token',    document.getElementById('gh-token').value.trim());
+            localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
             localStorage.setItem('gh_username', document.getElementById('gh-username').value.trim());
-            localStorage.setItem('gh_repo',     document.getElementById('gh-repo').value.trim());
-            localStorage.setItem('gh_path',     document.getElementById('gh-path').value.trim());
-            localStorage.setItem('gh_branch',   document.getElementById('gh-branch').value.trim());
+            localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+            localStorage.setItem('gh_path', document.getElementById('gh-path').value.trim());
+            localStorage.setItem('gh_branch', document.getElementById('gh-branch').value.trim());
             updateGithubStatus();
             alert('✅ GitHub 设置保存至浏览器缓存成功！');
             toggleModal('github-modal');
@@ -1192,11 +1742,11 @@
         }
 
         async function pushToGithub() {
-            const token    = localStorage.getItem('gh_token');
+            const token = localStorage.getItem('gh_token');
             const username = localStorage.getItem('gh_username');
-            const repo     = localStorage.getItem('gh_repo');
-            const path     = localStorage.getItem('gh_path') || 'index.html';
-            const branch   = localStorage.getItem('gh_branch') || 'main';
+            const repo = localStorage.getItem('gh_repo');
+            const path = localStorage.getItem('gh_path') || 'index.html';
+            const branch = localStorage.getItem('gh_branch') || 'main';
 
             document.getElementById('sync-log').innerHTML = '';
             if (!token || !username || !repo) {
@@ -1212,6 +1762,11 @@
             const dbScript = docClone.querySelector('#database-script');
             if (dbScript) {
                 dbScript.textContent = `\n        const database = ${JSON.stringify(database, null, 10)};\n    `;
+            }
+
+            const tplScript = docClone.querySelector('#templates-script');
+            if (tplScript) {
+                tplScript.textContent = `\n        const templateLibrary = ${JSON.stringify(templateLibrary, null, 10)};\n    `;
             }
 
             const htmlContent = '<!DOCTYPE html>\n' + docClone.outerHTML;
@@ -1249,8 +1804,169 @@
             }
         }
 
+        // ══════════════════════════════════════════════════════════════
+        // ── Template Library ──────────────────────────────────────────
+        // ══════════════════════════════════════════════════════════════
+
+        const TPL_CAT_COLORS = {
+            '法律/商业': { bg: 'rgba(245,158,11,0.13)',  text: '#fbbf24', border: 'rgba(245,158,11,0.3)'  },
+            '学术论证':  { bg: 'rgba(59,130,246,0.13)',   text: '#60a5fa', border: 'rgba(59,130,246,0.3)'  },
+            '社会分析':  { bg: 'rgba(139,92,246,0.13)',   text: '#a78bfa', border: 'rgba(139,92,246,0.3)'  },
+            '学术定义':  { bg: 'rgba(16,185,129,0.13)',   text: '#34d399', border: 'rgba(16,185,129,0.3)'  },
+            '_default':  { bg: 'rgba(100,116,139,0.12)',  text: '#94a3b8', border: 'rgba(100,116,139,0.3)' }
+        };
+
+        let editingTemplateId = null;
+
+        function getTplCatColor(cat) {
+            return TPL_CAT_COLORS[cat] || TPL_CAT_COLORS['_default'];
+        }
+
+        function highlightPlaceholders(text) {
+            return escHtml(text).replace(/\[([^\]]+)\]/g, (_, inner) =>
+                `<span class="template-placeholder">[${inner}]</span>`
+            );
+        }
+
+        function getTemplateCategories() {
+            return [...new Set(Object.values(templateLibrary).map(t => t.category).filter(Boolean))].sort();
+        }
+
+        function renderTemplateLibrary() {
+            const query = (document.getElementById('tpl-search')?.value || '').toLowerCase();
+            const catSelect = document.getElementById('tpl-category-filter');
+            const catFilter = catSelect?.value || '';
+
+            // Rebuild category dropdown
+            const cats = getTemplateCategories();
+            catSelect.innerHTML = '<option value="">全部分类</option>' +
+                cats.map(c => `<option value="${escHtml(c)}"${c === catFilter ? ' selected' : ''}>${escHtml(c)}</option>`).join('');
+
+            // Populate datalist for form
+            const dl = document.getElementById('tpl-category-suggestions');
+            if (dl) dl.innerHTML = cats.map(c => `<option value="${escHtml(c)}">`).join('');
+
+            const grid = document.getElementById('template-cards-grid');
+            const emptyState = document.getElementById('tpl-empty-state');
+            const keys = Object.keys(templateLibrary);
+
+            const filtered = keys.filter(k => {
+                const t = templateLibrary[k];
+                const matchQ = !query ||
+                    t.name.toLowerCase().includes(query) ||
+                    t.content.toLowerCase().includes(query) ||
+                    (t.category || '').toLowerCase().includes(query);
+                const matchC = !catFilter || t.category === catFilter;
+                return matchQ && matchC;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(k => renderTemplateCard(k)).join('');
+        }
+
+        function renderTemplateCard(id) {
+            const t = templateLibrary[id];
+            const col = getTplCatColor(t.category);
+            const highlighted = highlightPlaceholders(t.content);
+            const catLabel = escHtml(t.category || '未分类');
+            return `
+                <div class="template-card" id="tcard-${id}">
+                    <div class="flex items-start justify-between gap-2 mb-2.5">
+                        <span class="category-badge" style="background:${col.bg};color:${col.text};border-color:${col.border};">${catLabel}</span>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button class="tpl-copy-btn" onclick="copyTemplate('${id}')">📋 复制</button>
+                            <button class="tpl-icon-btn" onclick="editTemplate('${id}')" title="编辑">✏️</button>
+                            <button class="tpl-icon-btn danger" onclick="deleteTemplate('${id}')" title="删除">🗑</button>
+                        </div>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200 mb-2.5">${escHtml(t.name)}</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">${highlighted}</p>
+                </div>
+            `;
+        }
+
+        function copyTemplate(id) {
+            const t = templateLibrary[id];
+            if (!t) return;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(t.content).then(showCopyToast).catch(() => legacyCopy(t.content));
+            } else {
+                legacyCopy(t.content);
+            }
+        }
+
+        function legacyCopy(text) {
+            const el = Object.assign(document.createElement('textarea'), { value: text });
+            el.style.cssText = 'position:fixed;top:-999px;opacity:0';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            el.remove();
+            showCopyToast();
+        }
+
+        function showCopyToast() {
+            const toast = document.getElementById('copy-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function openAddTemplateForm() {
+            editingTemplateId = null;
+            document.getElementById('tpl-form-title').textContent = '✏️ 新增模板';
+            document.getElementById('tpl-input-name').value = '';
+            document.getElementById('tpl-input-category').value = '';
+            document.getElementById('tpl-input-content').value = '';
+            document.getElementById('tpl-add-panel').classList.remove('hidden');
+            setTimeout(() => document.getElementById('tpl-input-name').focus(), 50);
+        }
+
+        function editTemplate(id) {
+            const t = templateLibrary[id];
+            if (!t) return;
+            editingTemplateId = id;
+            document.getElementById('tpl-form-title').textContent = '✏️ 编辑模板';
+            document.getElementById('tpl-input-name').value = t.name;
+            document.getElementById('tpl-input-category').value = t.category || '';
+            document.getElementById('tpl-input-content').value = t.content;
+            document.getElementById('tpl-add-panel').classList.remove('hidden');
+        }
+
+        function closeTemplateForm() {
+            editingTemplateId = null;
+            document.getElementById('tpl-add-panel').classList.add('hidden');
+        }
+
+        function saveTemplateForm() {
+            const name = document.getElementById('tpl-input-name').value.trim();
+            const category = document.getElementById('tpl-input-category').value.trim();
+            const content = document.getElementById('tpl-input-content').value.trim();
+            if (!name || !content) { alert('请填写模板名称和内容！'); return; }
+            const id = editingTemplateId || ('t_' + Date.now());
+            templateLibrary[id] = { name, category: category || '未分类', content };
+            closeTemplateForm();
+            renderTemplateLibrary();
+        }
+
+        function deleteTemplate(id) {
+            const t = templateLibrary[id];
+            if (!t) return;
+            if (!confirm(`确定要删除「${t.name}」吗？`)) return;
+            delete templateLibrary[id];
+            renderTemplateLibrary();
+        }
+
         window.onload = () => initApp();
     </script>
 
+    <!-- ══ Clipboard Toast ══════════════════════════════════════════ -->
+    <div id="copy-toast" class="copy-toast">✅ 已复制到剪贴板！</div>
+
 </body>
+
 </html>
