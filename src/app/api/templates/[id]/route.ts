@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/db';
+import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import type { Template } from '@/lib/types';
+import type { RowDataPacket, ResultSetHeader } from 'mysql2';
 
-function rowToTemplate(row: Record<string, unknown>): Template {
+function rowToTemplate(row: RowDataPacket): Template {
   return {
     id: row.id as string,
     name: row.name as string,
     category: (row.category as string) || '未分类',
     content: row.content as string,
-    createdAt: row.createdAt as number,
-    updatedAt: row.updatedAt as number,
+    createdAt: Number(row.createdAt),
+    updatedAt: Number(row.updatedAt),
   };
 }
 
@@ -20,19 +21,19 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    seedDatabase();
+    await seedDatabase();
     const { id } = await params;
-    const db = getDb();
+    const pool = getPool();
     const body = await request.json();
     const now = Date.now();
 
-    const existing = db.prepare('SELECT * FROM templates WHERE id = ?').get(id);
-    if (!existing) {
+    const [existing] = await pool.execute<RowDataPacket[]>('SELECT * FROM templates WHERE id = ?', [id]);
+    if (existing.length === 0) {
       return NextResponse.json({ error: '模板未找到' }, { status: 404 });
     }
 
     const fields: string[] = [];
-    const values: unknown[] = [];
+    const values: (string | number)[] = [];
 
     if (body.name !== undefined) { fields.push('name = ?'); values.push(body.name); }
     if (body.category !== undefined) { fields.push('category = ?'); values.push(body.category); }
@@ -42,11 +43,11 @@ export async function PUT(
       fields.push('updatedAt = ?');
       values.push(now);
       values.push(id);
-      db.prepare(`UPDATE templates SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+      await pool.execute(`UPDATE templates SET ${fields.join(', ')} WHERE id = ?`, values);
     }
 
-    const updated = db.prepare('SELECT * FROM templates WHERE id = ?').get(id);
-    return NextResponse.json(rowToTemplate(updated as Record<string, unknown>));
+    const [updated] = await pool.execute<RowDataPacket[]>('SELECT * FROM templates WHERE id = ?', [id]);
+    return NextResponse.json(rowToTemplate(updated[0]));
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
@@ -58,11 +59,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    seedDatabase();
+    await seedDatabase();
     const { id } = await params;
-    const db = getDb();
-    const result = db.prepare('DELETE FROM templates WHERE id = ?').run(id);
-    if (result.changes === 0) {
+    const pool = getPool();
+    const [result] = await pool.execute<ResultSetHeader>('DELETE FROM templates WHERE id = ?', [id]);
+    if (result.affectedRows === 0) {
       return NextResponse.json({ error: '模板未找到' }, { status: 404 });
     }
     return NextResponse.json({ success: true });

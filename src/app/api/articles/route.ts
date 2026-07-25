@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/db';
+import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import { normalizeArticle } from '@/lib/normalize';
 import type { Article } from '@/lib/types';
+import type { RowDataPacket } from 'mysql2';
 
-function rowToArticle(row: Record<string, unknown>): Article {
+function rowToArticle(row: RowDataPacket): Article {
   return {
     id: row.id as string,
     title: row.title as string,
@@ -15,18 +16,18 @@ function rowToArticle(row: Record<string, unknown>): Article {
     grammar: JSON.parse((row.grammar as string) || '[]'),
     vocab: JSON.parse((row.vocab as string) || '[]'),
     specialHTML: (row.specialHTML as string) || '',
-    createdAt: row.createdAt as number,
-    updatedAt: row.updatedAt as number,
+    createdAt: Number(row.createdAt),
+    updatedAt: Number(row.updatedAt),
   };
 }
 
 // GET /api/articles — list all articles
 export async function GET() {
   try {
-    seedDatabase();
-    const db = getDb();
-    const rows = db.prepare('SELECT * FROM articles ORDER BY createdAt ASC').all();
-    const articles = rows.map(r => rowToArticle(r as Record<string, unknown>));
+    await seedDatabase();
+    const pool = getPool();
+    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM articles ORDER BY createdAt ASC');
+    const articles = rows.map(r => rowToArticle(r));
     return NextResponse.json(articles);
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
@@ -36,8 +37,8 @@ export async function GET() {
 // POST /api/articles — import one or many articles
 export async function POST(request: Request) {
   try {
-    seedDatabase();
-    const db = getDb();
+    await seedDatabase();
+    const pool = getPool();
     const body = await request.json();
     const items = Array.isArray(body) ? body : [body];
 
@@ -48,12 +49,10 @@ export async function POST(request: Request) {
     const now = Date.now();
     const inserted: Article[] = [];
 
-    const insert = db.prepare(`
-      INSERT INTO articles (id, title, genre, body, translation, insights, grammar, vocab, specialHTML, createdAt, updatedAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
+    const conn = await pool.getConnection();
+    try {
+      await conn.beginTransaction();
 
-    const tx = db.transaction(() => {
       for (let i = 0; i < items.length; i++) {
         const raw = items[i];
         if (!raw.title || !raw.body) {
@@ -61,18 +60,21 @@ export async function POST(request: Request) {
         }
         const normalized = normalizeArticle(raw);
         const id = 'a_' + (now + i);
-        insert.run(
-          id,
-          normalized.title,
-          normalized.genre,
-          normalized.body,
-          normalized.translation,
-          JSON.stringify(normalized.insights),
-          JSON.stringify(normalized.grammar),
-          JSON.stringify(normalized.vocab),
-          normalized.specialHTML,
-          now + i,
-          now + i
+        await conn.execute(
+          'INSERT INTO articles (id, title, genre, body, translation, insights, grammar, vocab, specialHTML, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [
+            id,
+            normalized.title,
+            normalized.genre,
+            normalized.body,
+            normalized.translation,
+            JSON.stringify(normalized.insights),
+            JSON.stringify(normalized.grammar),
+            JSON.stringify(normalized.vocab),
+            normalized.specialHTML,
+            now + i,
+            now + i,
+          ]
         );
         inserted.push({
           id,
@@ -81,9 +83,15 @@ export async function POST(request: Request) {
           updatedAt: now + i,
         });
       }
-    });
 
-    tx();
+      await conn.commit();
+    } catch (err) {
+      await conn.rollback();
+      throw err;
+    } finally {
+      conn.release();
+    }
+
     return NextResponse.json(inserted, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 400 });

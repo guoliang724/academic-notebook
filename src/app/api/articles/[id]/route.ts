@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/db';
+import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import type { Article } from '@/lib/types';
+import type { RowDataPacket, ResultSetHeader } from 'mysql2';
 
-function rowToArticle(row: Record<string, unknown>): Article {
+function rowToArticle(row: RowDataPacket): Article {
   return {
     id: row.id as string,
     title: row.title as string,
@@ -14,8 +15,8 @@ function rowToArticle(row: Record<string, unknown>): Article {
     grammar: JSON.parse((row.grammar as string) || '[]'),
     vocab: JSON.parse((row.vocab as string) || '[]'),
     specialHTML: (row.specialHTML as string) || '',
-    createdAt: row.createdAt as number,
-    updatedAt: row.updatedAt as number,
+    createdAt: Number(row.createdAt),
+    updatedAt: Number(row.updatedAt),
   };
 }
 
@@ -25,14 +26,14 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    seedDatabase();
+    await seedDatabase();
     const { id } = await params;
-    const db = getDb();
-    const row = db.prepare('SELECT * FROM articles WHERE id = ?').get(id);
-    if (!row) {
+    const pool = getPool();
+    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM articles WHERE id = ?', [id]);
+    if (rows.length === 0) {
       return NextResponse.json({ error: '语料未找到' }, { status: 404 });
     }
-    return NextResponse.json(rowToArticle(row as Record<string, unknown>));
+    return NextResponse.json(rowToArticle(rows[0]));
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
@@ -44,19 +45,19 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    seedDatabase();
+    await seedDatabase();
     const { id } = await params;
-    const db = getDb();
+    const pool = getPool();
     const body = await request.json();
     const now = Date.now();
 
-    const existing = db.prepare('SELECT * FROM articles WHERE id = ?').get(id);
-    if (!existing) {
+    const [existing] = await pool.execute<RowDataPacket[]>('SELECT * FROM articles WHERE id = ?', [id]);
+    if (existing.length === 0) {
       return NextResponse.json({ error: '语料未找到' }, { status: 404 });
     }
 
     const fields: string[] = [];
-    const values: unknown[] = [];
+    const values: (string | number)[] = [];
 
     if (body.title !== undefined) { fields.push('title = ?'); values.push(body.title); }
     if (body.genre !== undefined) { fields.push('genre = ?'); values.push(body.genre); }
@@ -71,11 +72,11 @@ export async function PUT(
       fields.push('updatedAt = ?');
       values.push(now);
       values.push(id);
-      db.prepare(`UPDATE articles SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+      await pool.execute(`UPDATE articles SET ${fields.join(', ')} WHERE id = ?`, values);
     }
 
-    const updated = db.prepare('SELECT * FROM articles WHERE id = ?').get(id);
-    return NextResponse.json(rowToArticle(updated as Record<string, unknown>));
+    const [updated] = await pool.execute<RowDataPacket[]>('SELECT * FROM articles WHERE id = ?', [id]);
+    return NextResponse.json(rowToArticle(updated[0]));
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
@@ -87,11 +88,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    seedDatabase();
+    await seedDatabase();
     const { id } = await params;
-    const db = getDb();
-    const result = db.prepare('DELETE FROM articles WHERE id = ?').run(id);
-    if (result.changes === 0) {
+    const pool = getPool();
+    const [result] = await pool.execute<ResultSetHeader>('DELETE FROM articles WHERE id = ?', [id]);
+    if (result.affectedRows === 0) {
       return NextResponse.json({ error: '语料未找到' }, { status: 404 });
     }
     return NextResponse.json({ success: true });

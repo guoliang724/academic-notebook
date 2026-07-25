@@ -1,50 +1,71 @@
-import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
+import mysql from 'mysql2/promise';
 
-// Store database in project root /data directory
-const DB_DIR = path.join(process.cwd(), 'data');
-const DB_PATH = path.join(DB_DIR, 'notebook.db');
+let pool: mysql.Pool | null = null;
+let tablesReady = false;
 
-let db: Database.Database | null = null;
-
-export function getDb(): Database.Database {
-  if (db) return db;
-
-  // Ensure data directory exists
-  if (!fs.existsSync(DB_DIR)) {
-    fs.mkdirSync(DB_DIR, { recursive: true });
+/**
+ * Parse DATABASE_URL or use local defaults.
+ * Production: DATABASE_URL=mysql://user:password@host:3306/academic
+ * Local dev:  defaults to root@localhost:3306/academic (no password)
+ */
+function getConnectionConfig(): mysql.PoolOptions {
+  const url = process.env.databaseUrl;
+  if (url) {
+    return { uri: url, waitForConnections: true, connectionLimit: 10 };
   }
+  return {
+    host: process.env.DB_HOST || 'localhost',
+    port: Number(process.env.DB_PORT) || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'academic',
+    waitForConnections: true,
+    connectionLimit: 10,
+  };
+}
 
-  db = new Database(DB_PATH);
-  db.pragma('journal_mode = WAL');
-  db.pragma('foreign_keys = ON');
+export function getPool(): mysql.Pool {
+  if (!pool) {
+    pool = mysql.createPool(getConnectionConfig());
+  }
+  return pool;
+}
 
-  // Create tables if they don't exist
-  db.exec(`
+/**
+ * Create tables if they don't exist (idempotent).
+ * Must be called before any query in each API handler.
+ */
+export async function ensureTables(): Promise<void> {
+  if (tablesReady) return;
+
+  const p = getPool();
+
+  await p.execute(`
     CREATE TABLE IF NOT EXISTS articles (
-      id TEXT PRIMARY KEY,
+      id VARCHAR(64) PRIMARY KEY,
       title TEXT NOT NULL,
-      genre TEXT DEFAULT '未分类',
-      body TEXT NOT NULL,
-      translation TEXT DEFAULT '',
-      insights TEXT DEFAULT '[]',
-      grammar TEXT DEFAULT '[]',
-      vocab TEXT DEFAULT '[]',
-      specialHTML TEXT DEFAULT '',
-      createdAt INTEGER NOT NULL,
-      updatedAt INTEGER NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS templates (
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      category TEXT DEFAULT '未分类',
-      content TEXT NOT NULL,
-      createdAt INTEGER NOT NULL,
-      updatedAt INTEGER NOT NULL
-    );
+      genre VARCHAR(255) DEFAULT '未分类',
+      body LONGTEXT NOT NULL,
+      translation LONGTEXT,
+      insights LONGTEXT,
+      grammar LONGTEXT,
+      vocab LONGTEXT,
+      specialHTML LONGTEXT,
+      createdAt BIGINT NOT NULL,
+      updatedAt BIGINT NOT NULL
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
   `);
 
-  return db;
+  await p.execute(`
+    CREATE TABLE IF NOT EXISTS templates (
+      id VARCHAR(64) PRIMARY KEY,
+      name VARCHAR(500) NOT NULL,
+      category VARCHAR(255) DEFAULT '未分类',
+      content LONGTEXT NOT NULL,
+      createdAt BIGINT NOT NULL,
+      updatedAt BIGINT NOT NULL
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+  `);
+
+  tablesReady = true;
 }
