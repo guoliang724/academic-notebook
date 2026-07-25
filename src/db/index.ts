@@ -8,10 +8,46 @@ let tablesReady = false;
  * Production: DATABASE_URL=mysql://user:password@host:3306/academic
  * Local dev:  defaults to root@localhost:3306/academic (no password)
  */
+function parseConnectionString(str: string): mysql.PoolOptions {
+  const trimmed = str.trim();
+  // Standard mysql:// URI format
+  if (trimmed.startsWith('mysql://') || trimmed.startsWith('mysqls://')) {
+    return { uri: trimmed, waitForConnections: true, connectionLimit: 10 };
+  }
+
+  // Key=Value format (e.g. Server=...;Port=...;Database=...;Uid=...;Pwd=...;)
+  const opts: mysql.PoolOptions = {
+    waitForConnections: true,
+    connectionLimit: 10,
+  };
+
+  const pairs = trimmed.split(';').map(p => p.trim()).filter(Boolean);
+  for (const pair of pairs) {
+    const eqIdx = pair.indexOf('=');
+    if (eqIdx === -1) continue;
+    const key = pair.slice(0, eqIdx).trim().toLowerCase();
+    const val = pair.slice(eqIdx + 1).trim();
+
+    if (key === 'server' || key === 'host') {
+      opts.host = val;
+    } else if (key === 'port') {
+      opts.port = Number(val) || 3306;
+    } else if (key === 'database' || key === 'db') {
+      opts.database = val;
+    } else if (key === 'uid' || key === 'user' || key === 'username' || key === 'user id') {
+      opts.user = val;
+    } else if (key === 'pwd' || key === 'password') {
+      opts.password = val;
+    }
+  }
+
+  return opts;
+}
+
 function getConnectionConfig(): mysql.PoolOptions {
-  const url = process.env.databaseUrl;
+  const url = process.env.databaseUrl || process.env.DATABASE_URL;
   if (url) {
-    return { uri: url, waitForConnections: true, connectionLimit: 10 };
+    return parseConnectionString(url);
   }
   return {
     host: process.env.DB_HOST || 'localhost',
