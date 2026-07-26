@@ -121,10 +121,11 @@ export async function seedDatabase() {
   ];
 
   const templates = [
-    { id: 't_1784264734001', name: '合同定义句式', category: '法律/商业', content: '[Contract Name] is a contract by which one party, called the [Role A], grants [Rights/Goods] to another party, who is called the [Role B].' },
-    { id: 't_1784264734002', name: '因果论证句式', category: '学术论证', content: '[Phenomenon] is caused by [Factor], which leads to [Outcome] and subsequently affects [Domain].' },
-    { id: 't_1784264734003', name: '时代趋势句式', category: '社会分析', content: 'The career/development of [Entity] coincided with the so-called [Trend/Movement], which was given the challenge to [Mission].' },
-    { id: 't_1784264734004', name: '过程定义句式', category: '学术定义', content: '[Concept] is a/an [adjective] process of [verb-ing] [Target] to/from [Outcome/Goal].' }
+    { id: 't_1784264734001', name: '合同定义句式', category: '法律/商业', content: 'X is a contract by which A grants [权利] to B.' },
+    { id: 't_1784264734002', name: '因果论证句式', category: '学术论证', content: 'X is caused by Y, which leads to Z.' },
+    { id: 't_1784264734003', name: '时代趋势句式', category: '社会分析', content: 'X coincided with Y, which was given the challenge to Z.' },
+    { id: 't_1784264734004', name: '过程定义句式', category: '学术定义', content: 'X is a process of [doing] Y to/from Z.' },
+    { id: 't_1784264734005', name: '列举穷尽句式', category: '说明文', content: 'Choices have to be made for every element, from A to B, and even C.' }
   ];
 
   const conn = await pool.getConnection();

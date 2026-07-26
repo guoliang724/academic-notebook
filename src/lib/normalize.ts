@@ -13,6 +13,7 @@ export function normalizeArticle(obj: ArticleCreateInput): {
   grammar: { title: string; skeleton: string; notes: string }[];
   vocab: { word: string; type: string; meaning: string; rating: string }[];
   specialHTML: string;
+  takeaway: string;
 } {
   // ── insights: accept translation_tips / insights / tips ──
   let insights: string[];
@@ -63,6 +64,7 @@ export function normalizeArticle(obj: ArticleCreateInput): {
     insights,
     grammar,
     vocab,
-    specialHTML: obj.specialHTML || ''
+    specialHTML: obj.specialHTML || '',
+    takeaway: obj.takeaway?.trim() || ''
   };
 }

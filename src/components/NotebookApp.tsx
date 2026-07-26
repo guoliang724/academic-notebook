@@ -101,11 +101,13 @@ export default function NotebookApp() {
         setCurrentArticleId(newArticles[newArticles.length - 1].id);
         setCurrentTab('translation');
       }
+      // Refresh templates in case new ones were auto-created from takeaway fields
+      fetchTemplates();
       return null;
     } catch (e) {
       return 'JSON 解析失败：' + (e as Error).message;
     }
-  }, []);
+  }, [fetchTemplates]);
 
   const updateArticle = useCallback(async (id: string, data: Partial<Article>) => {
     const res = await fetch(`/api/articles/${id}`, {

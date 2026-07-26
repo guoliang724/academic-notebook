@@ -82,6 +82,18 @@ export async function POST(request: Request) {
           createdAt: now + i,
           updatedAt: now + i,
         });
+
+        // Auto-create a global template if takeaway is present
+        if (normalized.takeaway) {
+          const tplId = 't_' + (now + i);
+          const titleClean = normalized.title.replace(/^\d+\.\s*/, '');
+          const tplName = `来自「${titleClean}」的句式`;
+          const tplCategory = normalized.genre || '未分类';
+          await conn.execute(
+            'INSERT INTO templates (id, name, category, content, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
+            [tplId, tplName, tplCategory, normalized.takeaway, now + i, now + i]
+          );
+        }
       }
 
       await conn.commit();
