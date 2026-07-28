@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { Article, Template, TabId, EditPanel } from '@/lib/types';
+import type { Article, TabId, EditPanel } from '@/lib/types';
 import Sidebar from '@/components/Sidebar';
 import SourceCard from '@/components/SourceCard';
 import TabBar from '@/components/TabBar';
@@ -9,16 +9,15 @@ import TranslationTab from '@/components/TranslationTab';
 import GrammarTab from '@/components/GrammarTab';
 import VocabTab from '@/components/VocabTab';
 import ImportModal from '@/components/ImportModal';
-import TemplateModal from '@/components/TemplateModal';
+import GoldenPhraseModal from '@/components/GoldenPhraseModal';
 
 export default function NotebookApp() {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [templates, setTemplates] = useState<Template[]>([]);
   const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
   const [currentTab, setCurrentTab] = useState<TabId>('translation');
   const [editingPanels, setEditingPanels] = useState<Set<EditPanel>>(new Set());
   const [importModalOpen, setImportModalOpen] = useState(false);
-  const [templateModalOpen, setTemplateModalOpen] = useState(false);
+  const [goldenPhraseModalOpen, setGoldenPhraseModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const toastRef = useRef<HTMLDivElement>(null);
 
@@ -35,13 +34,8 @@ export default function NotebookApp() {
     return [];
   }, []);
 
-  const fetchTemplates = useCallback(async () => {
-    const res = await fetch('/api/templates');
-    if (res.ok) setTemplates(await res.json());
-  }, []);
-
   useEffect(() => {
-    Promise.all([fetchArticles(), fetchTemplates()]).then(([arts]) => {
+    fetchArticles().then((arts) => {
       if (arts.length > 0 && !currentArticleId) {
         setCurrentArticleId(arts[arts.length - 1].id);
       }
@@ -101,13 +95,11 @@ export default function NotebookApp() {
         setCurrentArticleId(newArticles[newArticles.length - 1].id);
         setCurrentTab('translation');
       }
-      // Refresh templates in case new ones were auto-created from takeaway fields
-      fetchTemplates();
       return null;
     } catch (e) {
       return 'JSON 解析失败：' + (e as Error).message;
     }
-  }, [fetchTemplates]);
+  }, []);
 
   const updateArticle = useCallback(async (id: string, data: Partial<Article>) => {
     const res = await fetch(`/api/articles/${id}`, {
@@ -122,6 +114,16 @@ export default function NotebookApp() {
     }
   }, []);
 
+  // ── Reorder articles (drag-and-drop) ──
+  const reorderArticles = useCallback((fromIndex: number, toIndex: number) => {
+    setArticles(prev => {
+      const next = [...prev];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+  }, []);
+
   // ── Edit mode ──
   const enterEditMode = useCallback((panel: EditPanel) => {
     setEditingPanels(prev => new Set(prev).add(panel));
@@ -134,41 +136,6 @@ export default function NotebookApp() {
       return next;
     });
   }, []);
-
-  // ── Template CRUD ──
-  const createTemplate = useCallback(async (data: { name: string; category: string; content: string }) => {
-    const res = await fetch('/api/templates', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
-      const created = await res.json() as Template;
-      setTemplates(prev => [...prev, created]);
-    }
-  }, []);
-
-  const updateTemplate = useCallback(async (id: string, data: Partial<Template>) => {
-    const res = await fetch(`/api/templates/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
-      const updated = await res.json() as Template;
-      setTemplates(prev => prev.map(t => t.id === id ? updated : t));
-    }
-  }, []);
-
-  const deleteTemplate = useCallback(async (id: string) => {
-    const template = templates.find(t => t.id === id);
-    if (!confirm(`确定要删除「${template?.name || '此模板'}」吗？`)) return;
-
-    const res = await fetch(`/api/templates/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      setTemplates(prev => prev.filter(t => t.id !== id));
-    }
-  }, [templates]);
 
   const showCopyToast = useCallback(() => {
     const toast = toastRef.current;
@@ -204,7 +171,7 @@ export default function NotebookApp() {
             </span>
           </div>
           <button
-            onClick={() => setTemplateModalOpen(true)}
+            onClick={() => setGoldenPhraseModalOpen(true)}
             className="text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1.5"
             style={{
               background: 'rgba(79,70,229,0.08)',
@@ -212,7 +179,7 @@ export default function NotebookApp() {
               border: '1px solid rgba(79,70,229,0.2)',
             }}
           >
-            📚 全局模板库
+            ✍️ 黄金句式汇总
           </button>
         </div>
       </header>
@@ -227,6 +194,7 @@ export default function NotebookApp() {
           onSwitchArticle={switchArticle}
           onDeleteArticle={deleteArticle}
           onOpenImport={() => setImportModalOpen(true)}
+          onReorder={reorderArticles}
         />
 
         {/* Main Content */}
@@ -295,13 +263,10 @@ export default function NotebookApp() {
         />
       )}
 
-      {templateModalOpen && (
-        <TemplateModal
-          templates={templates}
-          onClose={() => setTemplateModalOpen(false)}
-          onCreate={createTemplate}
-          onUpdate={updateTemplate}
-          onDelete={deleteTemplate}
+      {goldenPhraseModalOpen && (
+        <GoldenPhraseModal
+          articles={articles}
+          onClose={() => setGoldenPhraseModalOpen(false)}
           onCopyToast={showCopyToast}
         />
       )}
