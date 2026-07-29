@@ -55,28 +55,45 @@ function parseSpecialHTML(html: string): SpecialBlock[] {
     const rawTitle = match[1].trim();
     const rawContent = match[2].trim();
 
-    if (rawContent.includes('模板：') || rawContent.includes('例句：') || rawTitle.includes('黄金句式')) {
-      let pattern = '';
-      let template = '';
-      let example = '';
+    if (rawTitle.includes('黄金句式') || rawContent.includes('模板：') || rawContent.includes('例句：')) {
+      const pMatches = rawContent.match(/<p[\s\S]*?<\/p>/gi);
+      const paragraphs = (pMatches && pMatches.length > 0) ? pMatches : [rawContent];
 
-      const patternMatch = rawContent.match(/句型：([\s\S]*?)(?=<br\s*\/?>|模板：|例句：|<\/p>|$)/i);
-      if (patternMatch) pattern = cleanHTMLText(patternMatch[1]);
+      for (const pStr of paragraphs) {
+        if (!pStr.trim()) continue;
+        let pattern = '';
+        let template = '';
+        let example = '';
 
-      const templateMatch = rawContent.match(/模板：([\s\S]*?)(?=<br\s*\/?>|例句：|<\/p>|$)/i);
-      if (templateMatch) template = cleanHTMLText(templateMatch[1]);
+        const patternMatch = pStr.match(/句型：([\s\S]*?)(?=<br\s*\/?>|模板：|例句：|<\/p>|$)/i);
+        if (patternMatch) pattern = cleanHTMLText(patternMatch[1]);
 
-      const exampleMatch = rawContent.match(/例句：([\s\S]*?)(?=<br\s*\/?>|<\/p>|$)/i);
-      if (exampleMatch) example = cleanHTMLText(exampleMatch[1]);
+        const templateMatch = pStr.match(/模板：([\s\S]*?)(?=<br\s*\/?>|例句：|<\/p>|$)/i);
+        if (templateMatch) template = cleanHTMLText(templateMatch[1]);
 
-      blocks.push({
-        title: rawTitle,
-        isGolden: true,
-        pattern,
-        template,
-        example,
-        content: rawContent,
-      });
+        const exampleMatch = pStr.match(/例句：([\s\S]*?)(?=<br\s*\/?>|<\/p>|$)/i);
+        if (exampleMatch) example = cleanHTMLText(exampleMatch[1]);
+
+        if (pattern || template || example || rawTitle.includes('黄金句式')) {
+          blocks.push({
+            title: '✍️ 黄金句式仿写模板',
+            isGolden: true,
+            pattern,
+            template,
+            example,
+            content: pStr,
+          });
+        } else {
+          blocks.push({
+            title: rawTitle,
+            isGolden: false,
+            pattern: '',
+            template: '',
+            example: '',
+            content: pStr,
+          });
+        }
+      }
     } else {
       blocks.push({
         title: rawTitle,
@@ -105,26 +122,30 @@ function parseSpecialHTML(html: string): SpecialBlock[] {
 
 /**
  * Serialize structured blocks back into specialHTML.
+ * Ensures golden phrase blocks are ALWAYS grouped first under a SINGLE <h5>✍️ 黄金句式仿写模板</h5> header.
  */
 function serializeSpecialBlocks(blocks: SpecialBlock[]): string {
-  return blocks
-    .filter(b => {
-      if (b.isGolden) return b.pattern.trim() || b.template.trim() || b.example.trim() || b.title.trim();
-      return b.title.trim() || b.content.trim();
-    })
-    .map(b => {
-      const titleStr = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '<h5>✍️ 黄金句式仿写模板</h5>';
-      if (b.isGolden) {
-        const patternPart = b.pattern.trim() ? `<strong>句型：${b.pattern.trim()}</strong><br/>` : '';
-        const templatePart = b.template.trim() ? `模板：${b.template.trim()}<br/>` : '';
-        const examplePart = b.example.trim() ? `例句：${b.example.trim()}` : '';
-        return `${titleStr}<p>${patternPart}${templatePart}${examplePart}</p>`;
-      } else {
-        const h5Str = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '';
-        return `${h5Str}${b.content.trim()}`;
-      }
-    })
-    .join('');
+  const goldenBlocks = blocks.filter(b => b.isGolden && (b.pattern.trim() || b.template.trim() || b.example.trim()));
+  const otherBlocks = blocks.filter(b => !b.isGolden && (b.title.trim() || b.content.trim()));
+
+  let goldenHTML = '';
+  if (goldenBlocks.length > 0) {
+    const paragraphs = goldenBlocks.map(b => {
+      const patternPart = b.pattern.trim() ? `<strong>句型：${b.pattern.trim()}</strong><br/>` : '';
+      const templatePart = b.template.trim() ? `模板：${b.template.trim()}<br/>` : '';
+      const examplePart = b.example.trim() ? `例句：${b.example.trim()}` : '';
+      return `<p>${patternPart}${templatePart}${examplePart}</p>`;
+    }).join('');
+
+    goldenHTML = `<h5>✍️ 黄金句式仿写模板</h5>${paragraphs}`;
+  }
+
+  const otherHTML = otherBlocks.map(b => {
+    const titleStr = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '';
+    return `${titleStr}${b.content.trim()}`;
+  }).join('');
+
+  return `${goldenHTML}${otherHTML}`;
 }
 
 export default function VocabTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave }: VocabTabProps) {
@@ -320,12 +341,12 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
       {/* ── Special HTML Box (黄金句式仿写模版 & 深度拓展) ── */}
       {!isEditingSpecial ? (
         <div className="rounded-xl p-6 editable-card relative" style={{ background: '#fff', border: '1px solid #d9d3cb' }}>
-          <div className="flex justify-between items-start mb-3">
-            <h4 className="text-sm font-bold flex items-center gap-2" style={{ color: '#4338ca' }}>
-              ✍️ 黄金句式仿写模版 & 深度拓展
-            </h4>
-            <button className="btn-edit" onClick={enterSpecialEdit}>✏️ 编辑</button>
-          </div>
+          <button
+            className="btn-edit absolute top-6 right-6 z-10"
+            onClick={enterSpecialEdit}
+          >
+            ✏️ 编辑
+          </button>
 
           {article.specialHTML && article.specialHTML.trim() ? (
             <div
@@ -344,7 +365,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
           {/* Header */}
           <div className="flex justify-between items-center mb-3">
             <h4 className="text-sm font-bold flex items-center gap-2" style={{ color: '#4338ca' }}>
-              ✏️ 编辑黄金句式仿写模版 & 深度拓展
+              ✏️ 编辑句式与拓展
             </h4>
             <div className="flex gap-2">
               <button className="btn-cancel" onClick={() => onCancelEdit('specialHTML')}>取消</button>
@@ -384,7 +405,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                   <div className="flex justify-between items-center mb-3 pb-2" style={{ borderBottom: '1px solid rgba(217,211,203,0.5)' }}>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: '#a09992' }}>
-                        分段 {i + 1}
+                        {block.isGolden ? `✍️ 黄金句式条目 ${i + 1}` : `📄 自由拓展模块 ${i + 1}`}
                       </span>
                       {/* Toggle block type */}
                       <button
@@ -395,9 +416,9 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                           border: block.isGolden ? '1px solid rgba(79,70,229,0.2)' : '1px solid rgba(100,116,139,0.2)',
                         }}
                         onClick={() => updateBlock(i, 'isGolden', !block.isGolden)}
-                        title="点击切换：句式模板模式 / 自由拓展模式"
+                        title="点击切换：黄金句式模板 / 自由拓展模块"
                       >
-                        {block.isGolden ? '✍️ 黄金句式模板' : '📄 自由拓展模块'}
+                        {block.isGolden ? '切换为自由拓展' : '切换为黄金句式'}
                       </button>
                     </div>
                     <button className="remove-btn" onClick={() => setEditSpecialBlocks(editSpecialBlocks.filter((_, j) => j !== i))}>✕</button>
@@ -407,19 +428,10 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                   {block.isGolden ? (
                     <div className="flex flex-col gap-2.5">
                       <div>
-                        <label className="text-[10px] font-semibold text-[#6e6a63] block mb-1">分段标题</label>
-                        <input
-                          className="edit-input font-bold"
-                          placeholder="例如：✍️ 黄金句式仿写模板"
-                          value={block.title}
-                          onChange={e => updateBlock(i, 'title', e.target.value)}
-                        />
-                      </div>
-                      <div>
                         <label className="text-[10px] font-semibold text-[#4338ca] block mb-1">📌 句型 / 用途说明</label>
                         <input
                           className="edit-input"
-                          placeholder="例如：表达“在诸多繁杂要素中皆需做出考量/选择”"
+                          placeholder="例如：描述人物/组织的职业发展与某个时代浪潮完美契合"
                           value={block.pattern}
                           onChange={e => updateBlock(i, 'pattern', e.target.value)}
                         />
@@ -429,7 +441,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                         <textarea
                           className="edit-textarea font-mono"
                           rows={2}
-                          placeholder="例如：Choices have to be made for almost every element, from [Item A] to [Item B], and even [Item C]."
+                          placeholder="例如：The career of [person/organization], coincided with [historical movement]..."
                           value={block.template}
                           onChange={e => updateBlock(i, 'template', e.target.value)}
                         />
@@ -439,7 +451,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                         <textarea
                           className="edit-textarea"
                           rows={2}
-                          placeholder="例如：In digital marketing, choices have to be made for almost every element..."
+                          placeholder="例如：The career of the pioneering software engineer coincided with..."
                           value={block.example}
                           onChange={e => updateBlock(i, 'example', e.target.value)}
                         />
@@ -451,7 +463,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                         <label className="text-[10px] font-semibold text-[#6e6a63] block mb-1">分段标题</label>
                         <input
                           className="edit-input font-bold"
-                          placeholder="例如：🚿 深度辨析：Site 与 Spot"
+                          placeholder="例如：🏗️ 建筑结构学的核心革命"
                           value={block.title}
                           onChange={e => updateBlock(i, 'title', e.target.value)}
                         />
@@ -477,7 +489,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                     ...editSpecialBlocks,
                     { title: '✍️ 黄金句式仿写模板', isGolden: true, pattern: '', template: '', example: '', content: '' }
                   ])}
-                  className="text-[10px] px-3 py-1.5 rounded transition-all font-semibold"
+                  className="text-[10px] px-3 py-1.5 rounded transition-all font-semibold cursor-pointer"
                   style={{ color: '#4338ca', border: '1px solid rgba(67,56,202,0.3)', background: 'rgba(67,56,202,0.05)' }}
                 >
                   ➕ 添加句式模板
@@ -487,7 +499,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                     ...editSpecialBlocks,
                     { title: '🚿 深度拓展', isGolden: false, pattern: '', template: '', example: '', content: '' }
                   ])}
-                  className="text-[10px] px-3 py-1.5 rounded transition-all font-semibold"
+                  className="text-[10px] px-3 py-1.5 rounded transition-all font-semibold cursor-pointer"
                   style={{ color: '#059669', border: '1px solid rgba(16,185,129,0.3)', background: 'rgba(16,185,129,0.05)' }}
                 >
                   ➕ 添加通用拓展

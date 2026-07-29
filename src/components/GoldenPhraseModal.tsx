@@ -70,28 +70,45 @@ function parseSpecialHTML(html: string): SpecialBlock[] {
     const rawTitle = match[1].trim();
     const rawContent = match[2].trim();
 
-    if (rawContent.includes('模板：') || rawContent.includes('例句：') || rawTitle.includes('黄金句式')) {
-      let pattern = '';
-      let template = '';
-      let example = '';
+    if (rawTitle.includes('黄金句式') || rawContent.includes('模板：') || rawContent.includes('例句：')) {
+      const pMatches = rawContent.match(/<p[\s\S]*?<\/p>/gi);
+      const paragraphs = (pMatches && pMatches.length > 0) ? pMatches : [rawContent];
 
-      const patternMatch = rawContent.match(/句型：([\s\S]*?)(?=<br\s*\/?>|模板：|例句：|<\/p>|$)/i);
-      if (patternMatch) pattern = cleanHTMLText(patternMatch[1]);
+      for (const pStr of paragraphs) {
+        if (!pStr.trim()) continue;
+        let pattern = '';
+        let template = '';
+        let example = '';
 
-      const templateMatch = rawContent.match(/模板：([\s\S]*?)(?=<br\s*\/?>|例句：|<\/p>|$)/i);
-      if (templateMatch) template = cleanHTMLText(templateMatch[1]);
+        const patternMatch = pStr.match(/句型：([\s\S]*?)(?=<br\s*\/?>|模板：|例句：|<\/p>|$)/i);
+        if (patternMatch) pattern = cleanHTMLText(patternMatch[1]);
 
-      const exampleMatch = rawContent.match(/例句：([\s\S]*?)(?=<br\s*\/?>|<\/p>|$)/i);
-      if (exampleMatch) example = cleanHTMLText(exampleMatch[1]);
+        const templateMatch = pStr.match(/模板：([\s\S]*?)(?=<br\s*\/?>|例句：|<\/p>|$)/i);
+        if (templateMatch) template = cleanHTMLText(templateMatch[1]);
 
-      blocks.push({
-        title: rawTitle,
-        isGolden: true,
-        pattern,
-        template,
-        example,
-        content: rawContent,
-      });
+        const exampleMatch = pStr.match(/例句：([\s\S]*?)(?=<br\s*\/?>|<\/p>|$)/i);
+        if (exampleMatch) example = cleanHTMLText(exampleMatch[1]);
+
+        if (pattern || template || example || rawTitle.includes('黄金句式')) {
+          blocks.push({
+            title: '✍️ 黄金句式仿写模板',
+            isGolden: true,
+            pattern,
+            template,
+            example,
+            content: pStr,
+          });
+        } else {
+          blocks.push({
+            title: rawTitle,
+            isGolden: false,
+            pattern: '',
+            template: '',
+            example: '',
+            content: pStr,
+          });
+        }
+      }
     } else {
       blocks.push({
         title: rawTitle,
@@ -119,24 +136,27 @@ function parseSpecialHTML(html: string): SpecialBlock[] {
 }
 
 function serializeSpecialBlocks(blocks: SpecialBlock[]): string {
-  return blocks
-    .filter(b => {
-      if (b.isGolden) return b.pattern.trim() || b.template.trim() || b.example.trim() || b.title.trim();
-      return b.title.trim() || b.content.trim();
-    })
-    .map(b => {
-      const titleStr = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '<h5>✍️ 黄金句式仿写模板</h5>';
-      if (b.isGolden) {
-        const patternPart = b.pattern.trim() ? `<strong>句型：${b.pattern.trim()}</strong><br/>` : '';
-        const templatePart = b.template.trim() ? `模板：${b.template.trim()}<br/>` : '';
-        const examplePart = b.example.trim() ? `例句：${b.example.trim()}` : '';
-        return `${titleStr}<p>${patternPart}${templatePart}${examplePart}</p>`;
-      } else {
-        const h5Str = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '';
-        return `${h5Str}${b.content.trim()}`;
-      }
-    })
-    .join('');
+  const goldenBlocks = blocks.filter(b => b.isGolden && (b.pattern.trim() || b.template.trim() || b.example.trim()));
+  const otherBlocks = blocks.filter(b => !b.isGolden && (b.title.trim() || b.content.trim()));
+
+  let goldenHTML = '';
+  if (goldenBlocks.length > 0) {
+    const paragraphs = goldenBlocks.map(b => {
+      const patternPart = b.pattern.trim() ? `<strong>句型：${b.pattern.trim()}</strong><br/>` : '';
+      const templatePart = b.template.trim() ? `模板：${b.template.trim()}<br/>` : '';
+      const examplePart = b.example.trim() ? `例句：${b.example.trim()}` : '';
+      return `<p>${patternPart}${templatePart}${examplePart}</p>`;
+    }).join('');
+
+    goldenHTML = `<h5>✍️ 黄金句式仿写模板</h5>${paragraphs}`;
+  }
+
+  const otherHTML = otherBlocks.map(b => {
+    const titleStr = b.title.trim() ? `<h5>${b.title.trim()}</h5>` : '';
+    return `${titleStr}${b.content.trim()}`;
+  }).join('');
+
+  return `${goldenHTML}${otherHTML}`;
 }
 
 /**
@@ -146,7 +166,7 @@ function serializeSpecialBlocks(blocks: SpecialBlock[]): string {
 function extractGoldenFromSpecialHTML(html: string): string | null {
   if (!html || !html.trim()) return null;
 
-  const goldenRegex = /<h5>[^<]*黄金句式[^<]*<\/h5>\s*<p>[\s\S]*?<\/p>/gi;
+  const goldenRegex = /<h5>[^<]*黄金句式[^<]*<\/h5>\s*([\s\S]*?)(?=(?:<h5>|$))/gi;
   const matches = html.match(goldenRegex);
   if (matches && matches.length > 0) {
     return matches[0];
