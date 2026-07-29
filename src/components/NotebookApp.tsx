@@ -268,6 +268,7 @@ export default function NotebookApp() {
           articles={articles}
           onClose={() => setGoldenPhraseModalOpen(false)}
           onCopyToast={showCopyToast}
+          onUpdateArticle={updateArticle}
         />
       )}
 

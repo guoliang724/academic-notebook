@@ -78,4 +78,4 @@ export interface TemplateUpdateInput {
 }
 
 export type TabId = 'translation' | 'grammar' | 'vocabulary';
-export type EditPanel = 'translation' | 'insights' | 'grammar' | 'vocab';
+export type EditPanel = 'translation' | 'insights' | 'grammar' | 'vocab' | 'specialHTML';

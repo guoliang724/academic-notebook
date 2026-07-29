@@ -678,3 +678,47 @@ body {
 .golden-phrase-content strong {
   color: var(--color-ink);
 }
+
+.golden-phrase-card--editing {
+  border-color: rgba(67,56,202,0.4) !important;
+  box-shadow: 0 0 0 1px rgba(67,56,202,0.1), 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.golden-edit-btn {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-paper-border);
+  background: rgba(236,233,225,0.9);
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.golden-edit-btn:hover {
+  border-color: #6366f1;
+  color: var(--color-accent-indigo);
+  background: rgba(67,56,202,0.06);
+}
+
+.golden-phrase-edit-area {
+  margin-top: 0.5rem;
+}
+
+.golden-phrase-textarea {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.golden-phrase-preview {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(244,242,236,0.8);
+  border: 1px dashed var(--color-paper-border);
+  border-radius: 0.5rem;
+}
