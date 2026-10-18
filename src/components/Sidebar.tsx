@@ -11,6 +11,7 @@ interface SidebarProps {
   onDeleteArticle: (id: string) => void;
   onOpenImport: () => void;
   onReorder: (fromId: string, toId: string) => void;
+  canEdit: boolean;
 }
 
 type StatusFilter = 'all' | 'todo' | 'mastered';
@@ -22,7 +23,7 @@ function matchesSearch(article: Article, q: string): boolean {
     || article.vocab.some(v => v.word.toLowerCase().includes(q) || v.meaning.includes(q));
 }
 
-export default function Sidebar({ articles, currentArticleId, onSwitchArticle, onDeleteArticle, onOpenImport, onReorder }: SidebarProps) {
+export default function Sidebar({ articles, currentArticleId, onSwitchArticle, onDeleteArticle, onOpenImport, onReorder, canEdit }: SidebarProps) {
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
@@ -38,7 +39,7 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
   ), [articles, topicFilter, statusFilter, q]);
 
   // Drag-to-sort only makes sense on the complete, unfiltered list
-  const canDrag = topicFilter === 'all' && statusFilter === 'all' && !q;
+  const canDrag = canEdit && topicFilter === 'all' && statusFilter === 'all' && !q;
 
   const mastered = articles.filter(a => a.status === 'mastered').length;
   const hasCustom = articles.some(a => a.unit === null);
@@ -109,7 +110,7 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
           <h3 className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6e6a63' }}>
             已汇整语料库
           </h3>
-          <button
+          {canEdit && <button
             onClick={onOpenImport}
             className="text-[10px] font-bold px-2 py-1 rounded transition-all flex items-center gap-1"
             style={{
@@ -119,7 +120,7 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
             }}
           >
             ➕ 导入
-          </button>
+          </button>}
         </div>
 
         {/* Progress */}
@@ -182,13 +183,13 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
               >
                 {article.unit !== null ? article.title.replace(/^UNIT \d+ · /, '') : article.title}
               </button>
-              <button
+              {canEdit && <button
                 className="delete-btn"
                 title="删除此语料"
                 onClick={(e) => { e.stopPropagation(); onDeleteArticle(article.id); }}
               >
                 🗑
-              </button>
+              </button>}
             </div>
           ))}
           {visible.length === 0 && (

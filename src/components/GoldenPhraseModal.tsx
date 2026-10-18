@@ -18,6 +18,7 @@ interface GoldenPhraseModalProps {
   onClose: () => void;
   onCopyToast: () => void;
   onUpdateArticle: (id: string, data: Partial<Article>) => Promise<void>;
+  canEdit: boolean;
 }
 
 interface SpecialBlock {
@@ -189,7 +190,7 @@ function extractGoldenFromInsights(insights: string[]): { text: string; index: n
     .map(item => ({ text: item.text.replace(/^📌 句型模板：/, '').trim(), index: item.index }));
 }
 
-export default function GoldenPhraseModal({ articles, onClose, onCopyToast, onUpdateArticle }: GoldenPhraseModalProps) {
+export default function GoldenPhraseModal({ articles, onClose, onCopyToast, onUpdateArticle, canEdit }: GoldenPhraseModalProps) {
   const [search, setSearch] = useState('');
   const [editingKey, setEditingKey] = useState<string | null>(null);
 
@@ -416,13 +417,15 @@ export default function GoldenPhraseModal({ articles, onClose, onCopyToast, onUp
                       <div className="flex items-center gap-1.5 shrink-0">
                         {!isEditing ? (
                           <>
-                            <button
-                              className="golden-edit-btn"
-                              onClick={() => startEdit(phrase, i)}
-                              title="编辑此句式"
-                            >
-                              ✏️ 编辑
-                            </button>
+                            {canEdit && (
+                              <button
+                                className="golden-edit-btn"
+                                onClick={() => startEdit(phrase, i)}
+                                title="编辑此句式"
+                              >
+                                ✏️ 编辑
+                              </button>
+                            )}
                             <button
                               className="tpl-copy-btn"
                               onClick={() => copyText(phrase.type === 'specialHTML' ? (phrase.html || '') : (phrase.text || ''))}

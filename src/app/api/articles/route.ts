@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth';
 import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import { rowToArticle, nextSortOrder } from '@/db/articles';
@@ -21,6 +22,8 @@ export async function GET() {
 
 // POST /api/articles — import one or many articles
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     await seedDatabase();
     const pool = getPool();
@@ -92,6 +95,8 @@ export async function POST(request: Request) {
 
 // PATCH /api/articles — persist the sidebar order: { order: string[] } (article ids, top to bottom)
 export async function PATCH(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     await seedDatabase();
     const body = await request.json();

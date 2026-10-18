@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import type { Article, ArticleStatus, TabId, EditPanel } from '@/lib/types';
 import Sidebar from '@/components/Sidebar';
 import SourceCard from '@/components/SourceCard';
@@ -12,6 +13,8 @@ import ImportModal from '@/components/ImportModal';
 import GoldenPhraseModal from '@/components/GoldenPhraseModal';
 import WordListModal from '@/components/WordListModal';
 
+const PROGRESS_KEY = 'toefl-progress-v1';
+
 export default function NotebookApp() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
@@ -20,11 +23,22 @@ export default function NotebookApp() {
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [goldenPhraseModalOpen, setGoldenPhraseModalOpen] = useState(false);
   const [wordListOpen, setWordListOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  // Visitors can't write to the database, so their learning progress lives in this browser
+  const [localStatus, setLocalStatus] = useState<Record<string, ArticleStatus>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}');
+    } catch {
+      return {}; // storage unavailable: progress just isn't remembered
+    }
+  });
   const [loading, setLoading] = useState(true);
   const toastRef = useRef<HTMLDivElement>(null);
 
-  const currentIndex = articles.findIndex(a => a.id === currentArticleId);
-  const currentArticle = currentIndex >= 0 ? articles[currentIndex] : null;
+  const viewArticles = isAdmin ? articles : articles.map(a => ({ ...a, status: localStatus[a.id] || 'new' }));
+  const currentIndex = viewArticles.findIndex(a => a.id === currentArticleId);
+  const currentArticle = currentIndex >= 0 ? viewArticles[currentIndex] : null;
 
   // ── Fetch data ──
   const fetchArticles = useCallback(async () => {
@@ -38,6 +52,7 @@ export default function NotebookApp() {
   }, []);
 
   useEffect(() => {
+    fetch('/api/auth/me').then(r => r.json()).then(d => setIsAdmin(Boolean(d.admin))).catch(() => {});
     fetchArticles().then((arts) => {
       if (arts.length > 0 && !currentArticleId) {
         setCurrentArticleId(arts[0].id);
@@ -118,10 +133,24 @@ export default function NotebookApp() {
   }, []);
 
   const setArticleStatus = useCallback((id: string, status: ArticleStatus) => {
+    if (!isAdmin) {
+      setLocalStatus(prev => {
+        const next = { ...prev, [id]: status };
+        try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+        return next;
+      });
+      return;
+    }
     // Optimistic: the status pill and progress bar update immediately
     setArticles(prev => prev.map(a => a.id === id ? { ...a, status } : a));
     updateArticle(id, { status });
-  }, [updateArticle]);
+  }, [updateArticle, isAdmin]);
+
+  const logout = useCallback(async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    setIsAdmin(false);
+    setEditingPanels(new Set());
+  }, []);
 
   // ── Reorder articles (drag-and-drop), persisted via PATCH /api/articles ──
   const reorderArticles = useCallback((fromId: string, toId: string) => {
@@ -143,9 +172,9 @@ export default function NotebookApp() {
 
   // ── Previous / next article (buttons and ← → keys) ──
   const goRelative = useCallback((delta: number) => {
-    const target = articles[currentIndex + delta];
+    const target = viewArticles[currentIndex + delta];
     if (target) switchArticle(target.id);
-  }, [articles, currentIndex, switchArticle]);
+  }, [viewArticles, currentIndex, switchArticle]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -205,7 +234,14 @@ export default function NotebookApp() {
               V10.0 · TOEFL 词汇分类突破
             </span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            {isAdmin ? (
+              <button onClick={logout} className="text-[11px] px-2" style={{ color: '#6e6a63' }} title="退出管理员登录">
+                🔓 管理员 · 退出
+              </button>
+            ) : (
+              <Link href="/login" className="text-[11px] px-2" style={{ color: '#a09992' }}>🔐 管理员登录</Link>
+            )}
             <button
               onClick={() => setWordListOpen(true)}
               className="header-btn"
@@ -237,7 +273,8 @@ export default function NotebookApp() {
 
         {/* Sidebar */}
         <Sidebar
-          articles={articles}
+          articles={viewArticles}
+          canEdit={isAdmin}
           currentArticleId={currentArticleId}
           onSwitchArticle={switchArticle}
           onDeleteArticle={deleteArticle}
@@ -264,6 +301,7 @@ export default function NotebookApp() {
                 onEnterEdit={enterEditMode}
                 onCancelEdit={cancelEditMode}
                 onSave={updateArticle}
+                canEdit={isAdmin}
               />
             )}
 
@@ -274,6 +312,7 @@ export default function NotebookApp() {
                 onEnterEdit={enterEditMode}
                 onCancelEdit={cancelEditMode}
                 onSave={updateArticle}
+                canEdit={isAdmin}
               />
             )}
 
@@ -284,6 +323,7 @@ export default function NotebookApp() {
                 onEnterEdit={enterEditMode}
                 onCancelEdit={cancelEditMode}
                 onSave={updateArticle}
+                canEdit={isAdmin}
               />
             )}
           </main>
@@ -296,6 +336,7 @@ export default function NotebookApp() {
               <p className="text-sm mb-6 max-w-md" style={{ color: '#6e6a63' }}>
                 当前题库中还没有文章。请点击左侧的&quot;导入&quot;按钮，将 AI 为你生成的专属 JSON 代码粘贴进去即可开始学习。
               </p>
+{isAdmin && (
               <button
                 onClick={() => setImportModalOpen(true)}
                 className="font-semibold px-6 py-2.5 rounded-lg transition-all text-white text-sm"
@@ -303,13 +344,14 @@ export default function NotebookApp() {
               >
                 立即导入第一篇语料
               </button>
+              )}
             </div>
           </main>
         )}
       </div>
 
       {/* ── Modals ── */}
-      {importModalOpen && (
+      {importModalOpen && isAdmin && (
         <ImportModal
           onClose={() => setImportModalOpen(false)}
           onImport={importArticles}
@@ -322,12 +364,13 @@ export default function NotebookApp() {
           onClose={() => setGoldenPhraseModalOpen(false)}
           onCopyToast={showCopyToast}
           onUpdateArticle={updateArticle}
+          canEdit={isAdmin}
         />
       )}
 
       {wordListOpen && (
         <WordListModal
-          articles={articles}
+          articles={viewArticles}
           onClose={() => setWordListOpen(false)}
           onJump={(id) => { setWordListOpen(false); switchArticle(id); }}
         />

@@ -58,6 +58,27 @@
 
 ---
 
+## 公开发布与管理员登录
+
+网站对所有人只读：任何人都可以浏览、搜索、朗读和自测，但**编辑、导入、删除、排序、修改学习状态**只有管理员登录后才能操作（服务端 API 同样校验，未登录请求返回 401）。
+
+- 登录入口：页面右上角「🔐 管理员登录」，或直接访问 `/login`
+- 访客的「已掌握」进度保存在各自浏览器里（localStorage），不会写入数据库
+- 登录状态保存在 httpOnly 签名 Cookie 中，有效期 7 天
+
+在 Vercel → Project → Settings → Environment Variables 中配置：
+
+| 变量 | 说明 |
+|------|------|
+| `ADMIN_USERNAME` | 管理员用户名 |
+| `ADMIN_PASSWORD` | 管理员密码 |
+| `AUTH_SECRET` | 可选，Cookie 签名密钥（一串随机长字符串）；不设置时使用 `ADMIN_PASSWORD` |
+| `DATABASE_URL` | MySQL 连接串 |
+
+修改环境变量后需重新部署才会生效；修改密码（或 `AUTH_SECRET`）会让所有已登录的会话失效。
+
+---
+
 ## 功能特性
 
 | 功能 | 说明 |

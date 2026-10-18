@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth';
 import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import type { Template } from '@/lib/types';
@@ -29,6 +30,8 @@ export async function GET() {
 
 // POST /api/templates
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     await seedDatabase();
     const pool = getPool();

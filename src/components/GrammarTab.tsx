@@ -9,9 +9,10 @@ interface GrammarTabProps {
   onEnterEdit: (panel: EditPanel) => void;
   onCancelEdit: (panel: EditPanel) => void;
   onSave: (id: string, data: Partial<Article>) => Promise<void>;
+  canEdit: boolean;
 }
 
-export default function GrammarTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave }: GrammarTabProps) {
+export default function GrammarTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave, canEdit }: GrammarTabProps) {
   const [editItems, setEditItems] = useState<GrammarItem[]>([]);
   const isEditing = editingPanels.has('grammar');
 
@@ -42,7 +43,7 @@ export default function GrammarTab({ article, editingPanels, onEnterEdit, onCanc
         <div className="rounded-xl p-6 editable-card" style={{ background: '#fff', border: '1px solid #d9d3cb' }}>
           <div className="flex justify-between items-start mb-4">
             <h4 className="text-sm font-bold" style={{ color: '#47433e' }}>🔍 核心句型骨架拆解</h4>
-            <button className="btn-edit" onClick={enterEdit}>✏️ 编辑</button>
+            {canEdit && <button className="btn-edit" onClick={enterEdit}>✏️ 编辑</button>}
           </div>
           <div className="space-y-3">
             {article.grammar.length > 0 ? article.grammar.map((item, i) => (

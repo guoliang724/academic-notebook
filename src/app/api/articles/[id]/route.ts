@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth';
 import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
 import { rowToArticle, isArticleStatus } from '@/db/articles';
@@ -28,6 +29,8 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     await seedDatabase();
     const { id } = await params;
@@ -82,6 +85,8 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     await seedDatabase();
     const { id } = await params;

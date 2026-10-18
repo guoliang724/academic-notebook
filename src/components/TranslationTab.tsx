@@ -9,9 +9,10 @@ interface TranslationTabProps {
   onEnterEdit: (panel: EditPanel) => void;
   onCancelEdit: (panel: EditPanel) => void;
   onSave: (id: string, data: Partial<Article>) => Promise<void>;
+  canEdit: boolean;
 }
 
-export default function TranslationTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave }: TranslationTabProps) {
+export default function TranslationTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave, canEdit }: TranslationTabProps) {
   const [editTranslation, setEditTranslation] = useState('');
   const [editInsights, setEditInsights] = useState<string[]>([]);
 
@@ -49,7 +50,7 @@ export default function TranslationTab({ article, editingPanels, onEnterEdit, on
               <span className="w-2 h-2 rounded-full" style={{ background: '#10b981' }} />
               精雕学术译文
             </h4>
-            <button className="btn-edit" onClick={enterTranslationEdit}>✏️ 编辑</button>
+            {canEdit && <button className="btn-edit" onClick={enterTranslationEdit}>✏️ 编辑</button>}
           </div>
           <p className="leading-relaxed text-sm" style={{ color: '#47433e' }}>
             {article.translation || <span className="italic" style={{ color: '#a09992' }}>暂无译文</span>}
@@ -79,7 +80,7 @@ export default function TranslationTab({ article, editingPanels, onEnterEdit, on
         <div className="rounded-xl p-6 editable-card" style={{ background: '#fff', border: '1px solid #d9d3cb' }}>
           <div className="flex justify-between items-start mb-3">
             <h4 className="text-sm font-bold" style={{ color: '#47433e' }}>💡 翻译心法拆解</h4>
-            <button className="btn-edit" onClick={enterInsightsEdit}>✏️ 编辑</button>
+            {canEdit && <button className="btn-edit" onClick={enterInsightsEdit}>✏️ 编辑</button>}
           </div>
           <ul className="space-y-2.5 text-sm list-none" style={{ color: '#6e6a63' }}>
             {article.insights.length > 0 ? article.insights.map((item, i) => (

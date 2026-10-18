@@ -10,6 +10,7 @@ interface VocabTabProps {
   onEnterEdit: (panel: EditPanel) => void;
   onCancelEdit: (panel: EditPanel) => void;
   onSave: (id: string, data: Partial<Article>) => Promise<void>;
+  canEdit: boolean;
 }
 
 interface SpecialBlock {
@@ -149,7 +150,7 @@ function serializeSpecialBlocks(blocks: SpecialBlock[]): string {
   return `${goldenHTML}${otherHTML}`;
 }
 
-export default function VocabTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave }: VocabTabProps) {
+export default function VocabTab({ article, editingPanels, onEnterEdit, onCancelEdit, onSave, canEdit }: VocabTabProps) {
   const [editItems, setEditItems] = useState<VocabItem[]>([]);
   const [editSpecialBlocks, setEditSpecialBlocks] = useState<SpecialBlock[]>([]);
   const [editSpecialRaw, setEditSpecialRaw] = useState('');
@@ -265,7 +266,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                   {quizMode ? '🙈 退出自测' : '🧠 自测模式'}
                 </button>
               )}
-              <button className="btn-edit" onClick={enterVocabEdit}>✏️ 编辑</button>
+              {canEdit && <button className="btn-edit" onClick={enterVocabEdit}>✏️ 编辑</button>}
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -367,12 +368,14 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
       {/* ── Special HTML Box (黄金句式仿写模版 & 深度拓展) ── */}
       {!isEditingSpecial ? (
         <div className="rounded-xl p-6 editable-card relative" style={{ background: '#fff', border: '1px solid #d9d3cb' }}>
-          <button
-            className="btn-edit absolute top-6 right-6 z-10"
-            onClick={enterSpecialEdit}
-          >
-            ✏️ 编辑
-          </button>
+          {canEdit && (
+            <button
+              className="btn-edit absolute top-6 right-6 z-10"
+              onClick={enterSpecialEdit}
+            >
+              ✏️ 编辑
+            </button>
+          )}
 
           {article.specialHTML && article.specialHTML.trim() ? (
             <div
@@ -382,7 +385,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
             />
           ) : (
             <div className="italic text-xs py-3 text-center" style={{ color: '#a09992' }}>
-              暂无黄金句式仿写模板与拓展内容，点击右上角“编辑”添加
+              暂无黄金句式仿写模板与拓展内容
             </div>
           )}
         </div>
