@@ -12,7 +12,13 @@ export interface VocabItem {
   meaning: string;
   rating: string;
   root?: string;  // 词根解释 (etymology / word root breakdown)
+  phonetic?: string;  // 音标 (IPA, without brackets)
 }
+
+export type ArticleStatus = 'new' | 'learning' | 'mastered';
+
+// TOEFL topic categories (附录一 托福专题分类)
+export type Topic = 'Arts' | 'Life Science' | 'Physical Science' | 'Social Science';
 
 export interface Article {
   id: string;
@@ -24,8 +30,27 @@ export interface Article {
   grammar: GrammarItem[];
   vocab: VocabItem[];
   specialHTML: string;
+  unit: number | null;     // 《新托福 iBT 词汇分类突破》UNIT 编号；用户自行导入的语料为 null
+  topic: string;           // Topic，或空字符串
+  status: ArticleStatus;
+  sortOrder: number;
   createdAt: number;
   updatedAt: number;
+}
+
+// Built-in article as stored in src/data/toefl-units.json
+export interface BuiltinArticle {
+  id: string;
+  unit: number;
+  title: string;
+  genre: string;
+  topic: Topic;
+  body: string;
+  translation: string;
+  insights: string[];
+  grammar: GrammarItem[];
+  vocab: VocabItem[];
+  specialHTML: string;
 }
 
 export interface Template {
@@ -63,6 +88,7 @@ export interface ArticleUpdateInput {
   grammar?: GrammarItem[];
   vocab?: VocabItem[];
   specialHTML?: string;
+  status?: ArticleStatus;
 }
 
 export interface TemplateCreateInput {

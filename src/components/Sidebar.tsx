@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import type { Article } from '@/lib/types';
+import { TOPICS, CUSTOM_TOPIC, matchesTopic, type TopicFilter } from '@/lib/topics';
 
 interface SidebarProps {
   articles: Article[];
@@ -9,18 +10,57 @@ interface SidebarProps {
   onSwitchArticle: (id: string) => void;
   onDeleteArticle: (id: string) => void;
   onOpenImport: () => void;
-  onReorder: (fromIndex: number, toIndex: number) => void;
+  onReorder: (fromId: string, toId: string) => void;
+}
+
+type StatusFilter = 'all' | 'todo' | 'mastered';
+
+function matchesSearch(article: Article, q: string): boolean {
+  if (!q) return true;
+  return article.title.toLowerCase().includes(q)
+    || article.body.toLowerCase().includes(q)
+    || article.vocab.some(v => v.word.toLowerCase().includes(q) || v.meaning.includes(q));
 }
 
 export default function Sidebar({ articles, currentArticleId, onSwitchArticle, onDeleteArticle, onOpenImport, onReorder }: SidebarProps) {
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const dragCounterRef = useRef(0);
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [topicFilter, setTopicFilter] = useState<TopicFilter>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const navRef = useRef<HTMLElement>(null);
 
-  const handleDragStart = useCallback((e: React.DragEvent, index: number) => {
-    setDragIndex(index);
+  const q = search.trim().toLowerCase();
+  const visible = useMemo(() => articles.filter(a =>
+    matchesTopic(a, topicFilter)
+    && (statusFilter === 'all' || (statusFilter === 'mastered') === (a.status === 'mastered'))
+    && matchesSearch(a, q)
+  ), [articles, topicFilter, statusFilter, q]);
+
+  // Drag-to-sort only makes sense on the complete, unfiltered list
+  const canDrag = topicFilter === 'all' && statusFilter === 'all' && !q;
+
+  const mastered = articles.filter(a => a.status === 'mastered').length;
+  const hasCustom = articles.some(a => a.unit === null);
+  const topicCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const a of articles) {
+      const key = a.unit === null ? CUSTOM_TOPIC.id : a.topic;
+      counts[key] = (counts[key] || 0) + 1;
+    }
+    return counts;
+  }, [articles]);
+
+  // Keep the active item visible when switching with the keyboard / prev-next buttons
+  useEffect(() => {
+    const el = navRef.current?.querySelector('.article-item.active');
+    el?.scrollIntoView({ block: 'nearest' });
+  }, [currentArticleId]);
+
+  const handleDragStart = useCallback((e: React.DragEvent, id: string) => {
+    setDragId(id);
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', String(index));
+    e.dataTransfer.setData('text/plain', id);
     // Capture the element ref before React nullifies the synthetic event
     const el = e.currentTarget as HTMLElement;
     // Add dragging class after a tick so the element doesn't disappear immediately
@@ -30,9 +70,8 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
   }, []);
 
   const handleDragEnd = useCallback(() => {
-    setDragIndex(null);
-    setDragOverIndex(null);
-    dragCounterRef.current = 0;
+    setDragId(null);
+    setDragOverId(null);
     // Remove dragging class from all items
     document.querySelectorAll('.article-item.dragging').forEach(el => {
       el.classList.remove('dragging');
@@ -44,28 +83,27 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
     e.dataTransfer.dropEffect = 'move';
   }, []);
 
-  const handleDragEnter = useCallback((e: React.DragEvent, index: number) => {
+  const handleDrop = useCallback((e: React.DragEvent, toId: string) => {
     e.preventDefault();
-    setDragOverIndex(index);
-  }, []);
-
-  const handleDragLeave = useCallback(() => {
-    // We don't reset dragOverIndex here to avoid flickering
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent, toIndex: number) => {
-    e.preventDefault();
-    const fromIndex = dragIndex;
-    if (fromIndex !== null && fromIndex !== toIndex) {
-      onReorder(fromIndex, toIndex);
+    if (dragId && dragId !== toId) {
+      onReorder(dragId, toId);
     }
-    setDragIndex(null);
-    setDragOverIndex(null);
-    dragCounterRef.current = 0;
-  }, [dragIndex, onReorder]);
+    setDragId(null);
+    setDragOverId(null);
+  }, [dragId, onReorder]);
+
+  const chip = (id: TopicFilter, label: string, count: number) => (
+    <button
+      key={id}
+      className={`filter-chip ${topicFilter === id ? 'active' : ''}`}
+      onClick={() => setTopicFilter(id)}
+    >
+      {label}<span className="filter-chip-count">{count}</span>
+    </button>
+  );
 
   return (
-    <aside className="w-64 shrink-0 flex flex-col gap-4">
+    <aside className="sidebar w-64 shrink-0 flex flex-col gap-4">
       <div className="rounded-xl p-4" style={{ background: '#ece9e1', border: '1px solid #d9d3cb' }}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6e6a63' }}>
@@ -83,27 +121,66 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
             ➕ 导入
           </button>
         </div>
-        <nav className="flex flex-col gap-1 max-h-[500px] overflow-y-auto">
-          {articles.map((article, index) => (
+
+        {/* Progress */}
+        {articles.length > 0 && (
+          <div className="mb-3">
+            <div className="flex justify-between text-[10px] mb-1" style={{ color: '#6e6a63' }}>
+              <span>学习进度</span>
+              <span className="font-mono">{mastered} / {articles.length} 已掌握</span>
+            </div>
+            <div className="progress-track">
+              <div className="progress-fill" style={{ width: `${(mastered / articles.length) * 100}%` }} />
+            </div>
+          </div>
+        )}
+
+        {/* Search & filters */}
+        <input
+          className="tpl-search-input w-full mb-2"
+          placeholder="🔍 搜索标题、原文或单词…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <div className="flex flex-wrap gap-1 mb-2">
+          {chip('all', '全部', articles.length)}
+          {TOPICS.filter(t => topicCounts[t.id]).map(t => chip(t.id, `${t.icon} ${t.label}`, topicCounts[t.id]))}
+          {hasCustom && chip('custom', `${CUSTOM_TOPIC.icon} ${CUSTOM_TOPIC.label}`, topicCounts[CUSTOM_TOPIC.id] || 0)}
+        </div>
+        <div className="flex gap-1 mb-3">
+          {([['all', '全部状态'], ['todo', '待学习'], ['mastered', '已掌握']] as const).map(([id, label]) => (
+            <button
+              key={id}
+              className={`filter-chip ${statusFilter === id ? 'active' : ''}`}
+              onClick={() => setStatusFilter(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <nav ref={navRef} className="sidebar-nav flex flex-col gap-1 overflow-y-auto">
+          {visible.map((article, index) => (
             <div
               key={article.id}
-              className={`article-item ${article.id === currentArticleId ? 'active' : ''} ${dragIndex === index ? 'dragging' : ''} ${dragOverIndex === index && dragIndex !== index ? 'drag-over' : ''}`}
-              draggable
-              onDragStart={(e) => handleDragStart(e, index)}
+              className={`article-item ${article.id === currentArticleId ? 'active' : ''} ${dragId === article.id ? 'dragging' : ''} ${dragOverId === article.id && dragId !== article.id ? 'drag-over' : ''}`}
+              draggable={canDrag}
+              onDragStart={(e) => handleDragStart(e, article.id)}
               onDragEnd={handleDragEnd}
               onDragOver={handleDragOver}
-              onDragEnter={(e) => handleDragEnter(e, index)}
-              onDragLeave={handleDragLeave}
-              onDrop={(e) => handleDrop(e, index)}
+              onDragEnter={(e) => { e.preventDefault(); setDragOverId(article.id); }}
+              onDrop={(e) => handleDrop(e, article.id)}
             >
-              <span className="article-index">{index + 1}</span>
-              <span className="drag-handle" title="拖拽排序">⠿</span>
+              <span className={`article-index status-dot-${article.status}`}>
+                {article.unit !== null ? article.unit : index + 1}
+              </span>
+              {canDrag && <span className="drag-handle" title="拖拽排序">⠿</span>}
               <button
                 className="article-btn"
                 title={article.title}
                 onClick={() => onSwitchArticle(article.id)}
               >
-                {article.title}
+                {article.unit !== null ? article.title.replace(/^UNIT \d+ · /, '') : article.title}
               </button>
               <button
                 className="delete-btn"
@@ -114,6 +191,9 @@ export default function Sidebar({ articles, currentArticleId, onSwitchArticle, o
               </button>
             </div>
           ))}
+          {visible.length === 0 && (
+            <p className="text-xs italic text-center py-4" style={{ color: '#a09992' }}>没有匹配的语料</p>
+          )}
         </nav>
       </div>
     </aside>

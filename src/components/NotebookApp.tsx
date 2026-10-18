@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { Article, TabId, EditPanel } from '@/lib/types';
+import type { Article, ArticleStatus, TabId, EditPanel } from '@/lib/types';
 import Sidebar from '@/components/Sidebar';
 import SourceCard from '@/components/SourceCard';
 import TabBar from '@/components/TabBar';
@@ -10,6 +10,7 @@ import GrammarTab from '@/components/GrammarTab';
 import VocabTab from '@/components/VocabTab';
 import ImportModal from '@/components/ImportModal';
 import GoldenPhraseModal from '@/components/GoldenPhraseModal';
+import WordListModal from '@/components/WordListModal';
 
 export default function NotebookApp() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -18,10 +19,12 @@ export default function NotebookApp() {
   const [editingPanels, setEditingPanels] = useState<Set<EditPanel>>(new Set());
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [goldenPhraseModalOpen, setGoldenPhraseModalOpen] = useState(false);
+  const [wordListOpen, setWordListOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const toastRef = useRef<HTMLDivElement>(null);
 
-  const currentArticle = articles.find(a => a.id === currentArticleId) || null;
+  const currentIndex = articles.findIndex(a => a.id === currentArticleId);
+  const currentArticle = currentIndex >= 0 ? articles[currentIndex] : null;
 
   // ── Fetch data ──
   const fetchArticles = useCallback(async () => {
@@ -37,7 +40,7 @@ export default function NotebookApp() {
   useEffect(() => {
     fetchArticles().then((arts) => {
       if (arts.length > 0 && !currentArticleId) {
-        setCurrentArticleId(arts[arts.length - 1].id);
+        setCurrentArticleId(arts[0].id);
       }
       setLoading(false);
     });
@@ -114,15 +117,47 @@ export default function NotebookApp() {
     }
   }, []);
 
-  // ── Reorder articles (drag-and-drop) ──
-  const reorderArticles = useCallback((fromIndex: number, toIndex: number) => {
+  const setArticleStatus = useCallback((id: string, status: ArticleStatus) => {
+    // Optimistic: the status pill and progress bar update immediately
+    setArticles(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+    updateArticle(id, { status });
+  }, [updateArticle]);
+
+  // ── Reorder articles (drag-and-drop), persisted via PATCH /api/articles ──
+  const reorderArticles = useCallback((fromId: string, toId: string) => {
     setArticles(prev => {
+      const fromIndex = prev.findIndex(a => a.id === fromId);
+      const toIndex = prev.findIndex(a => a.id === toId);
+      if (fromIndex < 0 || toIndex < 0) return prev;
       const next = [...prev];
       const [moved] = next.splice(fromIndex, 1);
       next.splice(toIndex, 0, moved);
-      return next;
+      fetch('/api/articles', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: next.map(a => a.id) }),
+      });
+      return next.map((a, i) => ({ ...a, sortOrder: (i + 1) * 10 }));
     });
   }, []);
+
+  // ── Previous / next article (buttons and ← → keys) ──
+  const goRelative = useCallback((delta: number) => {
+    const target = articles[currentIndex + delta];
+    if (target) switchArticle(target.id);
+  }, [articles, currentIndex, switchArticle]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (editingPanels.size > 0 || importModalOpen || goldenPhraseModalOpen || wordListOpen) return;
+      if (e.key === 'ArrowLeft') goRelative(-1);
+      else if (e.key === 'ArrowRight') goRelative(1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [goRelative, editingPanels, importModalOpen, goldenPhraseModalOpen, wordListOpen]);
 
   // ── Edit mode ──
   const enterEditMode = useCallback((panel: EditPanel) => {
@@ -167,25 +202,38 @@ export default function NotebookApp() {
             </h1>
             <span className="text-xs font-medium px-2 py-0.5 rounded-full"
               style={{ background: 'rgba(29,78,216,0.08)', color: '#1d4ed8', border: '1px solid rgba(29,78,216,0.15)' }}>
-              V9.0 Next.js
+              V10.0 · TOEFL 词汇分类突破
             </span>
           </div>
-          <button
-            onClick={() => setGoldenPhraseModalOpen(true)}
-            className="text-xs font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-1.5"
-            style={{
-              background: 'rgba(79,70,229,0.08)',
-              color: '#4338ca',
-              border: '1px solid rgba(79,70,229,0.2)',
-            }}
-          >
-            ✍️ 黄金句式汇总
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setWordListOpen(true)}
+              className="header-btn"
+              style={{
+                background: 'rgba(5,150,105,0.08)',
+                color: '#047857',
+                border: '1px solid rgba(5,150,105,0.2)',
+              }}
+            >
+              📖 词汇总表
+            </button>
+            <button
+              onClick={() => setGoldenPhraseModalOpen(true)}
+              className="header-btn"
+              style={{
+                background: 'rgba(79,70,229,0.08)',
+                color: '#4338ca',
+                border: '1px solid rgba(79,70,229,0.2)',
+              }}
+            >
+              ✍️ 黄金句式汇总
+            </button>
+          </div>
         </div>
       </header>
 
       {/* ── Main Layout ── */}
-      <div className="max-w-7xl mx-auto px-6 py-6 flex gap-6" style={{ minHeight: 'calc(100vh - 65px)' }}>
+      <div className="main-layout max-w-7xl mx-auto px-6 py-6 flex gap-6" style={{ minHeight: 'calc(100vh - 65px)' }}>
 
         {/* Sidebar */}
         <Sidebar
@@ -200,7 +248,12 @@ export default function NotebookApp() {
         {/* Main Content */}
         {currentArticle ? (
           <main className="flex-1 min-w-0 flex flex-col gap-5">
-            <SourceCard article={currentArticle} />
+            <SourceCard
+              article={currentArticle}
+              onSetStatus={(status) => setArticleStatus(currentArticle.id, status)}
+              onPrev={currentIndex > 0 ? () => goRelative(-1) : undefined}
+              onNext={currentIndex < articles.length - 1 ? () => goRelative(1) : undefined}
+            />
 
             <TabBar currentTab={currentTab} onSwitchTab={setCurrentTab} />
 
@@ -269,6 +322,14 @@ export default function NotebookApp() {
           onClose={() => setGoldenPhraseModalOpen(false)}
           onCopyToast={showCopyToast}
           onUpdateArticle={updateArticle}
+        />
+      )}
+
+      {wordListOpen && (
+        <WordListModal
+          articles={articles}
+          onClose={() => setWordListOpen(false)}
+          onJump={(id) => { setWordListOpen(false); switchArticle(id); }}
         />
       )}
 

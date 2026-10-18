@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import type { Article, EditPanel, VocabItem } from '@/lib/types';
+import { speak } from '@/lib/speech';
 
 interface VocabTabProps {
   article: Article;
@@ -153,6 +154,15 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
   const [editSpecialBlocks, setEditSpecialBlocks] = useState<SpecialBlock[]>([]);
   const [editSpecialRaw, setEditSpecialRaw] = useState('');
   const [editMode, setEditMode] = useState<'blocks' | 'raw'>('blocks');
+  const [quizMode, setQuizMode] = useState(false);
+  // Revealed rows belong to one article; switching articles starts hidden again
+  const [revealedState, setRevealedState] = useState<{ articleId: string; rows: Set<number> }>({ articleId: '', rows: new Set() });
+  const revealed = revealedState.articleId === article.id ? revealedState.rows : new Set<number>();
+  const reveal = (i: number) => setRevealedState({ articleId: article.id, rows: new Set(revealed).add(i) });
+  const toggleQuiz = () => {
+    setQuizMode(q => !q);
+    setRevealedState({ articleId: '', rows: new Set() });
+  };
 
   const isEditingVocab = editingPanels.has('vocab');
   const isEditingSpecial = editingPanels.has('specialHTML');
@@ -190,7 +200,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
     setEditItems(
       article.vocab.length > 0
         ? article.vocab.map(v => ({ ...v }))
-        : [{ word: '', type: '', meaning: '', rating: '⭐⭐⭐', root: '' }]
+        : [{ word: '', type: '', meaning: '', rating: '⭐⭐⭐', root: '', phonetic: '' }]
     );
     onEnterEdit('vocab');
   };
@@ -245,8 +255,18 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
       {!isEditingVocab ? (
         <div className="rounded-xl p-6 editable-card" style={{ background: '#fff', border: '1px solid #d9d3cb' }}>
           <div className="flex justify-between items-start mb-3">
-            <h4 className="text-sm font-bold" style={{ color: '#47433e' }}>💡 核心学术 / 法律词汇</h4>
-            <button className="btn-edit" onClick={enterVocabEdit}>✏️ 编辑</button>
+            <h4 className="text-sm font-bold" style={{ color: '#47433e' }}>
+              💡 核心学术词汇
+              {article.vocab.length > 0 && <span className="ml-2 font-normal text-[11px]" style={{ color: '#a09992' }}>{article.vocab.length} 个</span>}
+            </h4>
+            <div className="flex gap-2">
+              {article.vocab.length > 0 && (
+                <button className={`btn-edit ${quizMode ? 'btn-edit--on' : ''}`} onClick={toggleQuiz} title="遮住释义，点击逐个揭晓">
+                  {quizMode ? '🙈 退出自测' : '🧠 自测模式'}
+                </button>
+              )}
+              <button className="btn-edit" onClick={enterVocabEdit}>✏️ 编辑</button>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
@@ -260,10 +280,15 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
               <tbody>
                 {article.vocab.length > 0 ? article.vocab.map((item, i) => (
                   <tr key={i} className="group" style={{ borderBottom: item.root ? 'none' : '1px solid rgba(217,211,203,0.7)' }}>
-                    <td className="py-2.5 pr-4 font-medium font-mono" style={{ color: '#1d4ed8' }}>{item.word}</td>
-                    <td className="py-2.5 pr-4" style={{ color: '#47433e' }}>
+                    <td className="py-2.5 pr-4 font-medium font-mono align-top">
+                      <button className="wordlist-word" onClick={() => speak(item.word)} title="点击发音">🔊 {item.word}</button>
+                      {item.phonetic && <div className="text-[10px] font-normal mt-0.5" style={{ color: '#a09992' }}>[{item.phonetic}]</div>}
+                    </td>
+                    <td className="py-2.5 pr-4 align-top" style={{ color: '#47433e' }}>
                       <span className="font-mono mr-1.5 text-[10px]" style={{ color: '#a09992' }}>[{item.type}]</span>
-                      {item.meaning}
+                      {quizMode && !revealed.has(i) ? (
+                        <button className="quiz-mask" onClick={() => reveal(i)}>点击查看释义</button>
+                      ) : item.meaning}
                     </td>
                     <td className="py-2.5" style={{ color: '#b45309' }}>{item.rating}</td>
                   </tr>
@@ -271,7 +296,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                   acc.push(row);
                   // Insert root explanation row if present
                   const item = article.vocab[i];
-                  if (item.root && item.root.trim()) {
+                  if (item.root && item.root.trim() && (!quizMode || revealed.has(i))) {
                     acc.push(
                       <tr key={`root-${i}`} style={{ borderBottom: '1px solid rgba(217,211,203,0.7)' }}>
                         <td colSpan={3} className="pb-2.5 pt-0">
@@ -313,6 +338,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
                 </div>
                 <div className="vocab-edit-row">
                   <input className="edit-input font-mono" placeholder="词汇" value={v.word} onChange={e => updateVocabItem(i, 'word', e.target.value)} />
+                  <input className="edit-input font-mono" placeholder="音标" value={v.phonetic || ''} onChange={e => updateVocabItem(i, 'phonetic', e.target.value)} />
                   <input className="edit-input" placeholder="词性" value={v.type} onChange={e => updateVocabItem(i, 'type', e.target.value)} />
                   <input className="edit-input" placeholder="释义" value={v.meaning} onChange={e => updateVocabItem(i, 'meaning', e.target.value)} />
                   <input className="edit-input" placeholder="⭐⭐⭐" value={v.rating} onChange={e => updateVocabItem(i, 'rating', e.target.value)} />
@@ -329,7 +355,7 @@ export default function VocabTab({ article, editingPanels, onEnterEdit, onCancel
             ))}
           </div>
           <button
-            onClick={() => setEditItems([...editItems, { word: '', type: '', meaning: '', rating: '⭐⭐⭐', root: '' }])}
+            onClick={() => setEditItems([...editItems, { word: '', type: '', meaning: '', rating: '⭐⭐⭐', root: '', phonetic: '' }])}
             className="text-[10px] px-3 py-1.5 rounded transition-all"
             style={{ color: '#059669', border: '1px solid rgba(16,185,129,0.3)' }}
           >

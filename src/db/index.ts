@@ -103,5 +103,40 @@ export async function ensureTables(): Promise<void> {
     ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
   `);
 
+  // Key/value store for content versions and other app-level flags
+  await p.execute(`
+    CREATE TABLE IF NOT EXISTS meta (
+      k VARCHAR(64) PRIMARY KEY,
+      v TEXT
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+  `);
+
+  // Snapshot of a user-edited article taken before built-in content overwrites it
+  await p.execute(`
+    CREATE TABLE IF NOT EXISTS article_backups (
+      backupId INT AUTO_INCREMENT PRIMARY KEY,
+      articleId VARCHAR(64) NOT NULL,
+      snapshot LONGTEXT NOT NULL,
+      reason VARCHAR(255),
+      createdAt BIGINT NOT NULL
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+  `);
+
+  // Columns added in V10 (MySQL has no ADD COLUMN IF NOT EXISTS)
+  await addColumnIfMissing(p, 'articles', 'unit', 'INT NULL');
+  await addColumnIfMissing(p, 'articles', 'topic', "VARCHAR(64) DEFAULT ''");
+  await addColumnIfMissing(p, 'articles', 'status', "VARCHAR(16) DEFAULT 'new'");
+  await addColumnIfMissing(p, 'articles', 'sortOrder', 'INT NOT NULL DEFAULT 0');
+
   tablesReady = true;
+}
+
+async function addColumnIfMissing(p: mysql.Pool, table: string, column: string, definition: string): Promise<void> {
+  const [rows] = await p.execute(
+    'SELECT COUNT(*) AS c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?',
+    [table, column]
+  );
+  if (Number((rows as Array<{ c: number }>)[0].c) === 0) {
+    await p.execute(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+  }
 }

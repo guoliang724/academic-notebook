@@ -1,24 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getPool } from '@/db';
 import { seedDatabase } from '@/db/seed';
-import type { Article } from '@/lib/types';
+import { rowToArticle, isArticleStatus } from '@/db/articles';
 import type { RowDataPacket, ResultSetHeader } from 'mysql2';
-
-function rowToArticle(row: RowDataPacket): Article {
-  return {
-    id: row.id as string,
-    title: row.title as string,
-    genre: row.genre as string,
-    body: row.body as string,
-    translation: row.translation as string,
-    insights: JSON.parse((row.insights as string) || '[]'),
-    grammar: JSON.parse((row.grammar as string) || '[]'),
-    vocab: JSON.parse((row.vocab as string) || '[]'),
-    specialHTML: (row.specialHTML as string) || '',
-    createdAt: Number(row.createdAt),
-    updatedAt: Number(row.updatedAt),
-  };
-}
 
 // GET /api/articles/[id]
 export async function GET(
@@ -67,10 +51,21 @@ export async function PUT(
     if (body.grammar !== undefined) { fields.push('grammar = ?'); values.push(JSON.stringify(body.grammar)); }
     if (body.vocab !== undefined) { fields.push('vocab = ?'); values.push(JSON.stringify(body.vocab)); }
     if (body.specialHTML !== undefined) { fields.push('specialHTML = ?'); values.push(body.specialHTML); }
+    // Content edits bump updatedAt (used to detect user edits before a built-in content sync);
+    // a learning-status change on its own does not.
+    const contentChanged = fields.length > 0;
+    if (body.status !== undefined) {
+      if (!isArticleStatus(body.status)) {
+        return NextResponse.json({ error: '无效的学习状态' }, { status: 400 });
+      }
+      fields.push('status = ?'); values.push(body.status);
+    }
 
     if (fields.length > 0) {
-      fields.push('updatedAt = ?');
-      values.push(now);
+      if (contentChanged) {
+        fields.push('updatedAt = ?');
+        values.push(now);
+      }
       values.push(id);
       await pool.execute(`UPDATE articles SET ${fields.join(', ')} WHERE id = ?`, values);
     }

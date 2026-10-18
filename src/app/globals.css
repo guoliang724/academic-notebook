@@ -260,7 +260,7 @@ body {
 /* ── Vocab Edit Row ── */
 .vocab-edit-row {
   display: grid;
-  grid-template-columns: 2fr 0.9fr 2.2fr 1.4fr;
+  grid-template-columns: 1.7fr 1.4fr 0.8fr 2.2fr 1.2fr;
   gap: 5px;
   align-items: center;
 }
@@ -548,7 +548,7 @@ body {
 /* ── Sequence Number ── */
 .article-index {
   flex-shrink: 0;
-  width: 18px;
+  width: 22px;
   height: 18px;
   display: flex;
   align-items: center;
@@ -721,4 +721,170 @@ body {
   background: rgba(244,242,236,0.8);
   border: 1px dashed var(--color-paper-border);
   border-radius: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   V10 · TOEFL 词汇分类突破
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Sidebar: sticky column, scrolling list ── */
+.sidebar { position: sticky; top: 1.5rem; align-self: flex-start; }
+.sidebar-nav { max-height: calc(100vh - 360px); min-height: 160px; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--color-ink-muted);
+  background: rgba(255,255,255,0.6);
+  border: 1px solid var(--color-paper-border);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.filter-chip:hover { color: var(--color-ink); border-color: var(--color-ink-ghost); }
+.filter-chip.active {
+  color: #fff;
+  background: #2563eb;
+  border-color: #2563eb;
+}
+.filter-chip-count { font-family: var(--font-mono); opacity: 0.7; }
+
+.progress-track {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb, #059669);
+  transition: width 0.3s ease;
+}
+
+/* status colour on the sidebar index badge */
+.article-index.status-dot-learning { box-shadow: inset 0 0 0 1.5px #f59e0b; }
+.article-index.status-dot-mastered { background: rgba(5,150,105,0.14); color: #047857; }
+
+/* ── Header actions ── */
+.header-btn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+/* ── Source card tools ── */
+.source-tool-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: var(--color-ink-tertiary);
+  background: var(--color-paper);
+  border: 1px solid var(--color-paper-border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.source-tool-btn:hover { color: var(--color-ink); border-color: var(--color-ink-ghost); background: #fff; }
+.source-tool-btn.active { color: #1d4ed8; border-color: rgba(37,99,235,0.35); background: rgba(37,99,235,0.06); }
+
+.status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.status-new { color: var(--color-ink-muted); background: rgba(0,0,0,0.05); }
+.status-learning { color: #b45309; background: rgba(245,158,11,0.13); }
+.status-mastered { color: #047857; background: rgba(5,150,105,0.13); }
+
+/* ── Vocab highlight inside the source text ── */
+.vocab-hl {
+  position: relative;
+  background: linear-gradient(transparent 62%, rgba(250,204,21,0.45) 62%);
+  color: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.vocab-hl:hover { background: rgba(250,204,21,0.4); }
+.vocab-hl::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  z-index: 20;
+  width: max-content;
+  max-width: 280px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #1c1814;
+  color: #f4f2ec;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.vocab-hl:hover::after { opacity: 1; transform: translateY(0); }
+
+/* ── Vocab table / word list ── */
+.wordlist-word {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #1d4ed8;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.wordlist-word:hover { text-decoration: underline; }
+.wordlist-row:hover { background: rgba(255,255,255,0.7); }
+
+.unit-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #4338ca;
+  background: rgba(79,70,229,0.08);
+  border: 1px solid rgba(79,70,229,0.18);
+  cursor: pointer;
+}
+.unit-link:hover { background: rgba(79,70,229,0.16); }
+
+.quiz-mask {
+  font-size: 11px;
+  color: var(--color-ink-faint);
+  background: repeating-linear-gradient(45deg, #ece9e1, #ece9e1 6px, #e2ddd7 6px, #e2ddd7 12px);
+  border: 1px dashed var(--color-ink-ghost);
+  border-radius: 4px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+.quiz-mask:hover { color: var(--color-ink-muted); }
+
+.btn-edit--on { color: #4338ca !important; border-color: rgba(79,70,229,0.4) !important; background: rgba(79,70,229,0.08) !important; }
+
+/* ── Narrow screens: stack sidebar above content ── */
+@media (max-width: 768px) {
+  .main-layout { flex-direction: column; }
+  .sidebar { position: static; width: 100%; }
+  .sidebar-nav { max-height: 260px; }
 }
